@@ -13,10 +13,13 @@
 ```
 auto_pilot_bus
 |
++-docs // 文档文件夹
+|
 +-include // 头文件文件夹
 |
-+-src // 源代码文件夹
++-lib // 源代码文件夹
 |
++-main.c // 程序入口
 +-CMakeLists.txt // CMake文件
 +-.gitignore //git的忽略文件名录
 +-README.md // 项目介绍文件
