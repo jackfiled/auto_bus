@@ -12,9 +12,7 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/include/
 )
 
-add_subdirectory(lib)
+aux_source_directory(./src SRC)
 
 # 产生可执行文件
-add_executable(bus main.c)
-
-target_link_libraries(bus bus_lib)
+add_executable(bus main.c ${SRC})

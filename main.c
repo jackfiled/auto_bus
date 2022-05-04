@@ -1,4 +1,4 @@
-#include "example.h"
+#include "stdio.h"
 
 /**
  * @brief 程序的主函数
@@ -7,11 +7,6 @@
  */
 int main()
 {
-    /**
-     * @brief 需要输出的字符串
-     * 
-     */
-    char* string = "Good morning!\n";
-    print(string);
+    printf("同志们加油啊，不然要寄啦！\n");
     return 0;
 }
