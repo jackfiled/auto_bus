@@ -17,7 +17,7 @@ auto_pilot_bus
 |
 +-include // 头文件文件夹
 |
-+-lib // 源代码文件夹
++-src // 源代码文件夹
 |
 +-main.c // 程序入口
 +-CMakeLists.txt // CMake文件

@@ -1,5 +1,6 @@
 #ifndef AUTO_PILOT_BUS_RAIL_H
 #define AUTO_PILOT_BUS_RAIL_H
+#include "bus.h"
 
 struct {
     /**
@@ -15,6 +16,10 @@ struct {
      */
     int next_node_distance;
     /**
+     * 指向公交车的指针
+     */
+    bus_t* bus;
+    /**
      * 指向上一个站点的指针
      */
     struct rail_node* last_node;
@@ -28,5 +33,14 @@ struct {
  * 表示轨道上的一个站点的结构体
  */
 typedef struct rail_node rail_node_t;
+
+extern rail_node_t* rails;
+
+/**
+ * 查找指定编号的站点指针
+ * @param id 需要查找的站点编号
+ * @return 需要查找站点指针
+ */
+rail_node_t *FindNode(int id);
 
 #endif //AUTO_PILOT_BUS_RAIL_H
