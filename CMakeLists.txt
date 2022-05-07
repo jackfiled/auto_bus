@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.10) # 设置cmake项目需要的cmake最小版本
 
+add_subdirectory(test)
 
 project(auto_pilot_bus) # 设置项目的名称
 
