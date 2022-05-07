@@ -1,6 +1,5 @@
 #ifndef AUTO_PILOT_BUS_RAIL_H
 #define AUTO_PILOT_BUS_RAIL_H
-#include "bus.h"
 
 struct {
     /**
@@ -15,10 +14,6 @@ struct {
      * 距离下一个站点的距离
      */
     int next_node_distance;
-    /**
-     * 指向公交车的指针
-     */
-    bus_t* bus;
     /**
      * 指向上一个站点的指针
      */
