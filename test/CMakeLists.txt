@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
 project(bus_test)
 
+set(CMAKE_CXX_STANDARD 11)
+
 add_subdirectory(./GTest)
 
 include_directories(GTest/googletest/include)

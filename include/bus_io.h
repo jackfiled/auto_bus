@@ -2,8 +2,8 @@
 // Created by ricardo on 2022/5/6.
 //
 
-#ifndef AUTO_PILOT_BUS_IO_H
-#define AUTO_PILOT_BUS_IO_H
+#ifndef AUTO_PILOT_BUS_BUS_IO_H
+#define AUTO_PILOT_BUS_BUS_IO_H
 #include "rail.h"
 #include "query.h"
 
@@ -49,4 +49,4 @@ read_state_t ReadInput(up_bus_t* up_queries, down_bus_t* down_queries);
  */
 void PrintState(up_bus_t* up_queries, down_bus_t* down_queries, rail_node_t* rails);
 
-#endif //AUTO_PILOT_BUS_IO_H
+#endif //AUTO_PILOT_BUS_BUS_IO_H
