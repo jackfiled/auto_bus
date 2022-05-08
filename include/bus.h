@@ -40,5 +40,5 @@ void UpBus(rail_node_t* rail_node);
  * @param rail_node 当前所在的站点
  */
 void DownBus(rail_node_t* rail_node);
-
+int sum(int a,int b);
 #endif //AUTO_PILOT_BUS_BUS_H
