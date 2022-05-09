@@ -40,6 +40,4 @@ rail_node_t *FindNode(int id);
 
 int add(int a, int b);
 
-int power(int a, int b);
-
 #endif //AUTO_PILOT_BUS_RAIL_H

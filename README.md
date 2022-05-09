@@ -52,7 +52,7 @@ git clone http://10.3.255.244:8801/2021211180/2021211180.git
 cd 20212111180
 mkdir build # 创建编译的文件夹
 cd build
-cmake .. -G "MinGW MakeFiles" # 在第一次生成之后就不必再使用"-G"参数指定编译类型
+cmake .. -G "MinGW Makefiles" # 在第一次生成之后就不必再使用"-G"参数指定编译类型
 cmake --build .
 ```
 
