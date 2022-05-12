@@ -3,10 +3,15 @@
 //
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
+// 在C++中引用C语言中的函数
+#ifdef __cplusplus
 extern "C"
 {
+#endif
 #include "rail.h"
+#ifdef __cplusplus
 }
+#endif
 
 using ::testing::Return;
 using ::testing::AtLeast;

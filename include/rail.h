@@ -29,6 +29,9 @@ struct {
  */
 typedef struct rail_node rail_node_t;
 
+/**
+ * 全局的轨道链表头节点，也就是第一个公交站
+ */
 extern rail_node_t* rails;
 
 /**

@@ -43,7 +43,14 @@ typedef struct up_bus up_bus_t;
  */
 typedef struct down_bus down_bus_t;
 
+/**
+ * 全局的上车请求链表头节点地址，也就是当前未处理的首个请求
+ */
 extern up_bus_t *up_queries;
+
+/**
+ * 全局的下车请求链表头节点地址，也就是当前未处理的首个请求
+ */
 extern down_bus_t *down_queries;
 
 /**
