@@ -11,11 +11,11 @@ enum read_state{
     /**
      * 时钟
      */
-    clock = 0,
+    io_clock = 0,
     /**
      * 读取中
      */
-    reading,
+    io_reading,
     /**
      * 结束
      */

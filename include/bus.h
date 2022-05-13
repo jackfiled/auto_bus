@@ -5,7 +5,7 @@
 #include "rail.h"
 #include "query.h"
 
-struct {
+struct bus {
     /**
      * 指向站点的指针
      */
@@ -14,7 +14,7 @@ struct {
      * 当前行进的距离
      */
     int distance;
-} bus;
+};
 
 /**
  * 表示公交车的结构体

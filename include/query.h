@@ -4,9 +4,10 @@
 
 #ifndef AUTO_PILOT_BUS_QUERY_H
 #define AUTO_PILOT_BUS_QUERY_H
+#include "stdlib.h"
 #include "rail.h"
 
-struct {
+struct up_bus {
     /**
      * 请求的序号
      */
@@ -20,9 +21,9 @@ struct {
      */
     rail_node_t* target;
     struct up_bus* next;
-} up_bus;
+};
 
-struct {
+struct down_bus {
     /**
      * 请求的序号
      */
@@ -32,7 +33,7 @@ struct {
      */
     rail_node_t* target;
     struct down_bus* next;
-} down_bus;
+};
 
 /**
  *  表示上车请求的结构体

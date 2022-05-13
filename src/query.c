@@ -3,6 +3,6 @@
 //
 #include "query.h"
 
-up_bus_t* up_queries;
-down_bus_t *down_queries;
+up_bus_t* up_queries = NULL;
+down_bus_t *down_queries = NULL;
 

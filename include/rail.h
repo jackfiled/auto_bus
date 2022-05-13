@@ -1,7 +1,8 @@
 #ifndef AUTO_PILOT_BUS_RAIL_H
 #define AUTO_PILOT_BUS_RAIL_H
+#include "stdlib.h"
 
-struct {
+struct rail_node {
     /**
      * 站点的编号
      */
@@ -22,7 +23,7 @@ struct {
      * 指向下一个站点的指针
      */
     struct rail_node* next_node;
-} rail_node;
+};
 
 /**
  * 表示轨道上的一个站点的结构体
