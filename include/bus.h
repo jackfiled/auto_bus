@@ -25,19 +25,9 @@ typedef struct bus bus_t;
  * 每个时刻使公交车前进
  * @param rails 轨道链表
  * @param direction 公交车前进的方向
+ * @param bus 公交车
  * @return 公交车是否到达站点
  */
-int RunBus(rail_node_t* rails, int direction);
+int RunBus(rail_node_t* rails, bus_t bus, int direction);
 
-/**
- * 处理上车请求
- * @param rail_node 当前所在的站点
- */
-void UpBus(rail_node_t* rail_node);
-
-/**
- * 处理下车请求
- * @param rail_node 当前所在的站点
- */
-void DownBus(rail_node_t* rail_node);
 #endif //AUTO_PILOT_BUS_BUS_H

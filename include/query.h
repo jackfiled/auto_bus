@@ -7,76 +7,42 @@
 #include "stdlib.h"
 #include "rail.h"
 
-struct up_bus {
+struct bus_query {
     /**
-     * 请求的序号
+     * 请求产生的时间
      */
-    int id;
+    int time;
     /**
-     * 请求前往的方向
+     * 请求的类型
      */
-    int direction;
+    int type;
     /**
-     * 请求上车的地点
+     * 请求产生/指向的站点
      */
-    rail_node_t* target;
-    struct up_bus* next;
+    rail_node_t node;
 };
 
-struct down_bus {
-    /**
-     * 请求的序号
-     */
-    int id;
-    /**
-     * 请求下车的地点
-     */
-    rail_node_t* target;
-    struct down_bus* next;
-};
+typedef struct bus_query bus_query_t;
 
 /**
- *  表示上车请求的结构体
+ * 创建请求
+ * @param query 请求链表队列
+ * @param type 请求的类型
+ * @param node 请求产生/指向的站点
  */
-typedef struct up_bus up_bus_t;
-/**
- * 表示下车请求的结构体
- */
-typedef struct down_bus down_bus_t;
+void CreateQuery(bus_query_t query, int type, rail_node_t node);
 
 /**
- * 全局的上车请求链表头节点地址，也就是当前未处理的首个请求
+ * 删除请求
+ * @param query 请求链表队列
+ * @param target_query 需要删除的请求
  */
-extern up_bus_t *up_queries;
+void DeleteQuery(bus_query_t query, bus_query_t target_query);
 
 /**
- * 全局的下车请求链表头节点地址，也就是当前未处理的首个请求
+ * 释放请求链表占据的空间
+ * @param queries 请求链表的头节点
  */
-extern down_bus_t *down_queries;
-
-/**
- * 创建一个上车请求
- * @param target 上车的地点
- * @param direction 需要前往的方向
- */
-void CreateUpBusQuery(rail_node_t* target, int direction);
-
-/**
- * 删除一个上车请求
- * @param id 需要删除的请求编号
- */
-void DeleteUpBusQuery(int id);
-
-/**
- * 创建一个下车请求
- * @param target 需要下车的地点
- */
-void CreateDownBusQuery(rail_node_t *target);
-
-/**
- * 删除一个下车请求
- * @param id 需要删除的请求编号
- */
-void DeleteDownBusQuery(int id);
+void FreeQueries(bus_query_t queries);
 
 #endif //AUTO_PILOT_BUS_QUERY_H
