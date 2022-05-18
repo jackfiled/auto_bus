@@ -41,7 +41,7 @@ extern rail_node_t *rails;
  * @param id 需要查找的站点编号
  * @return 需要查找站点指针
  */
-rail_node_t *FindNode(rail_node_t rails, int id);
+rail_node_t *FindNode(rail_node_t *rails, int id);
 
 /**
  * 创建轨道列表
