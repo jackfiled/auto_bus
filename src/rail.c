@@ -41,18 +41,18 @@ rail_node_t *CreateRails(int length, int node_num)
     return head;
 }
 
-rail_node_t *FindNode(rail_node_t *rails, int id)
+rail_node_t *FindNode(rail_node_t *head, int id)
 {
     rail_node_t *p = NULL;
-    if(rails)
+    if(head)
     {
-        if(rails->id == id)
+        if(head->id == id)
         {
-            return rails;
+            return head;
         }
-        if(rails->next_node != NULL)
+        if(head->next_node != NULL)
         {
-            p = FindNode(rails->next_node, id);
+            p = FindNode(head->next_node, id);
             if(p) 
             {
                 return p;

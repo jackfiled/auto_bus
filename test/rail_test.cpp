@@ -38,6 +38,18 @@ TEST(rail, CreateRails)
     }
 }
 
+TEST(rail, FindNode)
+{
+    rail_node_t *head = CreateRails(10, 10);
+    rail_node_t *p = nullptr;
+
+    p = FindNode(head, 3);
+    EXPECT_EQ(p->id, 3);
+
+    p = FindNode(head, 9);
+    EXPECT_EQ(p->id, 9);
+}
+
 
 
 
