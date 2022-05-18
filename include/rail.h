@@ -36,6 +36,11 @@ typedef struct rail_node rail_node_t;
 extern rail_node_t *rails;
 
 /**
+ * 全局的计时器
+ */
+extern int bus_time;
+
+/**
  * 查找指定编号的站点指针
  * @param head 轨道的头节点地址
  * @param id 需要查找的站点编号
@@ -55,8 +60,10 @@ rail_node_t *CreateRails(int length, int node_num);
  * 释放分配的内存空间
  * @param railNode 轨道链表的头节点
  */
-void FreeRails(rail_node_t railNode);
+void FreeRails(rail_node_t *head);
 
-int add(int a, int b);
-
+/**
+ * 时间走过一秒
+ */
+void AddTime();
 #endif //AUTO_PILOT_BUS_RAIL_H

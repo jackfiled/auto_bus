@@ -1,11 +1,7 @@
 #include "rail.h"
 
 rail_node_t *rails = NULL;
-
-int add(int a, int b)
-{
-    return a+ b;
-}
+int bus_time = 0;
 
 rail_node_t *CreateRails(int length, int node_num)
 {
@@ -61,5 +57,25 @@ rail_node_t *FindNode(rail_node_t *head, int id)
         
     }
     return NULL;
+}
+
+void FreeRails(rail_node_t *head)
+{
+    rail_node_t *p = head;
+
+    while (p != NULL)
+    {
+        rail_node_t *temp = p;
+        p = p->next_node;
+        free(temp);
+    }
+
+    // 将全局的轨道指针置为空
+    rails = NULL;
+}
+
+void AddTime()
+{
+    bus_time++;
 }
 
