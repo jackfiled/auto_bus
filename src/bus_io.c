@@ -2,7 +2,6 @@
 // Created by ricardo on 2022/5/6.
 //
 #include "bus_io.h"
-#include "define.h"
 
 int ReadInput(char* inputString)
 {
@@ -16,22 +15,27 @@ int ReadInput(char* inputString)
     }
     else if (0 == strcmp("counterclockwise",src))
     {
-        bus_query_t *CreateQuery(BUS_COUNTER_CLOCK_WISE, FindNode(num));
+        CreateQuery(BUS_COUNTER_CLOCK_WISE, FindNode(rails ,num));
         return IO_READING;
     }
     else if (0 == strcmp("clockwise",src))
     {
-        bus_query_t *CreateQuery(BUS_CLOCK_WISE,FindNode(num));
+        CreateQuery(BUS_CLOCK_WISE,FindNode(rails, num));
         return IO_READING;
     }
     else if (0 == strcmp("target",src))
     {
-        bus_query_t *CreateQuery(BUS_TARGET,FindNode(num));
+        CreateQuery(BUS_TARGET,FindNode(rails, num));
         return IO_READING;
     }
     else if (0 == strcmp("end",src))
     {
         return IO_END;
+    }
+    else
+    {
+        // 匹配失败则返回-1
+        return -1;
     }
     
 }

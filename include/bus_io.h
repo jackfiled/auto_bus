@@ -6,6 +6,9 @@
 #define AUTO_PILOT_BUS_BUS_IO_H
 #include "rail.h"
 #include "query.h"
+#include "define.h"
+#include "string.h"
+#include "stdio.h"
 
 /**
  * 读取配置文件，创建轨道链表，同时读取需要使用的策略

@@ -1,3 +1,3 @@
 #include "bus.h"
 
-bus_t *the_bus;
+bus_t *the_bus = NULL;

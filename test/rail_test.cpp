@@ -50,12 +50,6 @@ TEST(rail, FindNode)
     EXPECT_EQ(p->id, 9);
 }
 
-TEST(rail, FreeRails)
-{
-    rail_node_t *head = CreateRails(10, 10);
-    FreeRails(head);
-}
-
 
 
 

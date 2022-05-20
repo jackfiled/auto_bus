@@ -24,7 +24,7 @@ typedef struct bus bus_t;
 /**
  * 全局的公交车变量
  */
-extern bus_t the_bus;
+extern bus_t *the_bus;
 
 /**
  * 每个时刻使公交车前进

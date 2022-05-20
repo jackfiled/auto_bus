@@ -8,15 +8,32 @@
 extern "C"
 {
 #endif
-#include "rail.h"
+#include "bus_io.h"
+#include "define.h"
 #ifdef __cplusplus
 }
 #endif
 
 using namespace testing;
 
-TEST(test, test)
+TEST(bus_io, ReadInput_clock)
 {
-    int result = add(1, 1);
-    EXPECT_EQ(2, result);
+    int result;
+    char str[10] = "clock\n";
+    result = ReadInput(str);
+    EXPECT_EQ(result, IO_CLOCK);
+}
+
+TEST(bus_io, ReadInput_end)
+{
+    char str[5] = "end\n";
+    int result = ReadInput(str);
+    EXPECT_EQ(result, IO_END);
+}
+
+TEST(bus_io, ReadInput_reading)
+{
+    char str[20] = "target 8\n";
+    int result = ReadInput(str);
+    EXPECT_EQ(result, IO_READING);
 }
