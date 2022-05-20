@@ -170,11 +170,11 @@ void PrintState(char *str)
         {
             clockwise[i] = '1';
         }
-        else if (t->time == 1)
+        else if(t->time==BUS_COUNTER_CLOCK_WISE)
         {
             counterclockwise[i] = '1';
         }
-        else if (t->type == 2)
+        else if(t->type==BUS_TARGET)
         {
             target[i] = '1';
         }
