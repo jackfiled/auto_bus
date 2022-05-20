@@ -3,32 +3,32 @@
 //
 #include "bus_io.h"
 
-int ReadInput(char* inputString)
+int ReadInput(char *inputString)
 {
-    
+
     char src[20];
     int num;
-    sscanf_s(inputString,"%[a-z] %d",src,&num);
-    if (0 == strcmp("clock",src))
+    sscanf_s(inputString, "%[a-z] %d", src, &num);
+    if (0 == strcmp("clock", src))
     {
         return IO_CLOCK;
     }
-    else if (0 == strcmp("counterclockwise",src))
+    else if (0 == strcmp("counterclockwise", src))
     {
-        CreateQuery(BUS_COUNTER_CLOCK_WISE, FindNode(rails ,num));
+        CreateQuery(BUS_COUNTER_CLOCK_WISE, FindNode(rails, num));
         return IO_READING;
     }
-    else if (0 == strcmp("clockwise",src))
+    else if (0 == strcmp("clockwise", src))
     {
-        CreateQuery(BUS_CLOCK_WISE,FindNode(rails, num));
+        CreateQuery(BUS_CLOCK_WISE, FindNode(rails, num));
         return IO_READING;
     }
-    else if (0 == strcmp("target",src))
+    else if (0 == strcmp("target", src))
     {
-        CreateQuery(BUS_TARGET,FindNode(rails, num));
+        CreateQuery(BUS_TARGET, FindNode(rails, num));
         return IO_READING;
     }
-    else if (0 == strcmp("end",src))
+    else if (0 == strcmp("end", src))
     {
         return IO_END;
     }
@@ -49,7 +49,7 @@ rail_node_t *ReadConfigFile()
     config_file = fopen("dict.dic", "r");
 
     // 循环读取文件的每一行
-    while(fgets(buffer, sizeof buffer, config_file) != NULL)
+    while (fgets(buffer, sizeof buffer, config_file) != NULL)
     {
         char first_char = buffer[0];
         char *p;
@@ -69,11 +69,11 @@ rail_node_t *ReadConfigFile()
                     p++;
                 }
 
-                if(*p == '1' && *(p + 1) != '\n')
+                if (*p == '1' && *(p + 1) != '\n')
                 {
                     total_station = 10;
                 }
-                else if(*(p + 1) == '\n')
+                else if (*(p + 1) == '\n')
                 {
                     total_station = *p - 48;
                 }
@@ -83,27 +83,27 @@ rail_node_t *ReadConfigFile()
                 // STRATEGY
                 p = buffer;
                 // 将=前的字符全部略去
-                while(*p != '=')
+                while (*p != '=')
                 {
                     p++;
                 }
                 // =也去掉
                 p++;
                 // =和策略之间的空格也去掉
-                while(*p == ' ')
+                while (*p == ' ')
                 {
                     p++;
                 }
 
-                if(*p == 'F' && *(p + 1) == 'C') //FCFS
+                if (*p == 'F' && *(p + 1) == 'C') //FCFS
                 {
                     chosen_strategy = BUS_FCFS;
                 }
-                else if(*p == 'S' && *(p + 1) == 'S') //SSTF
+                else if (*p == 'S' && *(p + 1) == 'S') //SSTF
                 {
                     chosen_strategy = BUS_SSTF;
                 }
-                else if(*p == 'S' && *(p + 1) == 'C') //SCAN
+                else if (*p == 'S' && *(p + 1) == 'C') //SCAN
                 {
                     chosen_strategy = BUS_SCAN;
                 }
@@ -124,7 +124,7 @@ rail_node_t *ReadConfigFile()
                     p++;
                 }
 
-                if(*(p + 1) == '\n')
+                if (*(p + 1) == '\n')
                 {
                     distance = *p - 48;
                 }
@@ -136,7 +136,7 @@ rail_node_t *ReadConfigFile()
 
     }
 
-    if(distance != 0 && total_station != 0)
+    if (distance != 0 && total_station != 0)
     {
         return CreateRails(distance, total_station);
     }
@@ -146,58 +146,56 @@ rail_node_t *ReadConfigFile()
     }
 }
 
-char* PrintState()
+void PrintState(char *str)
 {
-    
+    memset(str, 0, 150);
+
     int count;
-    rail_node_t *p=NULL;
-    char target[20],clockwise[20],counterclockwise[20];
-    for(count=0,p=rails;p!=NULL;p=p->next_node,count++)
+    rail_node_t *p = NULL;
+    char target[20], clockwise[20], counterclockwise[20];
+
+    for (count = 0, p = rails; p != NULL; p = p->next_node, count++)
     {
-        target[count]='0';
-        clockwise[count]='0';
-        counterclockwise[count]='0';
+        target[count] = '0';
+        clockwise[count] = '0';
+        counterclockwise[count] = '0';
     }   //遍历轨道链表，将所有站点初始化为0，即：无任何请求；
 
-    bus_query_t *t=NULL;
+    bus_query_t *t = NULL;
     int i;
-    for(t=queries;t!=NULL;t=t->next_node)
-    {   
-        i=t->node->id-1;
-        if(t->type==0)
+    for (t = queries; t != NULL; t = t->next_node)
+    {
+        i = t->node->id - 1;
+        if (t->type == 0)
         {
-            clockwise[i]='1';
+            clockwise[i] = '1';
         }
-        else if(t->time==1)
+        else if (t->time == 1)
         {
-            counterclockwise[i]='1';
+            counterclockwise[i] = '1';
         }
-        else if(t->type==2)
+        else if (t->type == 2)
         {
-            target[i]='1';
+            target[i] = '1';
         }
     }   //遍历请求链表，将有请求的站点按照不同类型标记为1
-    
-    char line1[100],line2[10],line3[10],line4[100],line5[10],line6[100],line7[100];
-    
-    sprintf(line1,"TIME:%d\n",bus_time);
-    sprintf(line2,"BUS:\n");
-    sprintf(line3,"position:%d\n",GetBusPosition());
-    sprintf(line4,"target:%s\n",target);
-    sprintf(line5,"STATION:\n");
-    sprintf(line6,"clockwise:%s\n",clockwise);
-    sprintf(line7,"counterclockwise:%s\n",counterclockwise); //分别得到每一行的字符串
-    
-    strcat(line1,line2);
-    strcat(line1,line3);
-    strcat(line1,line4);
-    strcat(line1,line5);
-    strcat(line1,line6);
-    strcat(line1,line7);    //将7行字符串合并在一起
-    
-    return line1;   //返回合并后的字符串
-    
-    
 
-    
+    char line1[100], line2[10], line3[15], line4[100], line5[10], line6[100], line7[100];
+
+    sprintf(line1, "TIME:%d\n", bus_time);
+    sprintf(line2, "BUS:\n");
+    sprintf(line3, "position:%d\n", GetBusPosition());
+    sprintf(line4, "target:%s\n", target);
+    sprintf(line5, "STATION:\n");
+    sprintf(line6, "clockwise:%s\n", clockwise);
+    sprintf(line7, "counterclockwise:%s\n", counterclockwise); //分别得到每一行的字符串
+
+    strcat(line1, line2);
+    strcat(line1, line3);
+    strcat(line1, line4);
+    strcat(line1, line5);
+    strcat(line1, line6);
+    strcat(line1, line7);//将7行字符串合并在一起
+
+    strcat(str, line1);
 }

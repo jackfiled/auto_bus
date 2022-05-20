@@ -14,7 +14,7 @@ int main()
     /**
      * 输出的字符串
      */
-    char *output;
+    char output[150];
     /**
      * the_bus指针的本体
      */
@@ -39,7 +39,7 @@ int main()
     // 开始时公交车应该是停下的
     direction = BUS_STOP;
 
-    output = PrintState();
+    PrintState(output);
     printf("%s", output);
 
 
@@ -87,7 +87,8 @@ int main()
                 default:
                     break;
             }
-            output = PrintState();
+            PrintState(output);
+            printf("%s", output);
         }
         else if(result == IO_END)
         {
@@ -96,13 +97,7 @@ int main()
         }
         else
         {
-            output = NULL;
             //在读取到创建请求的情况下，不做任何事
-        }
-
-        if(output != NULL)
-        {
-            printf("%s", output);
         }
     }
 }
