@@ -30,9 +30,18 @@ extern bus_t *the_bus;
  * 每个时刻使公交车前进
  * @param rails 轨道链表
  * @param direction 公交车前进的方向
- * @param bus 公交车
- * @return 公交车是否到达站点
  */
-int RunBus(int direction);
+void RunBus(int direction);
 
+/**
+ * 判断公交车是否到站
+ * @return
+ */
+int JudgeOnStation();
+
+/**
+ * 获得公交车当前所在的位置
+ * @return 公交车当前所在的位置
+ */
+int GetBusPosition();
 #endif //AUTO_PILOT_BUS_BUS_H
