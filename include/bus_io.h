@@ -7,6 +7,7 @@
 #include "rail.h"
 #include "query.h"
 #include "define.h"
+#include "controller.h"
 #include "string.h"
 #include "stdio.h"
 

@@ -14,5 +14,8 @@
 #define IO_CLOCK 0 // 读取时钟指令
 #define IO_READING 1 // 读取请求指令
 #define IO_END 2 // 读取结束指令
+#define BUS_FCFS 0 // 先来先服务
+#define BUS_SSTF 1 // 最短寻找时间优先
+#define BUS_SCAN 2 // 顺便服务
 
 #endif //AUTO_PILOT_BUS_DEFINE_H

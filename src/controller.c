@@ -3,6 +3,5 @@
 //
 #include "controller.h"
 
-int BUS_TIME = 0;
-
 bus_query_t *target_query = NULL;
+int chosen_strategy = -1;

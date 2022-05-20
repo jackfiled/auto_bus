@@ -14,6 +14,10 @@
  * 当前正在处理的请求
  */
 extern bus_query_t *target_query;
+/**
+ * 当前选择的策略
+ */
+extern int chosen_strategy;
 
 /**
  * 在先来先服务策略下应该前进的方向
@@ -25,5 +29,5 @@ int FCFSDirection();
  * 在先来先服务策略下给出处理的请求
  * @return 需要处理的请求
  */
-bus_query_t FCFSQuery();
+bus_query_t *FCFSQuery();
 #endif //AUTO_PILOT_BUS_CONTROLLER_H
