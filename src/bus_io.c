@@ -164,15 +164,15 @@ char* PrintState()
     for(t=queries;t!=NULL;t=t->next_node)
     {   
         i=t->node->id-1;
-        if(t->type==0)
+        if(t->type==BUS_CLOCK_WISE)
         {
             clockwise[i]='1';
         }
-        else if(t->time==1)
+        else if(t->time==BUS_COUNTER_CLOCK_WISE)
         {
             counterclockwise[i]='1';
         }
-        else if(t->type==2)
+        else if(t->type==BUS_TARGET)
         {
             target[i]='1';
         }
