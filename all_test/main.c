@@ -41,7 +41,7 @@ int main()
     output_file = fopen(path, "r");
 
     // 读取配置文件
-    rails = ReadConfigFile();
+    rails = ChooseConfigFile(index);
 
     // 制造公交车
     the_bus = &main_bus;
