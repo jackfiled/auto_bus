@@ -69,13 +69,14 @@ rail_node_t *ReadConfigFile()
                     p++;
                 }
 
-                if (*p == '1' && *(p + 1) != '\n')
-                {
-                    total_station = 10;
-                }
-                else if (*(p + 1) == '\n')
+                // 讲道理，应该只有两位数，所以就这样处理了
+                if (*(p + 1) == '\n')
                 {
                     total_station = *p - 48;
+                }
+                else
+                {
+                    total_station = (*p - 48) * 10 + *(p + 1) - 48;
                 }
 
                 break;

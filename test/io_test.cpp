@@ -46,7 +46,7 @@ TEST(bus_file, all)
     rail_node_t *p = result;
 
     ASSERT_TRUE(p != nullptr);
-    for(int i = 1; i <= 10; i++)
+    for(int i = 1; i <= 12; i++)
     {
         EXPECT_EQ(p->id, i);
         EXPECT_EQ(p->next_node_distance, 5);
@@ -55,7 +55,7 @@ TEST(bus_file, all)
     }
 
     p = result->last_node;
-    for(int i = 10; i >= 1; i--)
+    for(int i = 12; i >= 1; i--)
     {
         EXPECT_EQ(p->id, i);
         EXPECT_EQ(p->next_node_distance, 5);
