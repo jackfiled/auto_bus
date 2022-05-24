@@ -153,7 +153,7 @@ void PrintState(char *str)
 
     int count, flag=1;  //flag用于标记，为使下面第一个循环能够进入
     rail_node_t *p = NULL;
-    char target[20], clockwise[20], counterclockwise[20];
+    char target[25], clockwise[25], counterclockwise[25];
 
     for (count = 0, p = rails; flag==1 || p != NULL; p = p->next_node, count++)
     {
