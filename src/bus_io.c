@@ -151,11 +151,11 @@ void PrintState(char *str)
 {
     memset(str, 0, 150);
 
-    int count, flag=1;  //flag用于标记，为使下面第一个循环能够进入
+    int count, flag = 1;  //flag用于标记，为使下面第一个循环能够进入
     rail_node_t *p = NULL;
     char target[25], clockwise[25], counterclockwise[25];
 
-    for (count = 0, p = rails; flag==1 || p != rails; p = p->next_node, count++)
+    for (count = 0, p = rails; flag == 1 || p != rails; p = p->next_node, count++)
     {
         flag=0;
         target[count] = '0';
