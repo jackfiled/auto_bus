@@ -155,7 +155,7 @@ void PrintState(char *str)
     rail_node_t *p = NULL;
     char target[25], clockwise[25], counterclockwise[25];
 
-    for (count = 0, p = rails; flag==1 || p != NULL; p = p->next_node, count++)
+    for (count = 0, p = rails; flag==1 || p != rails; p = p->next_node, count++)
     {
         flag=0;
         target[count] = '0';
