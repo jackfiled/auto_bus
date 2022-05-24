@@ -15,10 +15,17 @@ void RunBus(int direction)
 }
 int GetBusPosition()
 {
-    int a,b;
-    a=the_bus->rail_node_pos->id;//指向站点的指针以及这个指针对应的站台id；
-    b=a*(rails->last_node_distance)+abs(the_bus->distance);
-    return b;
+    int a,b,c;
+    b=0;
+    rail_node_t *p = rails;
+    a=the_bus->rail_node_pos->id;//指向站点的指针以及这个指针对应的站台id
+    while(p->id != a)
+    {   
+        b+=p->next_node_distance;
+        p=p->next_node;
+    }
+        c=b+(the_bus->distance);
+        return c;
 }
 int JudgeOnStation()
 {
