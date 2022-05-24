@@ -28,16 +28,16 @@ int GetBusPosition()
 }
 int JudgeOnStation()
 {
-    if(abs(the_bus->distance) == rails->last_node_distance)//表示逆时针
+    if (abs(the_bus->distance) == rails->last_node_distance)//表示逆时针
     {
-        the_bus->distance=0;
-        the_bus->rail_node_pos=rails->last_node;//逆时针往上一个
+        the_bus->distance = 0;
+        the_bus->rail_node_pos = rails->last_node;//逆时针往上一个
         return BUS_TRUE;
     }
-    else if(abs(the_bus->distance) == rails->next_node_distance)//表示顺时针
+    else if (abs(the_bus->distance) == rails->next_node_distance)//表示顺时针
     {
-        the_bus->distance=0;
-        the_bus->rail_node_pos=rails->next_node;//顺时针往下一个
+        the_bus->distance = 0;
+        the_bus->rail_node_pos = rails->next_node;//顺时针往下一个
         return BUS_TRUE;
     }
     else
