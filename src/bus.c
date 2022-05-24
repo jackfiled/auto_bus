@@ -6,18 +6,10 @@ void RunBus(int direction)
     if(direction == BUS_CLOCK_WISE)//顺时针
     {
         the_bus->distance++;
-        if(the_bus->distance == rails->next_node_distance)
-        {
-            the_bus->distance=0;//到达一个站点用重新置为0
-        }
     }
     else if(direction == BUS_COUNTER_CLOCK_WISE)
     {
         the_bus->distance--;
-        if(abs(the_bus->distance) ==rails->last_node_distance)
-        {
-            the_bus->distance=0;//到达一个站点又重新置为0
-        }
     }
 
 }
