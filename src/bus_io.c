@@ -162,7 +162,10 @@ void PrintState(char *str)
         clockwise[count] = '0';
         counterclockwise[count] = '0';
     }   //遍历轨道链表，将所有站点初始化为0，即：无任何请求；
-
+    target[count] = '\0';
+    clockwise[count] = '\0';
+    counterclockwise[count] = '\0';
+    
     bus_query_t *t = NULL;
     int i;
     for (t = queries; t != NULL; t = t->next_node)
