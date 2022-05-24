@@ -151,17 +151,21 @@ void PrintState(char *str)
 {
     memset(str, 0, 150);
 
-    int count;
+    int count, flag = 1;  //flag用于标记，为使下面第一个循环能够进入
     rail_node_t *p = NULL;
-    char target[20], clockwise[20], counterclockwise[20];
+    char target[25], clockwise[25], counterclockwise[25];
 
-    for (count = 0, p = rails; p != NULL; p = p->next_node, count++)
+    for (count = 0, p = rails; flag == 1 || p != rails; p = p->next_node, count++)
     {
+        flag=0;
         target[count] = '0';
         clockwise[count] = '0';
         counterclockwise[count] = '0';
     }   //遍历轨道链表，将所有站点初始化为0，即：无任何请求；
-
+    target[count] = '\0';
+    clockwise[count] = '\0';
+    counterclockwise[count] = '\0';
+    
     bus_query_t *t = NULL;
     int i;
     for (t = queries; t != NULL; t = t->next_node)
