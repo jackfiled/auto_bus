@@ -3,7 +3,7 @@
 bus_t *the_bus = NULL;
 void RunBus(int direction)
 {
-    if(direction == 0)//顺时针
+    if(direction == BUS_CLOCK_WISE)//顺时针
     {
         the_bus->distance++;
         if(the_bus->distance == rails->next_node_distance)
@@ -11,7 +11,7 @@ void RunBus(int direction)
             the_bus->distance=0;//到达一个站点用重新置为0
         }
     }
-    else if(direction == 1)
+    else if(direction == BUS_COUNTER_CLOCK_WISE)
     {
         the_bus->distance--;
         if(abs(the_bus->distance) ==rails->last_node_distance)
@@ -32,10 +32,10 @@ int JudgeOnStation()
 {
     if(abs(the_bus->distance) == rails->last_node_distance)
     {
-        return 1;
+        return BUS_TRUE;
     }
     else 
     {
-        return 0;
+        return BUS_FAlSE;
     }
 }
