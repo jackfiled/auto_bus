@@ -8,7 +8,7 @@ int ReadInput(char *inputString)
 
     char src[20];
     int num;
-    sscanf_s(inputString, "%[a-z] %d", src, &num);
+    sscanf(inputString, "%[a-z] %d", src, &num);
     if (0 == strcmp("clock", src))
     {
         return IO_CLOCK;
