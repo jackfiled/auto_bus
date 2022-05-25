@@ -70,7 +70,7 @@ rail_node_t *ReadConfigFile()
                 }
 
                 // 讲道理，应该只有两位数，所以就这样处理了
-                if (*(p + 1) == '\n')
+                if (*(p + 1) == '\n' || *(p + 1) == '\0')
                 {
                     total_station = *p - 48;
                 }
@@ -125,7 +125,7 @@ rail_node_t *ReadConfigFile()
                     p++;
                 }
 
-                if (*(p + 1) == '\n')
+                if (*(p + 1) == '\n' || *(p + 1) == '\0')
                 {
                     distance = *p - 48;
                 }
