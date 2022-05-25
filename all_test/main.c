@@ -33,7 +33,7 @@ int main()
     FILE *output_file = NULL;
 
     printf("Please choose which test case to use:");
-    scanf("%d\n", &index);
+    scanf("%d", &index);
 
     ChooseTestCaseInput(path, index);
     input_file = fopen(path, "r");
@@ -55,7 +55,11 @@ int main()
     ReadOutputFile(read_output, output_file);
     if(CheckOutput(output, read_output) == BUS_FAlSE)
     {
-        printf("%s\n", output);
+        printf("Right:\n");
+        printf("%s", read_output);
+        printf("Wrong:\n");
+        printf("%s", output);
+        printf("\n"); // 打印一个空白作为分界线
     }
     else
     {
@@ -112,7 +116,11 @@ int main()
             ReadOutputFile(read_output, output_file);
             if(CheckOutput(output, read_output) == BUS_FAlSE)
             {
-                printf("%s\n", output);
+                printf("Right:\n");
+                printf("%s", read_output);
+                printf("Wrong:\n");
+                printf("%s", output);
+                printf("\n"); // 打印一个空白行作为分界线
             }
             else
             {

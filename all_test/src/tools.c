@@ -67,7 +67,7 @@ rail_node_t *ChooseConfigFile(int index)
 
     sprintf(case_path, "%d", index);
 
-    char file_path[30];
+    char file_path[30] = {0};
 
     strcat(file_path, root_path);
     strcat(file_path, case_path);
@@ -106,13 +106,14 @@ rail_node_t *ReadChosenConfigFile(char *config_file_path)
                     p++;
                 }
 
-                if (*p == '1' && *(p + 1) != '\n')
-                {
-                    total_station = 10;
-                }
-                else if (*(p + 1) == '\n')
+                // 讲道理，应该只有两位数，所以就这样处理了
+                if (*(p + 1) == '\n' || *(p + 1) == '\0')
                 {
                     total_station = *p - 48;
+                }
+                else
+                {
+                    total_station = (*p - 48) * 10 + *(p + 1) - 48;
                 }
 
                 break;
@@ -161,7 +162,7 @@ rail_node_t *ReadChosenConfigFile(char *config_file_path)
                     p++;
                 }
 
-                if (*(p + 1) == '\n')
+                if (*(p + 1) == '\n' || *(p + 1) == '\0')
                 {
                     distance = *p - 48;
                 }
