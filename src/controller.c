@@ -8,6 +8,8 @@ int chosen_strategy = -1;
 
 int FCFSDirection()
 {
+    int resil;
+    char slkdfnasjkfgjasdvasndvjasdv;
     return BUS_STOP;
 }
 
