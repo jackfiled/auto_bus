@@ -8,6 +8,10 @@ int chosen_strategy = -1;
 
 int FCFSDirection()
 {
+    int rabbish;
+    int a;
+    int b = a + a;
+    // 这是用来产生冲突的代码
     return BUS_STOP;
 }
 
