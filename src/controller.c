@@ -12,6 +12,8 @@ int FCFSDirection()
     int a;
     int b = a + a;
     // 这是用来产生冲突的代码
+    int resil;
+    char slkdfnasjkfgjasdvasndvjasdv;
     return BUS_STOP;
 }
 
