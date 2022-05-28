@@ -125,7 +125,7 @@ int main()
                     if(target_query == NULL)
                     {
                         target_query = SCANGetQuery();
-                        direction = SSTFDirection(target_query);
+                        direction = SCANDirection(target_query);
                     }
 
                     if(JudgeOnStation() == BUS_TRUE)
@@ -138,7 +138,7 @@ int main()
                         }
                         else
                         {
-                            target_query = SCANGetQuery();
+                            target_query = SCANBTWQuery();
                             if(target_query != NULL)
                             {
                                 while (target_query != NULL)
