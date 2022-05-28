@@ -48,3 +48,33 @@ bus_query_t *FCFSQuery()
 {
     return NULL;
 }
+
+bus_query_t *SSTFGetQuery()
+{
+    return NULL;
+}
+
+int SSTFDirection(bus_query_t* target_query)
+{
+    return BUS_STOP;
+}
+
+bus_query_t *SSTFBTWQuery()
+{
+    return NULL;
+}
+
+bus_query_t *SCANGetQuery()
+{
+    return NULL;
+}
+
+int SCANDirection(bus_query_t *target_query)
+{
+    return BUS_STOP;
+}
+
+bus_query_t *SCANBTWQuery()
+{
+    return NULL;
+}

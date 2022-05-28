@@ -58,7 +58,6 @@ int main()
                     // 如果到站，处理请求和
                     if(JudgeOnStation() == BUS_TRUE)
                     {
-                        direction = FCFSDirection();
                         finished_query = FCFSQuery();
 
                         if(finished_query != NULL) // 有请求就处理请求
@@ -69,6 +68,9 @@ int main()
                                 DeleteQuery(finished_query);
                                 finished_query = FCFSQuery();
                             }
+
+                            // 请求处理完再进行方向的判断
+                            direction = FCFSDirection();
                         }
                         else //如果没有请求就继续前进
                         {
@@ -81,10 +83,83 @@ int main()
                     }
                     break;
                 case BUS_SSTF:
+                    // 如果没有指定的请求就获得指定的请求
+                    if(target_query == NULL)
+                    {
+                        target_query = SSTFGetQuery();
+                        direction = SSTFDirection(target_query);
+                    }
+
+                    if(JudgeOnStation() == BUS_TRUE)
+                    {
+                        // 如果到达目标的站点
+                        if(the_bus->rail_node_pos == target_query->node)
+                        {
+                            DeleteQuery(target_query);
+                            target_query = NULL;
+                        }
+                        else
+                        {
+                            target_query = SSTFBTWQuery();
+                            if(target_query != NULL)
+                            {
+                                while (target_query != NULL)
+                                {
+                                    DeleteQuery(target_query);
+                                    target_query = SSTFBTWQuery();
+                                }
+                            }
+                            else
+                            {
+                                RunBus(direction);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        RunBus(direction);
+                    }
                     break;
                 case BUS_SCAN:
+                    // 如果没有指定的请求就获得指定的请求
+                    if(target_query == NULL)
+                    {
+                        target_query = SCANGetQuery();
+                        direction = SSTFDirection(target_query);
+                    }
+
+                    if(JudgeOnStation() == BUS_TRUE)
+                    {
+                        // 如果到达目标的站点
+                        if(the_bus->rail_node_pos == target_query->node)
+                        {
+                            DeleteQuery(target_query);
+                            target_query = NULL;
+                        }
+                        else
+                        {
+                            target_query = SCANGetQuery();
+                            if(target_query != NULL)
+                            {
+                                while (target_query != NULL)
+                                {
+                                    DeleteQuery(target_query);
+                                    target_query = SCANBTWQuery();
+                                }
+                            }
+                            else
+                            {
+                                RunBus(direction);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        RunBus(direction);
+                    }
                     break;
                 default:
+                    // 这个分支只是为了符合代码规范而存在，理论上不会用到这个分支
                     break;
             }
             PrintState(output);
@@ -93,6 +168,9 @@ int main()
         else if(result == IO_END)
         {
             printf("end\n");
+
+            FreeRails(rails);
+
             break;
         }
         else
@@ -100,4 +178,6 @@ int main()
             //在读取到创建请求的情况下，不做任何事
         }
     }
+
+    return 0;
 }

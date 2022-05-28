@@ -37,6 +37,7 @@ extern bus_query_t *queries;
  * 创建请求链表节点
  * @param type 请求的类型
  * @param node 请求产生/指向的站点
+ * @return 当前创建的链表节点地址
  */
 bus_query_t *CreateQuery(int type, rail_node_t *node);
 

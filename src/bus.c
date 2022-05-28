@@ -1,6 +1,7 @@
 #include "bus.h"
-#include "math.h"
+
 bus_t *the_bus = NULL;
+
 void RunBus(int direction)
 {
     if(direction == BUS_CLOCK_WISE)//顺时针
@@ -11,21 +12,25 @@ void RunBus(int direction)
     {
         the_bus->distance--;
     }
-
 }
+
 int GetBusPosition()
 {
     int a, b, c;
     b = 0;
     rail_node_t *p = rails;
     a = the_bus->rail_node_pos->id;//指向站点的指针以及这个指针对应的站台id
+
     while (p->id != a){
         b += p->next_node_distance;
         p = p->next_node;
     }
+
     c = b + (the_bus->distance);
+
     return c;
 }
+
 int JudgeOnStation()
 {
     if (abs(the_bus->distance) == rails->last_node_distance)//表示逆时针
