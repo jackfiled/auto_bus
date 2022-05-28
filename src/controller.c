@@ -9,29 +9,23 @@ int chosen_strategy = -1;
 int FCFSDirection()
 {
     bus_query_t *p = queries;
-    int id = the_bus->rail_node_pos->id;   //获取当前站点的id
     
-    while(p->node->id == p->next_node->node->id)   //如果下一个请求对应的站点与当前是同一个站点
-    {
-        p = p->next_node;
-    }   //处理完所有连续相同站点请求
-
-    if(p->next_node == NULL)
+    if(p == NULL)
     {
         return BUS_STOP;
-    }   //如果没有请求了，公交车停止
+    }   //如果没有请求，公交车停止
 
     else
     {
         int clockwise = 0;
         int counterclockwise = 0;   //用于顺，逆时针方向所经站台计数
     
-        while(p->node->id != p->next_node->node->id)
+        while(p->node != p->next_node->node)
         {
             p->node = p->node->next_node;
             clockwise++;
         }//顺时针方向计数
-        while(p->node->id != p->next_node->node->id)
+        while(p->node != p->next_node->node)
         {
             p->next_node->node = p->next_node->node->next_node;
             counterclockwise++;
