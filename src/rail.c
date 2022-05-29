@@ -63,6 +63,9 @@ void FreeRails(rail_node_t *head)
 {
     rail_node_t *p = head;
 
+    // 断开头尾节点
+    head->last_node->next_node = NULL;
+
     while (p != NULL)
     {
         rail_node_t *temp = p;
