@@ -13,5 +13,14 @@ int FCFSDirection()
 
 bus_query_t *FCFSQuery()
 {
-    return NULL;
+    bus_query_t *p = queries;
+    if (the_bus->rail_node_pos == p->node)
+    {
+        return p;
+    }
+    else
+    { 
+        queries = queries->next_node;
+        return NULL;
+    }
 }
