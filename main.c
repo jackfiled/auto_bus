@@ -58,6 +58,7 @@ int main()
                     // 如果到站，处理请求和
                     if(JudgeOnStation() == BUS_TRUE)
                     {
+                        direction = FCFSDirection(); //在开始得判断一次方向
                         finished_query = FCFSQuery();
 
                         if(finished_query != NULL) // 有请求就处理请求
