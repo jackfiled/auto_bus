@@ -49,11 +49,11 @@ bus_query_t *FCFSQuery()
     bus_query_t *p = queries;
     if (the_bus->rail_node_pos == p->node)
     {
+        queries = queries->next_node;
         return p;
     }
     else
     { 
-        queries = queries->next_node;
         return NULL;
     }
 }
