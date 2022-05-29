@@ -19,17 +19,29 @@ int FCFSDirection()
     {
         int clockwise = 0;
         int counterclockwise = 0;   //用于顺，逆时针方向所经站台计数
-    
-        while(p->node != p->next_node->node)
+
+        /**
+         * 公交车当前所在位置
+         */
+        rail_node_t *now_position = the_bus->rail_node_pos;
+        /**
+         * 公交车应该前进的方向
+         */
+        rail_node_t *target_position = p->node;
+
+        rail_node_t *pos = now_position;
+        while (pos != target_position) //顺时针计数
         {
-            p->node = p->node->next_node;
             clockwise++;
-        }//顺时针方向计数
-        while(p->node != p->next_node->node)
+            pos = pos->next_node;
+        }
+
+        pos = now_position;
+        while (pos != target_position) //逆时针计数
         {
-            p->next_node->node = p->next_node->node->next_node;
             counterclockwise++;
-        }//逆时针方向计数
+            pos = pos->last_node;
+        }
         
         if(clockwise <= counterclockwise)
         {
@@ -40,22 +52,21 @@ int FCFSDirection()
             return BUS_COUNTER_CLOCK_WISE;
         }//若逆时针距离短，公交车逆时针运行
     }
-    
-
 }
 
 bus_query_t *FCFSQuery()
 {
-    bus_query_t *p = queries;
-    if (the_bus->rail_node_pos == p->node)
+    bus_query_t *result = NULL;
+
+    if(queries != NULL)
     {
-        queries = queries->next_node;
-        return p;
+        if(the_bus->rail_node_pos == queries->node)
+        {
+            result = queries;
+        }
     }
-    else
-    { 
-        return NULL;
-    }
+
+    return result;
 }
 
 bus_query_t *SSTFGetQuery()
@@ -63,7 +74,7 @@ bus_query_t *SSTFGetQuery()
     return NULL;
 }
 
-int SSTFDirection(bus_query_t* target_query)
+int SSTFDirection(bus_query_t* query)
 {
     return BUS_STOP;
 }
@@ -78,7 +89,7 @@ bus_query_t *SCANGetQuery()
     return NULL;
 }
 
-int SCANDirection(bus_query_t *target_query)
+int SCANDirection(bus_query_t *query)
 {
     return BUS_STOP;
 }

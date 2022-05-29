@@ -40,10 +40,10 @@ bus_query_t *SSTFGetQuery();
 /**
  * 根据指定的请求获得前进的方向，也就是前往指定的请求最近的方向
  * 在SSTF策略中使用
- * @param target_query 指定完成的请求
+ * @param query 指定完成的请求
  * @return 前进的方向
  */
-int SSTFDirection(bus_query_t* target_query);
+int SSTFDirection(bus_query_t* query);
 
 /**
  * 在当前站上可以顺便服务的请求
@@ -60,10 +60,10 @@ bus_query_t *SCANGetQuery();
 /**
  * 根据指定的请求获得前进的方向
  * 在SCAN策略中使用
- * @param target_query 指定完成的请求
+ * @param query 指定完成的请求
  * @return 前进的方向
  */
-int SCANDirection(bus_query_t *target_query);
+int SCANDirection(bus_query_t *query);
 
 /**
  * 在当前站上可以顺便服务的请求
