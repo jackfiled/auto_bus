@@ -20,14 +20,25 @@ int GetBusPosition()
     b = 0;
     rail_node_t *p = rails;
     a = the_bus->rail_node_pos->id;//指向站点的指针以及这个指针对应的站台id
-
-    while (p->id != a){
+    if (a == 1 && (the_bus->distance < 0))
+    {
+        while(p->id != p->last_node->id)
+        {
+            b += p->next_node_distance;
+            p = p->next_node;
+        }
         b += p->next_node_distance;
-        p = p->next_node;
+        c = b + (the_bus->distance);
     }
+    else
+    {
+        while (p->id != a){
+            b += p->next_node_distance;
+            p = p->next_node;
+        }
 
-    c = b + (the_bus->distance);
-
+        c = b + (the_bus->distance);
+    }
     return c;
 }
 
