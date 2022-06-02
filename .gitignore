@@ -9,3 +9,6 @@ build/
 
 # draw.io的缓存文件
 *.bkp
+
+# 合成的全部代码文件
+all.c
