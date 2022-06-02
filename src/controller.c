@@ -71,7 +71,61 @@ bus_query_t *FCFSQuery()
 
 bus_query_t *SSTFGetQuery()
 {
-    return NULL;
+    int a,b,length,min=10;//最多有10个站点
+    a = the_bus->rail_node_pos->id;  //是当前公交车的位置，而不是站点位置
+    b=rails->last_node->id;//总的站点数
+    if (1 <= a <= b/2)
+    {
+        if(abs(a+b-queries->node->id) < abs(a-queries->node->id) ) 
+        {
+            min=abs(a+b-queries->node->id);
+        }
+        else
+        {
+            min=abs(a-queries->node->id);
+        }
+    }
+    else if (b/2 < a <=b)
+    {
+        if (abs(queries->node->id+b-a)<abs(a-queries->node->id))
+        {
+            min=abs(queries->node->id+b-a);
+        }
+        else
+        {
+            min=abs(a-queries->node->id);
+        }
+    }
+    bus_query_t *p =queries->next_node;
+    bus_query_t *result=NULL;
+    while(queries->time != bus_time)
+    {
+        if (1 <= a <= b/2)
+        {
+            if(abs(a+b-p->node->id) <= abs(a-p->node->id) ) 
+            {
+                if(min >=abs(a+b-p->node->id))
+                {
+                    min=abs(a+b-p->node->id);
+                    result=p;
+                    p=p->next_node;
+                }
+            }
+        }
+        else if (b/2 < a <=b)
+        {
+            if (abs(p->node->id+b-a) <= abs(a-p->node->id))
+            {
+                if (min >= abs(p->node->id+b-a))
+                {
+                    min=abs(p->node->id+b-a);
+                    result=p;
+                    p=p->next_node;
+                }
+            }
+        }
+    }
+    return result;
 }
 
 int SSTFDirection(bus_query_t* query)
