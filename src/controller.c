@@ -71,44 +71,45 @@ bus_query_t *FCFSQuery()
 
 bus_query_t *SSTFGetQuery()
 {
-    int a,b,length,min=10;//最多有10个站点
+    int a,b,length,min;
     a = the_bus->rail_node_pos->id;  //是当前公交车的位置，而不是站点位置
-    b=rails->last_node->id;//总的站点数
+    b = rails->last_node->id;//总的站点数
     if (1 <= a <= b/2)
     {
-        if(abs(a+b-queries->node->id) < abs(a-queries->node->id) ) 
+        if (abs(a+b-queries->node->id) < abs(a-queries->node->id) ) 
         {
-            min=abs(a+b-queries->node->id);
+            min = abs(a+b-queries->node->id);
         }
         else
         {
-            min=abs(a-queries->node->id);
+            min = abs(a-queries->node->id);
         }
     }
     else if (b/2 < a <=b)
     {
-        if (abs(queries->node->id+b-a)<abs(a-queries->node->id))
+        if (abs(queries->node->id+b-a) < abs(a-queries->node->id))
         {
-            min=abs(queries->node->id+b-a);
+            min = abs(queries->node->id+b-a);
         }
         else
         {
-            min=abs(a-queries->node->id);
+            min = abs(a-queries->node->id);
         }
     }
-    bus_query_t *p =queries->next_node;
-    bus_query_t *result=NULL;
-    while(queries->time != bus_time)
+    //通过上诉把第一个请求的距离置为最小值min
+    bus_query_t *p = queries->next_node;
+    bus_query_t *result = queries;//如果第一个请求即最近的那一个，result=第一个请求
+    while (p->time <= bus_time)//在当前的时间找到所有请求中最近的一个
     {
-        if (1 <= a <= b/2)
+        if (1 <= a <= b/2)//对当前站点所在的位置进行分类讨论
         {
-            if(abs(a+b-p->node->id) <= abs(a-p->node->id) ) 
+            if (abs(a+b-p->node->id) <= abs(a-p->node->id) ) 
             {
-                if(min >=abs(a+b-p->node->id))
+                if(min >= abs(a+b-p->node->id))
                 {
-                    min=abs(a+b-p->node->id);
-                    result=p;
-                    p=p->next_node;
+                    min = abs(a+b-p->node->id);
+                    result = p;//把最小距离所对应的请求指针传给result
+                    p = p->next_node;
                 }
             }
         }
@@ -118,14 +119,14 @@ bus_query_t *SSTFGetQuery()
             {
                 if (min >= abs(p->node->id+b-a))
                 {
-                    min=abs(p->node->id+b-a);
-                    result=p;
-                    p=p->next_node;
+                    min = abs(p->node->id+b-a);
+                    result = p;
+                    p = p->next_node;
                 }
             }
         }
     }
-    return result;
+    return result;//需不需要返回空指针的情况呢？
 }
 
 int SSTFDirection(bus_query_t* query)
