@@ -2,6 +2,7 @@
 // Created by ricardo on 2022/5/6.
 //
 #include "controller.h"
+#include "math.h"
 
 bus_query_t *target_query = NULL;
 int chosen_strategy = -1;
@@ -72,11 +73,11 @@ bus_query_t *FCFSQuery()
 bus_query_t *SSTFGetQuery()
 {
     int a,b,length,min;
-    a = the_bus->rail_node_pos->id;  //是当前公交车的位置，而不是站点位置
+    a = the_bus->rail_node_pos->id;  //是当前公交车的位置，而不是站点位置，应该两者差别不大
     b = rails->last_node->id;//总的站点数
-    if (1 <= a <= b/2)
+    if (1 <= a <= b/2)//判断当前站点的位置
     {
-        if (abs(a+b-queries->node->id) < abs(a-queries->node->id) ) 
+        if (abs(a+b-queries->node->id) < abs(a-queries->node->id) ) //因为是环形轨道，用id相减的方式来计算距离的话，相减的方法不同
         {
             min = abs(a+b-queries->node->id);
         }
@@ -131,7 +132,17 @@ bus_query_t *SSTFGetQuery()
 
 int SSTFDirection(bus_query_t* query)
 {
+    if (query != NULL)
+    {
+        if (query->type != BUS_TARGET )
+        {
+            return query->type;
+        }
+    }
+    else
+    {
     return BUS_STOP;
+    }
 }
 
 bus_query_t *SSTFBTWQuery()
