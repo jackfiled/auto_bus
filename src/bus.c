@@ -16,30 +16,48 @@ void RunBus(int direction)
 
 int GetBusPosition()
 {
-    int a, b, c;
-    b = 0;
+    int distance = 0;
+    rail_node_t *now_pos = the_bus->rail_node_pos;
     rail_node_t *p = rails;
-    a = the_bus->rail_node_pos->id;//指向站点的指针以及这个指针对应的站台id
-    if (a == 1 && (the_bus->distance < 0))
+
+    // 先计算当前所在站点距离起始站点的距离
+    distance += p ->next_node_distance;
+    p = p->next_node;
+    while (p != now_pos)
     {
-        while(p->id != p->last_node->id)
+        distance += p->next_node_distance;
+        p = p->next_node;
+    }
+
+    if(now_pos == rails) // 起始点特殊处理
+    {
+        // 公交车偏离起始点的位置
+        int length = the_bus->distance;
+        if(length >= 0)
         {
-            b += p->next_node_distance;
-            p = p->next_node;
+            return length;
         }
-        b += p->next_node_distance;
-        c = b + (the_bus->distance);
+        else
+        {
+            return distance + length;
+        }
+    }
+    else if(now_pos == rails->last_node)
+    {
+        int length = the_bus->distance;
+        if(length == now_pos->next_node_distance) // 处理一种极为特殊的情况 公交车在即将到达起始站时
+        {
+            return 0;
+        }
+        else
+        {
+            return distance + length;
+        }
     }
     else
     {
-        while (p->id != a){
-            b += p->next_node_distance;
-            p = p->next_node;
-        }
-
-        c = b + (the_bus->distance);
+        return distance + the_bus->distance;
     }
-    return c;
 }
 
 int JudgeOnStation()
