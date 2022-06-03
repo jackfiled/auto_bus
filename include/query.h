@@ -6,6 +6,7 @@
 #define AUTO_PILOT_BUS_QUERY_H
 #include "stdlib.h"
 #include "rail.h"
+#include "define.h"
 
 struct bus_query {
     /**

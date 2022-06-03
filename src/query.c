@@ -13,24 +13,48 @@ bus_query_t *CreateQuery(int type, rail_node_t *node)
     p->time = bus_time;
     p->next_node = NULL;
 
-    if(queries == NULL)
+    if (queries == NULL)
     {
+        // 如果头指针是空指针，便没有必要排查是否重复
         queries = p;
+        return p;
     }
     else
     {
-        // 寻找链表的末节点
-        bus_query_t *last_node = queries;
+        bus_query_t *query = queries;
+        int flag = BUS_FAlSE;
 
-        while(last_node->next_node != NULL)
+        // 排查是否有重复的请求
+        while (query != NULL)
         {
-            last_node = last_node->next_node;
+            if(query->node == p->node && query->type == p->type)
+            {
+                flag = BUS_TRUE;
+                break;
+            }
+            query = query->next_node;
         }
 
-        last_node->next_node = p;
-    }
+        if(flag == BUS_TRUE)
+        {
+            // 如果存在相同的请求，这个请求就被放弃
+            free(p);
+            return NULL;
+        }
+        else
+        {
+            // 找到请求链表的最后一个节点
+            bus_query_t *last_query = queries;
 
-    return p;
+            while (last_query->next_node != NULL)
+            {
+                last_query = last_query->next_node;
+            }
+
+            last_query->next_node = p;
+            return p;
+        }
+    }
 }
 
 void DeleteQuery(bus_query_t *target)
