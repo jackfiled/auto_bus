@@ -82,7 +82,7 @@ int main()
                     // 如果到站，处理请求和
                     if(JudgeOnStation() == BUS_TRUE)
                     {
-                        direction = FCFSDirection(); // 在开始也得进行一次方向的判断
+                        direction = FCFSDirection(); //在开始得判断一次方向
                         finished_query = FCFSQuery();
 
                         if(finished_query != NULL) // 有请求就处理请求
@@ -125,13 +125,14 @@ int main()
                         }
                         else
                         {
-                            target_query = SSTFBTWQuery();
-                            if(target_query != NULL)
+                            // 处理可以顺便处理的请求
+                            bus_query_t *btw_query = SSTFBTWQuery(direction);
+                            if (btw_query != NULL)
                             {
-                                while (target_query != NULL)
+                                while (btw_query != NULL)
                                 {
-                                    DeleteQuery(target_query);
-                                    target_query = SSTFBTWQuery();
+                                    DeleteQuery(btw_query);
+                                    btw_query = SSTFBTWQuery(direction);
                                 }
                             }
                             else
@@ -149,7 +150,7 @@ int main()
                     // 如果没有指定的请求就获得指定的请求
                     if(target_query == NULL)
                     {
-                        target_query = SCANGetQuery();
+                        target_query = SCANGetQuery(direction);
                         direction = SCANDirection(target_query);
                     }
 
@@ -163,13 +164,14 @@ int main()
                         }
                         else
                         {
-                            target_query = SCANBTWQuery();
-                            if(target_query != NULL)
+                            bus_query_t *btw_query = SCANBTWQuery();
+                            // 处理可以顺路处理的请求
+                            if(btw_query != NULL)
                             {
-                                while (target_query != NULL)
+                                while (btw_query != NULL)
                                 {
-                                    DeleteQuery(target_query);
-                                    target_query = SCANBTWQuery();
+                                    DeleteQuery(btw_query);
+                                    btw_query = SCANBTWQuery();
                                 }
                             }
                             else

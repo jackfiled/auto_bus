@@ -47,15 +47,16 @@ int SSTFDirection(bus_query_t* query);
 
 /**
  * 在当前站上可以顺便服务的请求
+ * @param direction 当前公交车前进的方向
  * @return 服务的请求指针
  */
-bus_query_t *SSTFBTWQuery();
+bus_query_t *SSTFBTWQuery(int direction);
 
 /**
  * 获得在SCAN策略下应该处理的请求
  * @return 指向需要处理的请求的指针
  */
-bus_query_t *SCANGetQuery();
+bus_query_t *SCANGetQuery(int direction);
 
 /**
  * 根据指定的请求获得前进的方向

@@ -95,13 +95,14 @@ int main()
                         }
                         else
                         {
-                            target_query = SSTFBTWQuery();
-                            if(target_query != NULL)
+                            // 处理可以顺便处理的请求
+                            bus_query_t *btw_query = SSTFBTWQuery(direction);
+                            if (btw_query != NULL)
                             {
-                                while (target_query != NULL)
+                                while (btw_query != NULL)
                                 {
-                                    DeleteQuery(target_query);
-                                    target_query = SSTFBTWQuery();
+                                    DeleteQuery(btw_query);
+                                    btw_query = SSTFBTWQuery(direction);
                                 }
                             }
                             else
@@ -119,7 +120,7 @@ int main()
                     // 如果没有指定的请求就获得指定的请求
                     if(target_query == NULL)
                     {
-                        target_query = SCANGetQuery();
+                        target_query = SCANGetQuery(direction);
                         direction = SCANDirection(target_query);
                     }
 
@@ -133,13 +134,14 @@ int main()
                         }
                         else
                         {
-                            target_query = SCANBTWQuery();
-                            if(target_query != NULL)
+                            bus_query_t *btw_query = SCANBTWQuery();
+                            // 处理可以顺路处理的请求
+                            if(btw_query != NULL)
                             {
-                                while (target_query != NULL)
+                                while (btw_query != NULL)
                                 {
-                                    DeleteQuery(target_query);
-                                    target_query = SCANBTWQuery();
+                                    DeleteQuery(btw_query);
+                                    btw_query = SCANBTWQuery();
                                 }
                             }
                             else

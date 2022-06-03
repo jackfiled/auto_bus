@@ -2,7 +2,6 @@
 // Created by ricardo on 2022/5/6.
 //
 #include "controller.h"
-#include "math.h"
 
 bus_query_t *target_query = NULL;
 int chosen_strategy = -1;
@@ -145,14 +144,123 @@ int SSTFDirection(bus_query_t* query)
     }
 }
 
-bus_query_t *SSTFBTWQuery()
+bus_query_t *SSTFBTWQuery(int direction)
 {
-    return NULL;
+    bus_query_t *query = queries;
+    bus_query_t *allow_query = NULL;
+    rail_node_t *now_node = the_bus->rail_node_pos;
+
+    while (query != NULL)
+    {
+        if(query->node == now_node)
+        {
+            int type = query->type;
+
+            if(type == direction || type == BUS_TARGET)
+            {
+                allow_query = query;
+                break;
+            }
+        }
+        query = query->next_node;
+    }
+
+    return allow_query;
 }
 
-bus_query_t *SCANGetQuery()
+bus_query_t *SCANGetQuery(int direction)
 {
-    return NULL;
+    // 当前没有请求
+    if(queries == NULL)
+    {
+        return NULL;
+    }
+
+    if(direction == BUS_STOP)
+    {
+        // 在停止的状态下第一次开始选择方向
+        int distance = 9999;
+        bus_query_t *query = NULL;
+        bus_query_t *p = queries;
+
+        // 遍历顺时针方向
+        // 在两个方向路程相同时选择顺时针方向
+        // 所以先遍历顺时针方向
+        while (p != NULL)
+        {
+            int temp = GetQueryDistance(p, BUS_CLOCK_WISE);
+            if(temp < distance)
+            {
+                distance = temp;
+                query = p;
+            }
+            p = p->next_node;
+        }
+
+        // 遍历逆时针方向
+        p = queries;
+        while (p != NULL)
+        {
+            int temp = GetQueryDistance(p, BUS_COUNTER_CLOCK_WISE);
+            if(temp < distance)
+            {
+                distance = temp;
+                query = p;
+            }
+            p = p->next_node;
+        }
+
+        return query;
+    }
+    else
+    {
+        // 在已经有方向的情况下处理方向
+
+        int opposite_direction;
+        int distance = 9999;
+        bus_query_t *query = NULL;
+        bus_query_t *p = queries;
+
+        // 先指出反方向
+        // 可以减少后面的代码量
+        if(direction == BUS_CLOCK_WISE)
+        {
+            opposite_direction = BUS_COUNTER_CLOCK_WISE;
+        }
+        else
+        {
+            opposite_direction = BUS_CLOCK_WISE;
+        }
+
+        while (p != NULL)
+        {
+            int temp = GetQueryDistance(p, direction);
+            if(temp < distance)
+            {
+                query = p;
+                distance = temp;
+            }
+            p = p->next_node;
+        }
+
+        // 在距离超过轨道一半的情况下
+        if(distance > all_distance / 2)
+        {
+            p = queries;
+            while (p != NULL)
+            {
+                int temp = GetQueryDistance(p, opposite_direction);
+                if(temp < distance)
+                {
+                    query = p;
+                    distance = temp;
+                }
+                p = p->next_node;
+            }
+        }
+
+        return query;
+    }
 }
 
 int SCANDirection(bus_query_t *query)
