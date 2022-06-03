@@ -137,14 +137,22 @@ rail_node_t *ReadConfigFile()
 
     }
 
-    if (distance != 0 && total_station != 0)
+    // 处理参数去缺省值的情况
+    if (distance == 0)
     {
-        return CreateRails(distance, total_station);
+        distance = 2;
     }
-    else
+    if (total_station == 0)
     {
-        return NULL;
+        total_station = 5;
     }
+    if(chosen_strategy == -1)
+    {
+        chosen_strategy = BUS_FCFS;
+    }
+
+    rail_node_t *head = CreateRails(distance, total_station);
+    return head;
 }
 
 void PrintState()
