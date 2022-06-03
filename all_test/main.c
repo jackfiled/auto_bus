@@ -51,7 +51,7 @@ int main()
     // 开始时公交车应该是停下的
     direction = BUS_STOP;
 
-    PrintState(output);
+    PrintStateInner(output);
     ReadOutputFile(read_output, output_file);
     if(CheckOutput(output, read_output) == BUS_FAlSE)
     {
@@ -188,7 +188,7 @@ int main()
                     break;
             }
 
-            PrintState(output);
+            PrintStateInner(output);
             ReadOutputFile(read_output, output_file);
             if(CheckOutput(output, read_output) == BUS_FAlSE)
             {

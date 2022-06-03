@@ -12,10 +12,6 @@ int main()
      */
     char input[30];
     /**
-     * 输出的字符串
-     */
-    char output[150];
-    /**
      * the_bus指针的本体
      */
     bus_t main_bus;
@@ -39,9 +35,7 @@ int main()
     // 开始时公交车应该是停下的
     direction = BUS_STOP;
 
-    PrintState(output);
-    printf("%s", output);
-
+    PrintState();
 
     for(;;)
     {
@@ -163,15 +157,14 @@ int main()
                     // 这个分支只是为了符合代码规范而存在，理论上不会用到这个分支
                     break;
             }
-            PrintState(output);
-            printf("%s", output);
+            PrintState();
         }
         else if(result == IO_END)
         {
             printf("end\n");
 
             FreeRails(rails);
-
+            FreeQueries(queries);
             break;
         }
         else

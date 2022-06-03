@@ -29,6 +29,12 @@ int ReadInput(char* inputString);
  * @param rails 轨道链表
  * @return 返回需输出的字符串
  */
-void PrintState(char *str);
+void PrintState();
+
+/**
+ * 打印当前状态的函数，供all_test使用，在oj上有问题
+ * @param str 需要打印的内容
+ */
+void PrintStateInner(char *str);
 
 #endif //AUTO_PILOT_BUS_BUS_IO_H

@@ -147,7 +147,52 @@ rail_node_t *ReadConfigFile()
     }
 }
 
-void PrintState(char *str)
+void PrintState()
+{
+    int count, flag = 1;  //flag用于标记，为使下面第一个循环能够进入
+    rail_node_t *p = NULL;
+    char target[25], clockwise[25], counterclockwise[25];
+
+    for (count = 0, p = rails; flag == 1 || p != rails; p = p->next_node, count++)
+    {
+        flag=0;
+        target[count] = '0';
+        clockwise[count] = '0';
+        counterclockwise[count] = '0';
+    }   //遍历轨道链表，将所有站点初始化为0，即：无任何请求；
+    target[count] = '\0';
+    clockwise[count] = '\0';
+    counterclockwise[count] = '\0';
+    
+    bus_query_t *t = NULL;
+    int i;
+    for (t = queries; t != NULL; t = t->next_node)
+    {
+        i = t->node->id - 1;
+        if (t->type == 0)
+        {
+            clockwise[i] = '1';
+        }
+        else if(t->type==BUS_COUNTER_CLOCK_WISE)
+        {
+            counterclockwise[i] = '1';
+        }
+        else if(t->type==BUS_TARGET)
+        {
+            target[i] = '1';
+        }
+    }   //遍历请求链表，将有请求的站点按照不同类型标记为1
+
+    printf("TIME:%d\n", bus_time);
+    printf("BUS:\n");
+    printf("position:%d\n", GetBusPosition());
+    printf("target:%s\n", target);
+    printf("STATION:\n");
+    printf("clockwise:%s\n", clockwise);
+    printf("counterclockwise:%s\n", counterclockwise);
+}
+
+void PrintStateInner(char *str)
 {
     memset(str, 0, 150);
 
@@ -165,7 +210,7 @@ void PrintState(char *str)
     target[count] = '\0';
     clockwise[count] = '\0';
     counterclockwise[count] = '\0';
-    
+
     bus_query_t *t = NULL;
     int i;
     for (t = queries; t != NULL; t = t->next_node)
