@@ -151,6 +151,7 @@ rail_node_t *ReadConfigFile()
         chosen_strategy = BUS_FCFS;
     }
 
+    all_distance = distance * total_station;
     rail_node_t *head = CreateRails(distance, total_station);
     return head;
 }

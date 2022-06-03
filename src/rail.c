@@ -2,6 +2,7 @@
 
 rail_node_t *rails = NULL;
 int bus_time = 0;
+int all_distance = 0;
 
 rail_node_t *CreateRails(int length, int node_num)
 {

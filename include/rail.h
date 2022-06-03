@@ -36,6 +36,11 @@ typedef struct rail_node rail_node_t;
 extern rail_node_t *rails;
 
 /**
+ * 轨道的总长度
+ */
+extern int all_distance;
+
+/**
  * 全局的计时器
  */
 extern int bus_time;

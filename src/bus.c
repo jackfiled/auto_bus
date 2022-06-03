@@ -83,3 +83,29 @@ int JudgeOnStation()
         return BUS_FAlSE;
     }
 }
+
+int GetQueryDistance(bus_query_t *query, int orientation)
+{
+    rail_node_t *target_node = query->node;
+    rail_node_t *now_node = the_bus->rail_node_pos;
+    int distance = 0;
+
+    if(orientation == BUS_CLOCK_WISE)
+    {
+        while (now_node != target_node)
+        {
+            distance += now_node->next_node_distance;
+            now_node = now_node->next_node;
+        }
+    }
+    else if(orientation == BUS_COUNTER_CLOCK_WISE)
+    {
+        while (now_node != target_node)
+        {
+            distance += now_node->last_node_distance;
+            now_node = now_node->last_node;
+        }
+    }
+
+    return distance;
+}

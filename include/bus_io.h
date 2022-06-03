@@ -26,8 +26,6 @@ int ReadInput(char* inputString);
 
 /**
  * 打印当前的状态
- * @param rails 轨道链表
- * @return 返回需输出的字符串
  */
 void PrintState();
 
