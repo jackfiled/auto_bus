@@ -6,6 +6,7 @@ add_subdirectory(all_test)
 project(auto_pilot_bus) # 设置项目的名称
 
 set(CMAKE_C_STANDARD 11) # 设置项目的C语言标准版本
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build) # 设置项目的产生的库的路径，这里直接设为二进制文件处
 
