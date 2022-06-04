@@ -26,7 +26,7 @@ input_file.write(
 
 # 读取include, src两个文件夹
 # include文件的顺序需要手动指定
-include_list: list = ["rail.h", "bus.h", "query.h", "bus_io.h", "controller.h", "define.h"]
+include_list: list = ["rail.h", "query.h", "bus.h", "bus_io.h", "controller.h", "define.h"]
 src_list: list = os.listdir(src_path)
 
 for file_name in include_list:
