@@ -78,27 +78,44 @@ int main()
                     }
                     break;
                 case BUS_SSTF:
-                    // 如果没有指定的请求就获得指定的请求
-                    if(target_query == NULL)
-                    {
-                        target_query = SSTFGetQuery();
-                        direction = SSTFDirection(target_query);
-                    }
-
                     if(JudgeOnStation() == BUS_TRUE)
                     {
-                        // 如果到达目标的站点
-                        if(the_bus->rail_node_pos == target_query->node)
+                        // 在没有目标请求的时候，获取一个目标站点
+                        if(target_query == NULL)
                         {
-                            DeleteQuery(target_query);
-                            target_query = NULL;
+                            target_query = SSTFGetQuery();
+                            direction = SSTFDirection(target_query);
+
+                            // 处理下一个需要处理的请求就在脚底下的情况
+                            if(target_query != NULL && direction == BUS_STOP && target_query->node == the_bus->rail_node_pos)
+                            {
+                                while (target_query != NULL && direction == BUS_STOP && target_query->node == the_bus->rail_node_pos)
+                                {
+                                    DeleteQuery(target_query);
+                                    target_query = SSTFGetQuery();
+                                    direction = SSTFDirection(target_query);
+                                }
+                            }
+                            RunBus(direction);
                         }
                         else
                         {
-                            // 处理可以顺便处理的请求
                             bus_query_t *btw_query = SSTFBTWQuery(direction);
-                            if (btw_query != NULL)
+                            // 如果到站了
+                            if(target_query->node == the_bus->rail_node_pos)
                             {
+                                // 如果刚好在站点上就有不少请求，处理一波
+                                // 这里利用了&&运算符的短路特性，如果第一个判断为假，则不进行下一个判断，也就避免了段错误
+                                while (target_query != NULL && target_query->node == the_bus->rail_node_pos)
+                                {
+                                    DeleteQuery(target_query);
+                                    target_query = SSTFGetQuery();
+                                    direction = SSTFDirection(target_query);
+                                }
+                            }
+                            else if(btw_query != NULL)
+                            {
+                                // 如果没有到站就看看能不能顺便服务
                                 while (btw_query != NULL)
                                 {
                                     DeleteQuery(btw_query);
@@ -107,37 +124,57 @@ int main()
                             }
                             else
                             {
+                                // 如果啥也不能做就走吧
                                 RunBus(direction);
                             }
                         }
                     }
                     else
                     {
+                        // 没到站的话那就走吧
                         RunBus(direction);
                     }
                     break;
                 case BUS_SCAN:
                     // 如果没有指定的请求就获得指定的请求
-                    if(target_query == NULL)
-                    {
-                        target_query = SCANGetQuery(direction);
-                        direction = SCANDirection(target_query);
-                    }
-
                     if(JudgeOnStation() == BUS_TRUE)
                     {
-                        // 如果到达目标的站点
-                        if(the_bus->rail_node_pos == target_query->node)
+                        // 在没有目标请求的时候，获取一个目标站点
+                        if(target_query == NULL)
                         {
-                            DeleteQuery(target_query);
-                            target_query = NULL;
+                            target_query = SCANGetQuery(direction);
+                            direction = SCANDirection(target_query, direction);
+
+                            // 处理下一个需要处理的请求就在脚底下的情况
+                            if(target_query != NULL && direction == BUS_STOP && target_query->node == the_bus->rail_node_pos)
+                            {
+                                while (target_query != NULL && direction == BUS_STOP && target_query->node == the_bus->rail_node_pos)
+                                {
+                                    DeleteQuery(target_query);
+                                    target_query = SCANGetQuery(direction);
+                                    direction = SCANDirection(target_query, direction);
+                                }
+                            }
+                            RunBus(direction);
                         }
                         else
                         {
                             bus_query_t *btw_query = SCANBTWQuery();
-                            // 处理可以顺路处理的请求
-                            if(btw_query != NULL)
+                            // 如果到站了
+                            if(target_query->node == the_bus->rail_node_pos)
                             {
+                                // 如果刚好在站点上就有不少请求，处理一波
+                                // 这里利用了&&运算符的短路特性，如果第一个判断为假，则不进行下一个判断，也就避免了段错误
+                                while (target_query != NULL && target_query->node == the_bus->rail_node_pos)
+                                {
+                                    DeleteQuery(target_query);
+                                    target_query = SCANGetQuery(direction);
+                                    direction = SCANDirection(target_query, direction);
+                                }
+                            }
+                            else if(btw_query != NULL)
+                            {
+                                // 如果没有到站就看看能不能顺便服务
                                 while (btw_query != NULL)
                                 {
                                     DeleteQuery(btw_query);
@@ -146,15 +183,16 @@ int main()
                             }
                             else
                             {
+                                // 如果啥也不能做就走吧
                                 RunBus(direction);
                             }
                         }
                     }
                     else
                     {
+                        // 没到站的话那就走吧
                         RunBus(direction);
                     }
-                    break;
                 default:
                     // 这个分支只是为了符合代码规范而存在，理论上不会用到这个分支
                     break;

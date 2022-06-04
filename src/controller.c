@@ -112,16 +112,23 @@ bus_query_t *SSTFGetQuery()
 
 int SSTFDirection(bus_query_t* query)
 {
-    if (query != NULL)
+    if (query == NULL)
     {
-        if (query->type != BUS_TARGET )
-        {
-            return query->type;
-        }
+        return BUS_STOP;
+    }
+
+    int distance = GetQueryDistance(query, BUS_CLOCK_WISE);
+    if(distance > all_distance / 2)
+    {
+        return BUS_COUNTER_CLOCK_WISE;
+    }
+    else if(distance == 0)
+    {
+        return BUS_STOP;
     }
     else
     {
-    return BUS_STOP;
+        return BUS_CLOCK_WISE;
     }
 }
 
