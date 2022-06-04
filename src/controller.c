@@ -196,22 +196,9 @@ bus_query_t *SCANGetQuery(int direction)
     else
     {
         // 在已经有方向的情况下处理方向
-
-        int opposite_direction;
         int distance = 9999;
         bus_query_t *query = NULL;
         bus_query_t *p = queries;
-
-        // 先指出反方向
-        // 可以减少后面的代码量
-        if(direction == BUS_CLOCK_WISE)
-        {
-            opposite_direction = BUS_COUNTER_CLOCK_WISE;
-        }
-        else
-        {
-            opposite_direction = BUS_CLOCK_WISE;
-        }
 
         while (p != NULL)
         {
@@ -224,69 +211,55 @@ bus_query_t *SCANGetQuery(int direction)
             p = p->next_node;
         }
 
-        // 在距离超过轨道一半的情况下
-        if(distance > all_distance / 2)
-        {
-            p = queries;
-            while (p != NULL)
-            {
-                int temp = GetQueryDistance(p, opposite_direction);
-                if(temp < distance)
-                {
-                    query = p;
-                    distance = temp;
-                }
-                p = p->next_node;
-            }
-        }
-
         return query;
     }
 }
 
-int SCANDirection(bus_query_t *query)
+int SCANDirection(bus_query_t *query, int orientation)
 {
     if(query == NULL)
     {
         return BUS_STOP;
-    }   //如果没有请求，公交车停止
+    }
 
-    else
+    if(orientation == BUS_STOP)
     {
-        int clockwise = 0;
-        int counterclockwise = 0;   //用于顺，逆时针方向所经站台计数
-
-        /**
-         * 公交车当前所在位置
-         */
-        rail_node_t *now_position = the_bus->rail_node_pos;
-        /**
-         * 公交车应该前进的方向
-         */
-        rail_node_t *target_position = query->node;
-
-        rail_node_t *pos = now_position;
-        while (pos != target_position) //顺时针计数
-        {
-            clockwise++;
-            pos = pos->next_node;
-        }
-
-        pos = now_position;
-        while (pos != target_position) //逆时针计数
-        {
-            counterclockwise++;
-            pos = pos->last_node;
-        }
-        
-        if(clockwise <= counterclockwise)
-        {
-            return BUS_CLOCK_WISE;
-        }//若顺时针距离短(或顺逆相等)，公交车顺时针运行
-        else
+        int distance = GetQueryDistance(query, BUS_CLOCK_WISE);
+        if(distance > all_distance / 2)
         {
             return BUS_COUNTER_CLOCK_WISE;
-        }//若逆时针距离短，公交车逆时针运行
+        }
+        else if(distance == 0)
+        {
+            return BUS_STOP;
+        }
+        else
+        {
+            return BUS_CLOCK_WISE;
+        }
+    }
+    else
+    {
+        int distance = GetQueryDistance(query, orientation);
+        if(distance > all_distance / 2)
+        {
+            if(orientation == BUS_CLOCK_WISE)
+            {
+                return BUS_COUNTER_CLOCK_WISE;
+            }
+            else
+            {
+                return BUS_CLOCK_WISE;
+            }
+        }
+        else if(distance == 0)
+        {
+            return BUS_STOP;
+        }
+        else
+        {
+            return orientation;
+        }
     }
 }
 

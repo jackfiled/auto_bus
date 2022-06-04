@@ -64,7 +64,7 @@ bus_query_t *SCANGetQuery(int direction);
  * @param query 指定完成的请求
  * @return 前进的方向
  */
-int SCANDirection(bus_query_t *query);
+int SCANDirection(bus_query_t *query, int orientation);
 
 /**
  * 在当前站上可以顺便服务的请求
