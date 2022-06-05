@@ -1,0 +1,24 @@
+clock
+clockwise 8
+clock
+counterclockwise 9
+clock
+clock
+clock
+clock
+clock
+clock
+clock
+clock
+clock
+clockwise 6
+clock
+counterclockwise 7
+clock
+clock
+clock
+clock
+clock
+clock
+clock
+end

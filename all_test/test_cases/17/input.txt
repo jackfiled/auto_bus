@@ -1,0 +1,15 @@
+clock
+counterclockwise 6
+clock
+clock
+clock
+clock
+clock
+clock
+clock
+clock
+clock
+clock
+clock
+clock
+end
