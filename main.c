@@ -87,9 +87,9 @@ int main()
                             direction = SSTFDirection(target_query);
 
                             // 处理下一个需要处理的请求就在脚底下的情况
-                            if(target_query != NULL && direction == BUS_STOP && target_query->node == the_bus->rail_node_pos)
+                            if(target_query != NULL  && target_query->node == the_bus->rail_node_pos)
                             {
-                                while (target_query != NULL && direction == BUS_STOP && target_query->node == the_bus->rail_node_pos)
+                                while (target_query != NULL  && target_query->node == the_bus->rail_node_pos)
                                 {
                                     DeleteQuery(target_query);
                                     target_query = SSTFGetQuery();

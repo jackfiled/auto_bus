@@ -238,10 +238,6 @@ int SCANDirection(bus_query_t *query, int orientation)
         {
             return BUS_COUNTER_CLOCK_WISE;
         }
-        else if(distance == 0)
-        {
-            return BUS_STOP;
-        }
         else
         {
             return BUS_CLOCK_WISE;
@@ -260,10 +256,6 @@ int SCANDirection(bus_query_t *query, int orientation)
             {
                 return BUS_CLOCK_WISE;
             }
-        }
-        else if(distance == 0)
-        {
-            return BUS_STOP;
         }
         else
         {
@@ -291,4 +283,19 @@ bus_query_t *SCANBTWQuery()
     }//遍历请求链表，判断是否有可以顺便处理的请求
 
     return NULL;
+}
+
+void FCFSControl()
+{
+
+}
+
+void SSTFControl()
+{
+
+}
+
+void SCANControl()
+{
+
 }
