@@ -142,12 +142,14 @@ bus_query_t *SSTFBTWQuery(int direction)
     {
         if(query->node == now_node)
         {
-            int type = query->type;
-
-            if(type == direction || type == BUS_TARGET)
+            // 这里是设计上的缺陷，在bus_time显示时间的前一秒，公交车就实际上到达站台了
+            if(query->time < bus_time - 1)
             {
-                allow_query = query;
-                break;
+                if(query->type == direction || query->type == BUS_TARGET)
+                {
+                    allow_query = query;
+                    break;
+                }
             }
         }
         query = query->next_node;
@@ -280,7 +282,10 @@ bus_query_t *SCANBTWQuery()
     {
         if(p->node == now_position)
         {
-            return p; 
+            if(p->time < bus_time - 1)
+            {
+                return p;
+            }
         }
         p = p->next_node;
     }//遍历请求链表，判断是否有可以顺便处理的请求
