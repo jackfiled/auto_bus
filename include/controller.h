@@ -72,18 +72,4 @@ int SCANDirection(bus_query_t *query, int orientation);
  */
 bus_query_t *SCANBTWQuery();
 
-/**
- * FCFS策略的控制函数
- */
-void FCFSControl();
-
-/**
- * SSTF策略的控制函数
- */
-void SSTFControl();
-
-/**
- * SCAN策略的控制函数
- */
-void SCANControl();
 #endif //AUTO_PILOT_BUS_CONTROLLER_H

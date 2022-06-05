@@ -223,6 +223,7 @@ int main()
                         // 没到站的话那就走吧
                         RunBus(direction);
                     }
+                    break;
                 default:
                     // 这个分支只是为了符合代码规范而存在，理论上不会用到这个分支
                     break;

@@ -40,24 +40,27 @@ rail_node_t *CreateRails(int length, int node_num)
 
 rail_node_t *FindNode(rail_node_t *head, int id)
 {
-    rail_node_t *p = NULL;
-    if(head)
+    // 排除头节点为空的情况
+    if(head == NULL)
     {
-        if(head->id == id)
-        {
-            return head;
-        }
-        if(head->next_node != NULL)
-        {
-            p = FindNode(head->next_node, id);
-            if(p) 
-            {
-                return p;
-            }
-        }
-        
+        return NULL;
     }
-    return NULL;
+
+    rail_node_t *result = NULL;
+    rail_node_t *p = head;
+
+    do
+    {
+        if(p->id == id)
+        {
+            result = p;
+            break;
+        }
+        p = p->next_node;
+    }
+    while (p != head);
+
+    return result;
 }
 
 void FreeRails(rail_node_t *head)

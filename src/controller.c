@@ -284,18 +284,3 @@ bus_query_t *SCANBTWQuery()
 
     return NULL;
 }
-
-void FCFSControl()
-{
-
-}
-
-void SSTFControl()
-{
-
-}
-
-void SCANControl()
-{
-
-}

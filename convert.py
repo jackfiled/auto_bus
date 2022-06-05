@@ -1,4 +1,3 @@
-from email.encoders import encode_noop
 import os
 
 path = "SSTF/"
@@ -9,7 +8,7 @@ out_path = path + "{}.out"
 
 dict_file = open(dict_path, "r", encoding="utf8")
 dict_str = dict_file.read()
-dict_file.close();
+dict_file.close()
 
 for i in range(1, 11):
     dir_path = "{}/".format(i + 7)
@@ -35,5 +34,4 @@ for i in range(1, 11):
     input_file.close()
     output_file.close()
     dict_file.close()
-
 

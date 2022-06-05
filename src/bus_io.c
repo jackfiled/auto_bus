@@ -8,7 +8,9 @@ int ReadInput(char *inputString)
 
     char src[20];
     int num;
+
     sscanf(inputString, "%[a-z] %d", src, &num);
+
     if (0 == strcmp("clock", src))
     {
         return IO_CLOCK;
@@ -83,6 +85,7 @@ rail_node_t *ReadConfigFile()
             case 'S':
                 // STRATEGY
                 p = buffer;
+
                 // 将=前的字符全部略去
                 while (*p != '=')
                 {
@@ -134,7 +137,6 @@ rail_node_t *ReadConfigFile()
             default:
                 continue;
         }
-
     }
 
     // 处理参数去缺省值的情况
@@ -169,6 +171,7 @@ void PrintState()
         clockwise[count] = '0';
         counterclockwise[count] = '0';
     }   //遍历轨道链表，将所有站点初始化为0，即：无任何请求；
+    // 在字符串的末尾填0
     target[count] = '\0';
     clockwise[count] = '\0';
     counterclockwise[count] = '\0';
@@ -216,6 +219,7 @@ void PrintStateInner(char *str)
         clockwise[count] = '0';
         counterclockwise[count] = '0';
     }   //遍历轨道链表，将所有站点初始化为0，即：无任何请求；
+    // 在字符串的末尾填0
     target[count] = '\0';
     clockwise[count] = '\0';
     counterclockwise[count] = '\0';
