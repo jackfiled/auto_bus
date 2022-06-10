@@ -18,9 +18,11 @@ include_directories(
         ${PROJECT_SOURCE_DIR}/include
         ${PROJECT_SOURCE_DIR}/src/header
 )
+
 aux_source_directory(${PROJECT_SOURCE_DIR}/src SRCS)
 
 add_executable(auto_bus_gui main.cpp ${SRCS})
+
 target_link_libraries(auto_bus_gui
         Qt::Core
         Qt::Gui
