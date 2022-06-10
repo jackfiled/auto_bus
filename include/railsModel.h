@@ -40,7 +40,18 @@ public:
      */
     rail_node_t *rails;
 
+    /**
+     * 生成相关的轨道对象
+     * @param distance 站点直接的距离
+     * @param node_number 站点的数量
+     */
     explicit RailsModel(int distance = 2, int node_number = 5);
+    /**
+     * 查找指定编号的站点指针
+     * @param head 轨道的头节点地址
+     * @param id 需要查找的站点编号
+     * @return 需要查找站点指针
+     */
     rail_node_t *FindNode(int node_num) const;
     ~RailsModel();
 
