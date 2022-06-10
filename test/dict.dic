@@ -1,6 +1,0 @@
-# The Config file of bus
-# Comment
-TOTAL_STATION = 12
-DISTANCE =  5
-# STRATEGY = SCAN
-STRATEGY  = FCFS
