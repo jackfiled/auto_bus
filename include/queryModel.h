@@ -2,8 +2,8 @@
 // Created by ricardo on 2022/6/10.
 //
 
-#ifndef AUTO_BUS_GUI_QUERYMODEL_H
-#define AUTO_BUS_GUI_QUERYMODEL_H
+#ifndef AUTO_BUS_GUI_QUERY_MODEL_H
+#define AUTO_BUS_GUI_QUERY_MODEL_H
 #include "railsModel.h"
 
 struct bus_query {
@@ -53,4 +53,4 @@ public:
 
 };
 
-#endif //AUTO_BUS_GUI_QUERYMODEL_H
+#endif //AUTO_BUS_GUI_QUERY_MODEL_H

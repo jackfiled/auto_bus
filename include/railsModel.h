@@ -2,8 +2,8 @@
 // Created by ricardo on 2022/6/10.
 //
 
-#ifndef AUTO_BUS_GUI_RAILSMODEL_H
-#define AUTO_BUS_GUI_RAILSMODEL_H
+#ifndef AUTO_BUS_GUI_RAILS_MODEL_H
+#define AUTO_BUS_GUI_RAILS_MODEL_H
 #include "cstdlib"
 
 struct rail_node{
@@ -59,4 +59,4 @@ public:
 
 };
 
-#endif //AUTO_BUS_GUI_RAILSMODEL_H
+#endif //AUTO_BUS_GUI_RAILS_MODEL_H
