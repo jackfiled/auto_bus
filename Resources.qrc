@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/stop_pic">
+        <file>picture/stop.png</file>
+    </qresource>
+    <qresource prefix="/bus_pic">
+        <file>picture/bus.png</file>
+    </qresource>
+</RCC>
