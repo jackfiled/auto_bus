@@ -6,15 +6,22 @@
 
 #include "header/moc_centralwidget.cpp"
 #include "form/ui_CentralWidget.h"
+#include "centralwidget.h"
 
 
-CentralWidget::CentralWidget(QWidget *parent) :
-        QWidget(parent), ui(new Ui::CentralWidget)
+CentralWidget::CentralWidget(QWidget *parent) : QWidget(parent), ui(new Ui::CentralWidget)
 {
     ui->setupUi(this);
+
+    scene_manager = new SceneManager;
+    scene_manager->init();
+    scene_manager->initBusStop(nullptr);
+
+    ui->main_canva->setScene(scene_manager->scene);
 }
 
 CentralWidget::~CentralWidget()
 {
     delete ui;
+    delete scene_manager;
 }

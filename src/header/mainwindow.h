@@ -2,8 +2,8 @@
 // Created by ricardo on 2022/6/10.
 //
 
-#ifndef AUTO_BUS_GUI_MAINWINDOW_H
-#define AUTO_BUS_GUI_MAINWINDOW_H
+#ifndef AUTO_BUS_GUI_MAIN_WINDOW_H
+#define AUTO_BUS_GUI_MAIN_WINDOW_H
 
 #include <QMainWindow>
 #include "centralwidget.h"
@@ -31,6 +31,4 @@ private:
 
     void SetMenuBarConnection();
 };
-
-
-#endif //AUTO_BUS_GUI_MAINWINDOW_H
+#endif //AUTO_BUS_GUI_MAIN_WINDOW_H
