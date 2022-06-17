@@ -4,14 +4,15 @@
 
 #include "busModel.h"
 
-BusControllerModel::BusControllerModel(RailsModel *railsModel, QueryModel *queryModel)
+BusControllerModel::BusControllerModel()
 {
-    rail_manager = railsModel;
-    query_manager = queryModel;
+    rail_manager = new RailsModel;
+    query_manager = new QueryModel;
 
-    // 公交车开始时停在轨道起始处
-    rail_pos = railsModel->rails;
+    // 设置公交车的初始状态
+    rail_pos = rail_manager->rails;
     distance = 0;
+    direction = BUS_STOP;
 }
 
 BusControllerModel::~BusControllerModel()
@@ -61,6 +62,56 @@ int BusControllerModel::GetBusPosition() const
     {
         return result + distance;
     }
+}
+
+bool BusControllerModel::JudgeOnStation()
+{
+    if(distance == - rail_pos->last_node_distance)//表示逆时针
+    {
+        distance = 0;
+        rail_pos = rail_pos->last_node;//逆时针往上一个
+        return true;
+    }
+    else if(distance == rail_pos->next_node_distance)//表示顺时针
+    {
+        distance = 0;
+        rail_pos = rail_pos->next_node;//顺时针往下一个
+        return true;
+    }
+    else if(distance  == 0)//在站点上原地不动
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+int BusControllerModel::GetQueryDistance(bus_query_t *query, int orientation) const
+{
+    rail_node_t *target_node = query->node;
+    rail_node_t *now_node = rail_pos;
+    int result = 0;
+
+    if(orientation == BUS_CLOCK_WISE)
+    {
+        while (now_node != target_node)
+        {
+            result += now_node->next_node_distance;
+            now_node = now_node->next_node;
+        }
+    }
+    else if(orientation == BUS_COUNTER_CLOCK_WISE)
+    {
+        while (now_node != target_node)
+        {
+            result += now_node->last_node_distance;
+            now_node = now_node->last_node;
+        }
+    }
+
+    return result;
 }
 
 std::string BusControllerModel::PrintState()
@@ -119,4 +170,122 @@ std::string BusControllerModel::PrintState()
            << "counterclockwise:" << counterclockwise << std::endl;
 
     return format.str();
+}
+
+void BusControllerModel::ReadConfigFile(const std::string& file_name)
+{
+    FILE *config_file = nullptr;
+
+    char buffer[30];
+    int total_station = 0;
+    int node_space_length = 0;
+
+    fopen_s(&config_file, file_name.c_str(), "r");
+
+    // 循环读取文件的每一行
+    while (fgets(buffer, sizeof buffer, config_file) != nullptr)
+    {
+        char first_char = buffer[0];
+        char *p;
+
+        switch (first_char)
+        {
+            case '#':
+                // 如果读取到#什么都不做
+                break;
+            case 'T':
+                // TOTAL_STATION
+                p = buffer;
+
+                // 把数字前面的所有字符全部干掉
+                while (*p < '0' || *p > '9')
+                {
+                    p++;
+                }
+
+                // 讲道理，应该只有两位数，所以就这样处理了
+                if (*(p + 1) == '\n' || *(p + 1) == '\0')
+                {
+                    total_station = *p - 48;
+                }
+                else
+                {
+                    total_station = (*p - 48) * 10 + *(p + 1) - 48;
+                }
+
+                break;
+            case 'S':
+                // STRATEGY
+                p = buffer;
+
+                // 将=前的字符全部略去
+                while (*p != '=')
+                {
+                    p++;
+                }
+                // =也去掉
+                p++;
+                // =和策略之间的空格也去掉
+                while (*p == ' ')
+                {
+                    p++;
+                }
+
+                if (*p == 'F' && *(p + 1) == 'C') //FCFS
+                {
+                    chosen_strategy = BUS_FCFS;
+                }
+                else if (*p == 'S' && *(p + 1) == 'S') //SSTF
+                {
+                    chosen_strategy = BUS_SSTF;
+                }
+                else if (*p == 'S' && *(p + 1) == 'C') //SCAN
+                {
+                    chosen_strategy = BUS_SCAN;
+                }
+                else
+                {
+                    // 读取失败
+                    chosen_strategy = -1;
+                }
+
+                break;
+            case 'D':
+                // DISTANCE
+                p = buffer;
+
+                // 把数字前面的所有字符全部干掉
+                while (*p < '0' || *p > '9')
+                {
+                    p++;
+                }
+
+                if (*(p + 1) == '\n' || *(p + 1) == '\0')
+                {
+                    node_space_length = *p - 48;
+                }
+
+                break;
+            default:
+                continue;
+        }
+    }
+
+    // 处理参数去缺省值的情况
+    if (node_space_length == 0)
+    {
+        node_space_length = 2;
+    }
+    if (total_station == 0)
+    {
+        total_station = 5;
+    }
+    if(chosen_strategy == -1)
+    {
+        chosen_strategy = BUS_FCFS;
+    }
+
+    // 重新生成轨道模型
+    delete rail_manager;
+    rail_manager = new RailsModel(node_space_length, total_station);
 }

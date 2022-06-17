@@ -9,6 +9,7 @@
 #include "queryModel.h"
 #include "define.h"
 
+#include "cstdio"
 #include "string"
 #include "sstream"
 
@@ -26,6 +27,11 @@ public:
     int distance;
 
     /**
+     * 当前前进的方向
+     */
+    int direction;
+
+    /**
      * 轨道对象
      */
     RailsModel *rail_manager;
@@ -36,9 +42,15 @@ public:
     QueryModel *query_manager;
 
     /**
-     * 构造函数
+     * 选定的策略
      */
-    BusControllerModel(RailsModel *railsModel, QueryModel *queryModel);
+    int chosen_strategy = -1;
+
+    /**
+     * 构造函数
+     *
+     */
+    BusControllerModel();
 
     /**
      * 析构函数
@@ -46,9 +58,56 @@ public:
     ~BusControllerModel();
 
     std::string PrintState();
+    bool JudgeOnStation();
 
 private:
     int GetBusPosition() const;
+
+    /**
+     * 读取指定的配置文件
+     * @param file_name 提供的配置文件路径
+     */
+    void ReadConfigFile(const std::string& file_name);
+
+    /**
+     * 给出在指定的方向下，指定的请求于公交车当前位置的距离
+     * @param query 指定的请求
+     * @param orientation 指定的方向 BUS_CLOCK_WISE BUS_COUNTER_CLOCK_WISE
+     * @return 距离
+     */
+    int GetQueryDistance(bus_query_t *query, int orientation) const;
+
+    /**
+     * 在先来先服务策略下应该前进的方向
+     * @return 前进的方向
+     */
+    int FCFSDirection() const;
+
+    /**
+     * 在先来先服务策略下给出处理的请求
+     * @return 需要处理的请求
+     */
+    bus_query_t *FCFSQuery() const;
+
+    /**
+     * 获得在SSTF策略下应该处理的请求
+     * @return 指向需要处理的请求的指针
+     */
+    bus_query_t *SSTFGetQuery();
+
+    /**
+     * 根据指定的请求获得前进的方向，也就是前往指定的请求最近的方向
+     * 在SSTF策略中使用
+     * @param query 指定完成的请求
+     * @return 前进的方向
+     */
+    int SSTFDirection(bus_query_t* query);
+
+    /**
+     * 在当前站上可以顺便服务的请求
+     * @return 服务的请求指针
+     */
+    bus_query_t *SSTFBTWQuery();
 };
 
 #endif //AUTO_BUS_GUI_BUS_MODEL_H
