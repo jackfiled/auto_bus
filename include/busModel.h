@@ -32,6 +32,11 @@ public:
     int direction;
 
     /**
+     * 开始运行的时间
+     */
+    int bus_time;
+
+    /**
      * 轨道对象
      */
     RailsModel *rail_manager;
@@ -61,6 +66,15 @@ public:
     bool JudgeOnStation();
 
 private:
+    /**
+     * 轨道的总长度
+     */
+    int total_distance = 10;
+
+    /**
+     * 获得公交车当前所在的位置
+     * @return 公交车当前所在的位置
+     */
     int GetBusPosition() const;
 
     /**
@@ -107,7 +121,27 @@ private:
      * 在当前站上可以顺便服务的请求
      * @return 服务的请求指针
      */
-    bus_query_t *SSTFBTWQuery();
+    bus_query_t *SSTFBTWQuery() const;
+
+    /**
+     * 获得在SCAN策略下应该处理的请求
+     * @return 指向需要处理的请求的指针
+     */
+    bus_query_t *SCANGetQuery();
+
+    /**
+     * 根据指定的请求获得前进的方向
+     * 在SCAN策略中使用
+     * @param query 指定完成的请求
+     * @return 前进的方向
+     */
+    int SCANDirection(bus_query_t *query);
+
+    /**
+     * 在当前站上可以顺便服务的请求
+     * @return 服务的请求指针
+     */
+    bus_query_t *SCANBTWQuery() const;
 };
 
 #endif //AUTO_BUS_GUI_BUS_MODEL_H

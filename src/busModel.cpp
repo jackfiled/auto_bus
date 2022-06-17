@@ -285,6 +285,8 @@ void BusControllerModel::ReadConfigFile(const std::string& file_name)
         chosen_strategy = BUS_FCFS;
     }
 
+    // 得到轨道的总长度
+    total_distance = node_space_length * total_station;
     // 重新生成轨道模型
     delete rail_manager;
     rail_manager = new RailsModel(node_space_length, total_station);
