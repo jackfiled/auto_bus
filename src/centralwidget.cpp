@@ -12,16 +12,13 @@
 CentralWidget::CentralWidget(QWidget *parent) : QWidget(parent), ui(new Ui::CentralWidget)
 {
     ui->setupUi(this);
-
-    scene_manager = new SceneManager;
-    scene_manager->init();
-    scene_manager->initBusStop(nullptr);
+    scene_manager = new SceneManager(20);
 
     ui->main_canva->setScene(scene_manager->scene);
 }
 
 CentralWidget::~CentralWidget()
 {
-    delete ui;
     delete scene_manager;
+    delete ui;
 }
