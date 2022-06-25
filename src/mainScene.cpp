@@ -35,7 +35,6 @@ SceneManager::SceneManager(int stop_node_number)
             stop_pos_pairs[j].AddLength(stop_space_length);
         }
         pixmap_items[i].setPos(stop_pos_pairs[i].pos_x, stop_pos_pairs[i].pos_y);
-        qDebug() << i << "  " << stop_pos_pairs[i].pos_x << "  " <<  stop_pos_pairs[i].pos_y;
     }
 
     // 画一个描边的矩形框

@@ -12,9 +12,14 @@
 #include "cstdio"
 #include "string"
 #include "sstream"
+#include "QObject"
 
-class BusControllerModel
+/**
+ * 控制公交车的类，继承了QObject
+ */
+class BusControllerModel : public QObject
 {
+    Q_OBJECT
 public:
     /**
      * 指向公交车所在站点的指针
@@ -32,7 +37,7 @@ public:
     int direction;
 
     /**
-     * 开始运行的时间
+     * 公交车的计时时刻
      */
     int bus_time;
 
@@ -64,6 +69,15 @@ public:
 
     std::string PrintState();
     bool JudgeOnStation();
+
+public slots:
+    /**
+     * 处理打开配置文件信号的槽函数
+     * @param file_name 配置文件名称
+     */
+    void ReadConfigFileSlot(const QString& file_name);
+
+
 
 private:
     /**

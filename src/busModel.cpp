@@ -2,7 +2,7 @@
 // Created by ricardo on 2022/6/10.
 //
 
-#include "busModel.h"
+#include "moc_busModel.cpp"
 
 BusControllerModel::BusControllerModel()
 {
@@ -13,12 +13,20 @@ BusControllerModel::BusControllerModel()
     rail_pos = rail_manager->rails;
     distance = 0;
     direction = BUS_STOP;
+
+    // 设置初始时间
+    bus_time = 0;
 }
 
 BusControllerModel::~BusControllerModel()
 {
     delete(rail_manager);
     delete(query_manager);
+}
+
+void BusControllerModel::ReadConfigFileSlot(const QString& file_name)
+{
+    ReadConfigFile(file_name.toStdString());
 }
 
 int BusControllerModel::GetBusPosition() const
@@ -291,3 +299,284 @@ void BusControllerModel::ReadConfigFile(const std::string& file_name)
     delete rail_manager;
     rail_manager = new RailsModel(node_space_length, total_station);
 }
+
+int BusControllerModel::FCFSDirection() const
+{
+    bus_query_t *p = query_manager->queries;
+
+    if(p == nullptr)
+    {
+        return BUS_STOP;
+    }   //如果没有请求，公交车停止
+
+    else
+    {
+        int clockwise = 0;
+        int counterclockwise = 0;   //用于顺，逆时针方向所经站台计数
+
+        /**
+         * 公交车当前所在位置
+         */
+        rail_node_t *now_position = rail_pos;
+        /**
+         * 公交车应该前进的方向
+         */
+        rail_node_t *target_position = p->node;
+
+        rail_node_t *pos = now_position;
+        while (pos != target_position) //顺时针计数
+        {
+            clockwise++;
+            pos = pos->next_node;
+        }
+
+        pos = now_position;
+        while (pos != target_position) //逆时针计数
+        {
+            counterclockwise++;
+            pos = pos->last_node;
+        }
+
+        if(clockwise <= counterclockwise)
+        {
+            return BUS_CLOCK_WISE;
+        }//若顺时针距离短(或顺逆相等)，公交车顺时针运行
+        else
+        {
+            return BUS_COUNTER_CLOCK_WISE;
+        }//若逆时针距离短，公交车逆时针运行
+    }
+}
+
+bus_query_t *BusControllerModel::FCFSQuery() const
+{
+    bus_query_t *result = nullptr;
+
+    if(query_manager->queries != nullptr)
+    {
+        if(rail_pos == query_manager->queries->node)
+        {
+            result = query_manager->queries;
+        }
+    }
+
+    return result;
+}
+
+bus_query_t *BusControllerModel::SSTFGetQuery()
+{
+    // 当前没有请求
+    if(query_manager->queries == nullptr)
+    {
+        return nullptr;
+    }
+    int length = 9999;
+    bus_query_t *query = nullptr;
+    bus_query_t *p = query_manager->queries;
+
+    // 遍历顺时针方向
+    // 在两个方向路程相同时选择顺时针方向
+    // 所以先遍历顺时针方向
+    while (p != nullptr)
+    {
+        int temp = GetQueryDistance(p, BUS_CLOCK_WISE);
+        if(temp < length)
+        {
+            length = temp;
+            query = p;
+        }
+        p = p->next_node;
+    }
+
+    // 遍历逆时针方向
+    p = query_manager->queries;
+    while (p != nullptr)
+    {
+        int temp = GetQueryDistance(p, BUS_COUNTER_CLOCK_WISE);
+        if(temp < length)
+        {
+            length = temp;
+            query = p;
+        }
+        p = p->next_node;
+    }
+
+    return query;
+}
+
+int BusControllerModel::SSTFDirection(bus_query_t *query)
+{
+    if (query == nullptr)
+    {
+        return BUS_STOP;
+    }
+
+    int length = GetQueryDistance(query, BUS_CLOCK_WISE);
+    if(length > total_distance / 2)
+    {
+        return BUS_COUNTER_CLOCK_WISE;
+    }
+    else if(length == 0)
+    {
+        return BUS_STOP;
+    }
+    else
+    {
+        return BUS_CLOCK_WISE;
+    }
+}
+
+bus_query_t *BusControllerModel::SSTFBTWQuery() const
+{
+    bus_query_t *query = query_manager->queries;
+    bus_query_t *allow_query = nullptr;
+    rail_node_t *now_node = rail_pos;
+
+    while (query != nullptr)
+    {
+        if(query->node == now_node)
+        {
+            // 这里是设计上的缺陷，在bus_time显示时间的前一秒，公交车就实际上到达站台了
+            if(query->time < bus_time - 1)
+            {
+                if(query->type == direction || query->type == BUS_TARGET)
+                {
+                    allow_query = query;
+                    break;
+                }
+            }
+        }
+        query = query->next_node;
+    }
+
+    return allow_query;
+}
+
+bus_query_t *BusControllerModel::SCANGetQuery()
+{
+    // 当前没有请求
+    if(query_manager->queries == nullptr)
+    {
+        return nullptr;
+    }
+
+    if(direction == BUS_STOP)
+    {
+        // 在停止的状态下第一次开始选择方向
+        int length = 9999;
+        bus_query_t *query = nullptr;
+        bus_query_t *p = query_manager->queries;
+
+        // 遍历顺时针方向
+        // 在两个方向路程相同时选择顺时针方向
+        // 所以先遍历顺时针方向
+        while (p != nullptr)
+        {
+            int temp = GetQueryDistance(p, BUS_CLOCK_WISE);
+            if(temp < length)
+            {
+                length = temp;
+                query = p;
+            }
+            p = p->next_node;
+        }
+
+        // 遍历逆时针方向
+        p = query_manager->queries;
+        while (p != nullptr)
+        {
+            int temp = GetQueryDistance(p, BUS_COUNTER_CLOCK_WISE);
+            if(temp < length)
+            {
+                length = temp;
+                query = p;
+            }
+            p = p->next_node;
+        }
+
+        return query;
+    }
+    else
+    {
+        // 在已经有方向的情况下处理方向
+        int length = 9999;
+        bus_query_t *query = nullptr;
+        bus_query_t *p = query_manager->queries;
+
+        while (p != nullptr)
+        {
+            int temp = GetQueryDistance(p, direction);
+            if(temp < length)
+            {
+                query = p;
+                length = temp;
+            }
+            p = p->next_node;
+        }
+
+        return query;
+    }
+}
+
+int BusControllerModel::SCANDirection(bus_query_t *query)
+{
+    if(query == nullptr)
+    {
+        return BUS_STOP;
+    }
+
+    if(direction == BUS_STOP)
+    {
+        int length = GetQueryDistance(query, BUS_CLOCK_WISE);
+        if(length > total_distance / 2)
+        {
+            return BUS_COUNTER_CLOCK_WISE;
+        }
+        else
+        {
+            return BUS_CLOCK_WISE;
+        }
+    }
+    else
+    {
+        int length = GetQueryDistance(query, direction);
+        if(length > total_distance / 2)
+        {
+            if(direction == BUS_CLOCK_WISE)
+            {
+                return BUS_COUNTER_CLOCK_WISE;
+            }
+            else
+            {
+                return BUS_CLOCK_WISE;
+            }
+        }
+        else
+        {
+            return direction;
+        }
+    }
+}
+
+bus_query_t *BusControllerModel::SCANBTWQuery() const
+{
+    rail_node_t *now_position = rail_pos;
+    //获取公交车当前所在站点
+    bus_query_t *p = query_manager->queries;
+
+    while(p != nullptr)
+    {
+        if(p->node == now_position)
+        {
+            if(p->time < bus_time - 1)
+            {
+                return p;
+            }
+        }
+        p = p->next_node;
+    }//遍历请求链表，判断是否有可以顺便处理的请求
+
+    return nullptr;
+}
+
+
