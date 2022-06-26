@@ -4,8 +4,47 @@
 
 #include "railsModel.h"
 
-RailsModel::RailsModel(int distance, int node_number)
+RailsModel::RailsModel()
 {
+    rails = nullptr;
+    node_num = 0;
+}
+
+RailsModel::~RailsModel()
+{
+    FreeRails();
+}
+
+rail_node_t *RailsModel::FindNode(int node_num) const
+{
+    if (rails == nullptr)
+    {
+        return nullptr;
+    }
+
+    rail_node_t *result = nullptr;
+    rail_node_t *node = rails;
+
+    do
+    {
+        if(node->id == node_num)
+        {
+            result = node;
+            break;
+        }
+        node = node->next_node;
+    } while (node != rails);
+
+    return result;
+}
+
+void RailsModel::CreateRails(int distance, int node_number)
+{
+    if(rails != nullptr)
+    {
+        FreeRails();
+    }
+
     rail_node_t *head;
     rail_node_t *node;
 
@@ -33,9 +72,10 @@ RailsModel::RailsModel(int distance, int node_number)
     head->last_node = node;
 
     rails = head;
+    node_num = node_number;
 }
 
-RailsModel::~RailsModel()
+void RailsModel::FreeRails()
 {
     rail_node_t *node = rails;
 
@@ -51,27 +91,4 @@ RailsModel::~RailsModel()
 
     // 将指针置为空
     rails = nullptr;
-}
-
-rail_node_t *RailsModel::FindNode(int node_num) const
-{
-    if (rails == nullptr)
-    {
-        return nullptr;
-    }
-
-    rail_node_t *result = nullptr;
-    rail_node_t *node = rails;
-
-    do
-    {
-        if(node->id == node_num)
-        {
-            result = node;
-            break;
-        }
-        node = node->next_node;
-    } while (node != rails);
-
-    return result;
 }
