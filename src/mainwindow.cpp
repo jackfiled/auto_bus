@@ -72,11 +72,11 @@ void MainWindow::ReadConfigFileButtonClicked()
 
     if(file_name.isEmpty())
     {
-        qDebug() << "文件名为空";
+        QMessageBox::warning(this, "警告", "文件名错误");
+        return;
     }
     else
     {
-        qDebug() << file_name;
         emit OpenConfigFileSignal(file_name);
     }
 }

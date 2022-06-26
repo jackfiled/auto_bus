@@ -16,7 +16,20 @@ QueryListItem::QueryListItem(const int &type, const int &node_id) : QWidget()
     this->setFixedHeight(20);
 
     // 设置文本
-    type_text.setText(QString::number(type));
+    switch (type)
+    {
+        case BUS_CLOCK_WISE:
+            type_text.setText(QString("顺时针上车"));
+            break;
+        case BUS_COUNTER_CLOCK_WISE:
+            type_text.setText(QString("逆时针上车"));
+            break;
+        case BUS_TARGET:
+            type_text.setText(QString("下车"));
+            break;
+        default:
+            break;
+    }
     target_pos_text.setText(QString::number(node_id));
     type_text.setFont(font);
     target_pos_text.setFont(font);

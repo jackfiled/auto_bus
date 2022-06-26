@@ -9,6 +9,7 @@
 #include "QListWidgetItem"
 #include "string"
 #include "list"
+#include "QMessageBox"
 
 #include "mainScene.h"
 #include "queryListItem.h"
@@ -30,19 +31,25 @@ public:
 
     ~CentralWidget() override;
 
+signals:
+    /**
+     * 添加一个请求的信号
+     */
+    void AppendQuerySignal(int type, int node);
+
 public slots:
     /**
      * 处理添加一个请求的槽函数
      * @param query_type 请求的类型
      * @param node_id 请求指向的站点id
      */
-    void AppendQueryItem(int query_type, int node_id);
+    void AppendQueryItemSlot(int query_type, int node_id);
 
     /**
      * 处理删除一个请求的槽函数
      * @param query_id 请求的编号
      */
-    void DeleteQueryItem(int query_id);
+    void DeleteQueryItemSlot(int query_id);
 
     /**
      * 处理点击添加请求按钮的槽函数

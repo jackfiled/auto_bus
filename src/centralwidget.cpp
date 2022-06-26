@@ -35,12 +35,21 @@ void CentralWidget::SetControlConnection()
     // 处理轨道重新设置事件
     QObject::connect(controller, &BusControllerModel::RailsCreated,
                      this, &CentralWidget::SetRailsScene);
+
+    // 处理添加请求事件
+    QObject::connect(this, &CentralWidget::AppendQuerySignal,
+                     controller, &BusControllerModel::AddQuerySlot);
 }
 
 void CentralWidget::SetWidgetConnection()
 {
+    // 处理点击创建请求按钮事件
     QObject::connect(ui->create_query_button, &QPushButton::clicked,
                      this, &CentralWidget::AddQueryButtonClicked);
+
+    // 处理添加请求事件
+    QObject::connect(this, &CentralWidget::AppendQuerySignal,
+                     this, &CentralWidget::AppendQueryItemSlot);
 }
 
 void CentralWidget::SetupQueryList()
@@ -66,7 +75,7 @@ void CentralWidget::DeleteQueryList()
     query_items.clear();
 }
 
-void CentralWidget::AppendQueryItem(int query_type, int node_id)
+void CentralWidget::AppendQueryItemSlot(int query_type, int node_id)
 {
     QueryListItem *item = new QueryListItem(query_type, node_id);
 
@@ -78,7 +87,7 @@ void CentralWidget::AppendQueryItem(int query_type, int node_id)
     ui->query_list->setItemWidget(widget_item, item);
 }
 
-void CentralWidget::DeleteQueryItem(int query_id)
+void CentralWidget::DeleteQueryItemSlot(int query_id)
 {
     // 由于表头的存在，且请求的编号从1开始，请求的编号恰好就是请求在列表中的位置
     QListWidgetItem *deleted_widget = ui->query_list->takeItem(query_id);
@@ -97,7 +106,17 @@ void CentralWidget::DeleteQueryItem(int query_id)
 
 void CentralWidget::AddQueryButtonClicked()
 {
+    int query_type = ui->query_type_combo->currentIndex();
+    int node_id = ui->query_node_combo->currentIndex() + 1;
 
+    if(node_id == 0)
+    {
+        //此时还没有读取配置文件
+        QMessageBox::warning(this, "警告", "请先读取配置文件");
+        return;
+    }
+
+    emit AppendQuerySignal(query_type, node_id);
 }
 
 void CentralWidget::SetRailsScene(int node_num)

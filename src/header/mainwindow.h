@@ -8,6 +8,7 @@
 #include <QMainWindow>
 #include "QFileDialog"
 #include "QThread"
+#include "QMessageBox"
 
 #include "centralwidget.h"
 #include "busModel.h"

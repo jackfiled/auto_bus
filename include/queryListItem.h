@@ -9,6 +9,8 @@
 #include "QLabel"
 #include "QHBoxLayout"
 
+#include "define.h"
+
 class QueryListItem : public QWidget
 {
     Q_OBJECT
