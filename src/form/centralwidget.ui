@@ -29,32 +29,6 @@
     </rect>
    </property>
   </widget>
-  <widget class="QWidget" name="verticalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>659</x>
-     <y>-1</y>
-     <width>201</width>
-     <height>411</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QPushButton" name="test_button">
-      <property name="text">
-       <string>测试输出</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>控制面板</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
   <widget class="QTextEdit" name="text_output">
    <property name="geometry">
     <rect>
@@ -77,6 +51,105 @@
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>160</y>
+     <width>121</width>
+     <height>231</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="label_2">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>添加请求</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_3">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>请求类型</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QComboBox" name="query_type_combo">
+      <item>
+       <property name="text">
+        <string>顺时针上车</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>逆时针上车</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>下车</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>目标站点</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QComboBox" name="query_node_combo"/>
+    </item>
+    <item>
+     <widget class="QPushButton" name="create_query_button">
+      <property name="text">
+       <string>创建请求</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>600</x>
+     <y>170</y>
+     <width>161</width>
+     <height>221</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>请求列表</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QListWidget" name="query_list"/>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
