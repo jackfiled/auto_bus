@@ -47,9 +47,9 @@ public slots:
 
     /**
      * 处理删除一个请求的槽函数
-     * @param query_id 请求的编号
+     * @param query 请求的编号
      */
-    void DeleteQueryItemSlot(int query_id);
+    void DeleteQueryItemSlot(bus_query_t *query);
 
     /**
      * 处理点击添加请求按钮的槽函数

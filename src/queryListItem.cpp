@@ -6,6 +6,9 @@
 
 QueryListItem::QueryListItem(const int &type, const int &node_id) : QWidget()
 {
+    query_type = type;
+    target_node_id = node_id;
+
     QFont font("Microsoft YaHei", 10, 75);
     layout = new QHBoxLayout(this);
 

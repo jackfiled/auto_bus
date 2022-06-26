@@ -39,6 +39,9 @@ void CentralWidget::SetControlConnection()
     // 处理添加请求事件
     QObject::connect(this, &CentralWidget::AppendQuerySignal,
                      controller, &BusControllerModel::AddQuerySlot);
+
+    QObject::connect(controller, &BusControllerModel::DeleteQuerySignal,
+                     this, &CentralWidget::DeleteQueryItemSlot);
 }
 
 void CentralWidget::SetWidgetConnection()
@@ -87,21 +90,32 @@ void CentralWidget::AppendQueryItemSlot(int query_type, int node_id)
     ui->query_list->setItemWidget(widget_item, item);
 }
 
-void CentralWidget::DeleteQueryItemSlot(int query_id)
+void CentralWidget::DeleteQueryItemSlot(bus_query_t *query)
 {
-    // 由于表头的存在，且请求的编号从1开始，请求的编号恰好就是请求在列表中的位置
-    QListWidgetItem *deleted_widget = ui->query_list->takeItem(query_id);
+    // 由于请求列表头的存在，编号从1开始
+    int query_id = 1;
 
-    auto itor = query_items.begin();
+    for(auto itor = query_items.begin(); itor != query_items.end(); ++itor)
+    {
+        if((*itor)->query_type == query->type and (*itor)->target_node_id == query->node->id)
+        {
+            break;
+        }
+        query_id++;
+    }
+
+     QListWidgetItem *deleted_item = ui->query_list->takeItem(query_id);
+
+    auto pos = query_items.begin();
 
     for(int i = 0; i < query_id; i++)
     {
-        ++itor;
+        ++pos;
     }
 
-    delete deleted_widget;
-    delete *itor;
-    query_items.erase(itor);
+    delete deleted_item;
+    query_items.erase(pos);
+    delete *pos;
 }
 
 void CentralWidget::AddQueryButtonClicked()

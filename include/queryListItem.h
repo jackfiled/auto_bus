@@ -19,6 +19,10 @@ public:
 
     void SetColumnName();
 
+    int query_type;
+
+    int target_node_id;
+
 private:
     /**
      * 请求的类型
