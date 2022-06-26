@@ -68,7 +68,16 @@ public:
      */
     ~BusControllerModel();
 
+    /**
+     * 打印当前状态
+     * @return 状态的字符串
+     */
     std::string PrintState();
+
+    /**
+     * 判断公交车是否到站
+     * @return
+     */
     bool JudgeOnStation();
 
 public slots:
@@ -85,6 +94,22 @@ public slots:
      */
     void AddQuerySlot(int query_type, int node_id) const;
 
+    /**
+     * 删除上下车请求的槽函数
+     * @param query
+     */
+    void DeleteQuerySlot(bus_query_t *query) const;
+
+    /**
+     * 获得公交车应该前进方向的槽函数
+     */
+    void GetBusDirectionSlot();
+
+    /**
+     * 处理公交车可以处理请求的槽函数
+     */
+    void HandleQuerySlot();
+
 signals:
     /**
      * 创建轨道链表完成的信号
@@ -93,9 +118,10 @@ signals:
     void RailsCreated(int node_num);
 
     /**
-     * 请求发生修改的槽函数
+     * 删除指定请求的信号
+     * @param query 需要删除的请求
      */
-    void QueryChangedSignal();
+    void DeleteQuerySignal(bus_query_t *query);
 
 
 private:
@@ -103,6 +129,10 @@ private:
      * 轨道的总长度
      */
     int total_distance = 10;
+
+    bus_query_t *target_query;
+
+    void SetConnection() const;
 
     /**
      * 获得公交车当前所在的位置
@@ -145,10 +175,9 @@ private:
     /**
      * 根据指定的请求获得前进的方向，也就是前往指定的请求最近的方向
      * 在SSTF策略中使用
-     * @param query 指定完成的请求
      * @return 前进的方向
      */
-    int SSTFDirection(bus_query_t* query);
+    int SSTFDirection();
 
     /**
      * 在当前站上可以顺便服务的请求
@@ -168,7 +197,7 @@ private:
      * @param query 指定完成的请求
      * @return 前进的方向
      */
-    int SCANDirection(bus_query_t *query);
+    int SCANDirection();
 
     /**
      * 在当前站上可以顺便服务的请求

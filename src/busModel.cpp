@@ -13,15 +13,24 @@ BusControllerModel::BusControllerModel()
     rail_pos = rail_manager->rails;
     distance = 0;
     direction = BUS_STOP;
+    target_query = nullptr;
 
     // 设置初始时间
     bus_time = 0;
+
+    SetConnection();
 }
 
 BusControllerModel::~BusControllerModel()
 {
     delete(rail_manager);
     delete(query_manager);
+}
+
+void BusControllerModel::SetConnection() const
+{
+    QObject::connect(this, &BusControllerModel::DeleteQuerySignal,
+                     this, &BusControllerModel::DeleteQuerySlot);
 }
 
 void BusControllerModel::ReadConfigFileSlot(const QString& file_name)
@@ -33,6 +42,102 @@ void BusControllerModel::AddQuerySlot(int query_type, int node_id) const
 {
     rail_node_t *node_pos = rail_manager->FindNode(node_id);
     query_manager->CreateQuery(query_type, node_pos);
+}
+
+void BusControllerModel::DeleteQuerySlot(bus_query_t *query) const
+{
+    query_manager->DeleteQuery(query);
+}
+
+void BusControllerModel::GetBusDirectionSlot()
+{
+    switch (chosen_strategy)
+    {
+        case BUS_FCFS:
+            direction = FCFSDirection();
+            break;
+        case BUS_SSTF:
+            if(target_query == nullptr)
+            {
+                target_query = SSTFGetQuery();
+            }
+            direction = SSTFDirection();
+        case BUS_SCAN:
+            if(target_query == nullptr)
+            {
+                target_query = SCANGetQuery();
+            }
+            direction = SCANDirection();
+        default:
+            break;
+    }
+}
+
+
+void BusControllerModel::HandleQuerySlot()
+{
+    bus_query_t *finished_query;
+
+    switch (chosen_strategy)
+    {
+        case BUS_FCFS:
+            finished_query = FCFSQuery();
+            while (finished_query != nullptr)
+            {
+                emit DeleteQuerySignal(finished_query);
+                finished_query = FCFSQuery();
+            }
+            break;
+        case BUS_SSTF:
+            if(target_query == nullptr)
+            {
+                // 这里可能需要处理一下新生成的请求可以处理的情况
+            }
+            else if(target_query->node == rail_pos)
+            {
+                // 到达目标站点
+                while (target_query != nullptr and target_query->node == rail_pos)
+                {
+                    emit DeleteQuerySignal(target_query);
+                    target_query = SSTFGetQuery();
+                }
+            }
+            else
+            {
+                // 顺便处理请求
+                finished_query = SSTFBTWQuery();
+                while (finished_query != nullptr)
+                {
+                    emit DeleteQuerySignal(finished_query);
+                    finished_query = SSTFBTWQuery();
+                }
+            }
+            break;
+        case BUS_SCAN:
+            if(target_query == nullptr)
+            {
+                // 这里可能需要处理一下新生成的请求可以处理的情况
+            }
+            else if(target_query->node == rail_pos)
+            {
+                // 到达目标站点
+                while (target_query != nullptr and target_query->node == rail_pos)
+                {
+                    emit DeleteQuerySignal(target_query);
+                    target_query = SCANGetQuery();
+                }
+            }
+            else
+            {
+                // 顺便处理
+                finished_query = SCANBTWQuery();
+                while (finished_query != nullptr)
+                {
+                    emit DeleteQuerySignal(finished_query);
+                    finished_query = SCANBTWQuery();
+                }
+            }
+    }
 }
 
 /*
@@ -416,14 +521,14 @@ bus_query_t *BusControllerModel::SSTFGetQuery()
     return query;
 }
 
-int BusControllerModel::SSTFDirection(bus_query_t *query)
+int BusControllerModel::SSTFDirection()
 {
-    if (query == nullptr)
+    if (target_query == nullptr)
     {
         return BUS_STOP;
     }
 
-    int length = GetQueryDistance(query, BUS_CLOCK_WISE);
+    int length = GetQueryDistance(target_query, BUS_CLOCK_WISE);
     if(length > total_distance / 2)
     {
         return BUS_COUNTER_CLOCK_WISE;
@@ -530,16 +635,16 @@ bus_query_t *BusControllerModel::SCANGetQuery()
     }
 }
 
-int BusControllerModel::SCANDirection(bus_query_t *query)
+int BusControllerModel::SCANDirection()
 {
-    if(query == nullptr)
+    if(target_query == nullptr)
     {
         return BUS_STOP;
     }
 
     if(direction == BUS_STOP)
     {
-        int length = GetQueryDistance(query, BUS_CLOCK_WISE);
+        int length = GetQueryDistance(target_query, BUS_CLOCK_WISE);
         if(length > total_distance / 2)
         {
             return BUS_COUNTER_CLOCK_WISE;
@@ -551,7 +656,7 @@ int BusControllerModel::SCANDirection(bus_query_t *query)
     }
     else
     {
-        int length = GetQueryDistance(query, direction);
+        int length = GetQueryDistance(target_query, direction);
         if(length > total_distance / 2)
         {
             if(direction == BUS_CLOCK_WISE)
