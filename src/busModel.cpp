@@ -304,11 +304,11 @@ void BusControllerModel::ReadConfigFile(const std::string& file_name)
         chosen_strategy = BUS_FCFS;
     }
 
-    qDebug() << node_space_length << total_station;
     // 得到轨道的总长度
     total_distance = node_space_length * total_station;
     rail_manager->CreateRails(node_space_length, total_station);
 
+    // 发射信号说明创建完毕
     emit RailsCreated(total_station);
 }
 

@@ -45,8 +45,14 @@ public:
      * 构造函数，同时生成站点
      * @param stop_node_number 站点的数量
      */
-    explicit SceneManager(int stop_node_number);
+    explicit SceneManager();
     ~SceneManager();
+
+    /**
+     * 生成站点画面
+     * @param node_number
+     */
+    void SetStopScene(int node_number);
 
 private:
     /**
@@ -58,7 +64,21 @@ private:
      */
     PosPair *stop_pos_pairs;
 
+    /**
+     * 总共的站点数量
+     */
+    int stop_node_number;
+
+    /**
+     * 一个矩形的边框
+     * 使无论中间存在多少站点，这个scene都能在view的中心
+     */
     QGraphicsRectItem *rect_item;
+
+    /**
+     * 清除画面
+     */
+    void ClearScene();
 };
 
 #endif //AUTO_BUS_GUI_MAIN_SCENE_H

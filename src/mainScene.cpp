@@ -4,12 +4,33 @@
 
 #include "mainScene.h"
 
-SceneManager::SceneManager(int stop_node_number)
+SceneManager::SceneManager()
 {
     scene = new QGraphicsScene;
+    stop_node_number = 0;
+    pixmap_items = nullptr;
+    stop_pos_pairs = nullptr;
+    rect_item = new QGraphicsRectItem;
+
+    // 画一个描边的矩形框
+    rect_item->setRect(0, 0, 595, 395);
+    scene->addItem(rect_item);
+}
+
+SceneManager::~SceneManager()
+{
+    ClearScene();
+    delete scene;
+}
+
+void SceneManager::SetStopScene(int node_number)
+{
+    // 先清除以下屏幕
+    ClearScene();
+
+    stop_node_number = node_number;
     pixmap_items = new QGraphicsPixmapItem[stop_node_number];
     stop_pos_pairs = new PosPair[stop_node_number];
-    rect_item = new QGraphicsRectItem;
 
     int stop_space_length = stop_pos_pairs->GetStopSpaceLength(stop_node_number);
     double stop_scale = 0.15;
@@ -36,17 +57,18 @@ SceneManager::SceneManager(int stop_node_number)
         }
         pixmap_items[i].setPos(stop_pos_pairs[i].pos_x, stop_pos_pairs[i].pos_y);
     }
-
-    // 画一个描边的矩形框
-    rect_item->setRect(0, 0, 595, 395);
-    scene->addItem(rect_item);
 }
 
-SceneManager::~SceneManager()
+void SceneManager::ClearScene()
 {
-    delete []stop_pos_pairs;
+    // 从画布中移除所有的站点图片
+    for(int i = 0; i < stop_node_number; i++)
+    {
+        scene->removeItem(&pixmap_items[i]);
+    }
+
     delete []pixmap_items;
-    delete scene;
+    delete []stop_pos_pairs;
 }
 
 PosPair::PosPair()
@@ -85,7 +107,7 @@ void PosPair::AddLength(int length)
         // 站点在右轨道
 
         pos_x = stop_begin_x + stop_rail_width;
-        pos_y = stop_begin_y + stop_rail_width + stop_rail_height - distance;
+        pos_y = stop_begin_y + distance - stop_rail_width;
     }
     else
     {

@@ -11,7 +11,7 @@
 CentralWidget::CentralWidget(QWidget *parent, BusControllerModel *bus_controller) : QWidget(parent), ui(new Ui::CentralWidget)
 {
     ui->setupUi(this);
-    scene_manager = new SceneManager(20);
+    scene_manager = new SceneManager;
 
     ui->main_canva->setScene(scene_manager->scene);
 
@@ -32,7 +32,9 @@ CentralWidget::~CentralWidget()
 
 void CentralWidget::SetControlConnection()
 {
-
+    // 处理轨道重新设置事件
+    QObject::connect(controller, &BusControllerModel::RailsCreated,
+                     this, &CentralWidget::SetRailsScene);
 }
 
 void CentralWidget::SetWidgetConnection()
@@ -96,4 +98,21 @@ void CentralWidget::DeleteQueryItem(int query_id)
 void CentralWidget::AddQueryButtonClicked()
 {
 
+}
+
+void CentralWidget::SetRailsScene(int node_num)
+{
+    scene_manager->SetStopScene(node_num);
+    SetRailsComboBox(node_num);
+}
+
+void CentralWidget::SetRailsComboBox(int node_num)
+{
+    ui->query_node_combo->clear();
+
+    for(int i = 1; i <= node_num; i++)
+    {
+        QString node_str = QString::asprintf("第%d站", i);
+        ui->query_node_combo->addItem(node_str);
+    }
 }

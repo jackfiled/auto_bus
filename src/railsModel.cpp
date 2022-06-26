@@ -12,7 +12,10 @@ RailsModel::RailsModel()
 
 RailsModel::~RailsModel()
 {
-    FreeRails();
+    if(rails != nullptr)
+    {
+        FreeRails();
+    }
 }
 
 rail_node_t *RailsModel::FindNode(int node_num) const

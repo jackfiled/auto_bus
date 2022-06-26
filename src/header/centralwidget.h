@@ -49,6 +49,14 @@ public slots:
      */
     void AddQueryButtonClicked();
 
+    /**
+     * 处理轨道重新生成的槽函数
+     * 重绘轨道画面
+     * 重新设置站点选择下拉栏
+     * @param node_num
+     */
+    void SetRailsScene(int node_num);
+
 private:
     /**
      * UI控件
@@ -90,6 +98,11 @@ private:
      * 清除展示对象占用的内存空间
      */
     void DeleteQueryList();
+
+    /**
+     * 设置站点选择下拉栏
+     */
+    void SetRailsComboBox(int node_num);
 };
 
 
