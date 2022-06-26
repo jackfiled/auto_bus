@@ -13,6 +13,7 @@
 #include "string"
 #include "sstream"
 #include "QObject"
+#include "QDebug"
 
 /**
  * 控制公交车的类，继承了QObject
@@ -77,6 +78,24 @@ public slots:
      */
     void ReadConfigFileSlot(const QString& file_name);
 
+    /**
+     * 创建上下车请求的槽函数
+     * @param query_type 请求的类型
+     * @param node_id 请求站点的id
+     */
+    void AddQuerySlot(int query_type, int node_id) const;
+
+signals:
+    /**
+     * 创建轨道链表完成的信号
+     * @param node_num 轨道上节点的个数
+     */
+    void RailsCreated(int node_num);
+
+    /**
+     * 请求发生修改的槽函数
+     */
+    void QueryChangedSignal();
 
 
 private:

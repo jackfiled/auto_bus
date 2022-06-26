@@ -6,16 +6,19 @@
 
 #include "header/moc_centralwidget.cpp"
 #include "form/ui_CentralWidget.h"
-#include "centralwidget.h"
 
 
-CentralWidget::CentralWidget(QWidget *parent) : QWidget(parent), ui(new Ui::CentralWidget)
+CentralWidget::CentralWidget(QWidget *parent, BusControllerModel *bus_controller) : QWidget(parent), ui(new Ui::CentralWidget)
 {
     ui->setupUi(this);
     scene_manager = new SceneManager(20);
 
     ui->main_canva->setScene(scene_manager->scene);
 
+    controller = bus_controller;
+
+    SetControlConnection();
+    SetWidgetConnection();
     SetupQueryList();
 }
 
@@ -25,6 +28,17 @@ CentralWidget::~CentralWidget()
 
     delete scene_manager;
     delete ui;
+}
+
+void CentralWidget::SetControlConnection()
+{
+
+}
+
+void CentralWidget::SetWidgetConnection()
+{
+    QObject::connect(ui->create_query_button, &QPushButton::clicked,
+                     this, &CentralWidget::AddQueryButtonClicked);
 }
 
 void CentralWidget::SetupQueryList()
@@ -77,4 +91,9 @@ void CentralWidget::DeleteQueryItem(int query_id)
     delete deleted_widget;
     delete *itor;
     query_items.erase(itor);
+}
+
+void CentralWidget::AddQueryButtonClicked()
+{
+
 }

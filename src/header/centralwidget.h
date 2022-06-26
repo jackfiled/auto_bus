@@ -12,6 +12,7 @@
 
 #include "mainScene.h"
 #include "queryListItem.h"
+#include "busModel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -25,7 +26,7 @@ class CentralWidget : public QWidget
 Q_OBJECT
 
 public:
-    explicit CentralWidget(QWidget *parent = nullptr);
+    explicit CentralWidget(QWidget *parent = nullptr, BusControllerModel *bus_controller = nullptr);
 
     ~CentralWidget() override;
 
@@ -37,7 +38,16 @@ public slots:
      */
     void AppendQueryItem(int query_type, int node_id);
 
+    /**
+     * 处理删除一个请求的槽函数
+     * @param query_id 请求的编号
+     */
     void DeleteQueryItem(int query_id);
+
+    /**
+     * 处理点击添加请求按钮的槽函数
+     */
+    void AddQueryButtonClicked();
 
 private:
     /**
@@ -51,9 +61,24 @@ private:
     SceneManager *scene_manager;
 
     /**
+     * 公交车控制器
+     */
+    BusControllerModel *controller;
+
+    /**
      * 请求列表中的对象
      */
     std::list<QueryListItem *> query_items;
+
+    /**
+     * 设置同控制器的连接
+     */
+    void SetControlConnection();
+
+    /**
+     * 设置同控件的连接
+     */
+    void SetWidgetConnection();
 
     /**
      * 初始化请求展示列表

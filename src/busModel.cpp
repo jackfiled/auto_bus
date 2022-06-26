@@ -29,6 +29,17 @@ void BusControllerModel::ReadConfigFileSlot(const QString& file_name)
     ReadConfigFile(file_name.toStdString());
 }
 
+void BusControllerModel::AddQuerySlot(int query_type, int node_id) const
+{
+    rail_node_t *node_pos = rail_manager->FindNode(node_id);
+    query_manager->CreateQuery(query_type, node_pos);
+}
+
+/*
+ * 以下函数的实现移植自auto_pilot_bus
+ * 源程序采用C写成
+ */
+
 int BusControllerModel::GetBusPosition() const
 {
     int result = 0;
@@ -293,11 +304,12 @@ void BusControllerModel::ReadConfigFile(const std::string& file_name)
         chosen_strategy = BUS_FCFS;
     }
 
+    qDebug() << node_space_length << total_station;
     // 得到轨道的总长度
     total_distance = node_space_length * total_station;
-    // 重新生成轨道模型
-    delete rail_manager;
-    rail_manager = new RailsModel(node_space_length, total_station);
+    rail_manager->CreateRails(node_space_length, total_station);
+
+    emit RailsCreated(total_station);
 }
 
 int BusControllerModel::FCFSDirection() const
