@@ -45,6 +45,8 @@ public:
      */
     int node_num;
 
+    int total_distance;
+
     explicit RailsModel();
 
     ~RailsModel();

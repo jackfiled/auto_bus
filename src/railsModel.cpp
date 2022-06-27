@@ -8,6 +8,7 @@ RailsModel::RailsModel()
 {
     rails = nullptr;
     node_num = 0;
+    total_distance = 0;
 }
 
 RailsModel::~RailsModel()
@@ -76,6 +77,7 @@ void RailsModel::CreateRails(int distance, int node_number)
 
     rails = head;
     node_num = node_number;
+    total_distance = node_number * distance;
 }
 
 void RailsModel::FreeRails()
