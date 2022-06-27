@@ -11,14 +11,12 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     ui = new Ui::MainWindow;
-    controller = new BusControllerModel;
     worker_thread = new QThread;
 
     // 开始多线程
-    controller->moveToThread(worker_thread);
     worker_thread->start();
 
-    central_widget = new CentralWidget(nullptr, controller);
+    central_widget = new CentralWidget(nullptr);
 
     ui->setupUi(this);
     this->setCentralWidget(central_widget);
@@ -32,7 +30,6 @@ MainWindow::~MainWindow()
 
     delete ui;
     delete central_widget;
-    delete controller;
     delete worker_thread;
 }
 
@@ -57,8 +54,7 @@ void MainWindow::SetMenuBarConnection()
 
 void MainWindow::SetControlConnection()
 {
-    QObject::connect(this, &MainWindow::OpenConfigFileSignal,
-                     controller, &BusControllerModel::ReadConfigFileSlot);
+
 }
 
 void MainWindow::ReadConfigFileButtonClicked()

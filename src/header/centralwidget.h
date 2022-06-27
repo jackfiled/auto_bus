@@ -27,7 +27,7 @@ class CentralWidget : public QWidget
 Q_OBJECT
 
 public:
-    explicit CentralWidget(QWidget *parent = nullptr, BusControllerModel *bus_controller = nullptr);
+    explicit CentralWidget(QWidget *parent = nullptr);
 
     ~CentralWidget() override;
 
@@ -74,11 +74,6 @@ private:
      * 画图的场景管理器
      */
     SceneManager *scene_manager;
-
-    /**
-     * 公交车控制器
-     */
-    BusControllerModel *controller;
 
     /**
      * 请求列表中的对象

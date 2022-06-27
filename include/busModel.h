@@ -14,137 +14,39 @@
 #include "sstream"
 #include "QObject"
 #include "QDebug"
+#include "QTimer"
 
 /**
- * 控制公交车的类，继承了QObject
+ * 公交车模型类
  */
-class BusControllerModel : public QObject
+class BusModel
 {
-    Q_OBJECT
 public:
-    /**
-     * 指向公交车所在站点的指针
-     */
     rail_node_t *rail_pos;
 
     /**
-     * 当前行进的距离
+     * 公交车前进的速度
      */
-    int distance;
+    const int velocity = 1;
 
     /**
      * 当前前进的方向
      */
     int direction;
 
-    /**
-     * 公交车的计时时刻
-     */
-    int bus_time;
+    QTimer *bus_timer;
+
+    explicit BusModel();
+
+    ~BusModel();
 
     /**
-     * 轨道对象
+     * 重置公交车
+     * @param head 轨道的头节点位置
      */
-    RailsModel *rail_manager;
+    void ResetBus(rail_node_t *head);
 
-    /**
-     * 请求控制对象
-     */
-    QueryModel *query_manager;
-
-    /**
-     * 选定的策略
-     */
-    int chosen_strategy = -1;
-
-    /**
-     * 构造函数
-     *
-     */
-    BusControllerModel();
-
-    /**
-     * 析构函数
-     */
-    ~BusControllerModel();
-
-    /**
-     * 打印当前状态
-     * @return 状态的字符串
-     */
-    std::string PrintState();
-
-    /**
-     * 判断公交车是否到站
-     * @return
-     */
-    bool JudgeOnStation();
-
-public slots:
-    /**
-     * 处理打开配置文件信号的槽函数
-     * @param file_name 配置文件名称
-     */
-    void ReadConfigFileSlot(const QString& file_name);
-
-    /**
-     * 创建上下车请求的槽函数
-     * @param query_type 请求的类型
-     * @param node_id 请求站点的id
-     */
-    void AddQuerySlot(int query_type, int node_id) const;
-
-    /**
-     * 删除上下车请求的槽函数
-     * @param query
-     */
-    void DeleteQuerySlot(bus_query_t *query) const;
-
-    /**
-     * 获得公交车应该前进方向的槽函数
-     */
-    void GetBusDirectionSlot();
-
-    /**
-     * 处理公交车可以处理请求的槽函数
-     */
-    void HandleQuerySlot();
-
-signals:
-    /**
-     * 创建轨道链表完成的信号
-     * @param node_num 轨道上节点的个数
-     */
-    void RailsCreated(int node_num);
-
-    /**
-     * 删除指定请求的信号
-     * @param query 需要删除的请求
-     */
-    void DeleteQuerySignal(bus_query_t *query);
-
-
-private:
-    /**
-     * 轨道的总长度
-     */
-    int total_distance = 10;
-
-    bus_query_t *target_query;
-
-    void SetConnection() const;
-
-    /**
-     * 获得公交车当前所在的位置
-     * @return 公交车当前所在的位置
-     */
-    int GetBusPosition() const;
-
-    /**
-     * 读取指定的配置文件
-     * @param file_name 提供的配置文件路径
-     */
-    void ReadConfigFile(const std::string& file_name);
+    double GetBusPosition();
 
     /**
      * 给出在指定的方向下，指定的请求于公交车当前位置的距离
@@ -154,56 +56,16 @@ private:
      */
     int GetQueryDistance(bus_query_t *query, int orientation) const;
 
+private:
     /**
-     * 在先来先服务策略下应该前进的方向
-     * @return 前进的方向
+     * 轨道的头节点
      */
-    int FCFSDirection() const;
+    rail_node_t *rail_head;
 
     /**
-     * 在先来先服务策略下给出处理的请求
-     * @return 需要处理的请求
+     * 当前指定处理的请求
      */
-    bus_query_t *FCFSQuery() const;
-
-    /**
-     * 获得在SSTF策略下应该处理的请求
-     * @return 指向需要处理的请求的指针
-     */
-    bus_query_t *SSTFGetQuery();
-
-    /**
-     * 根据指定的请求获得前进的方向，也就是前往指定的请求最近的方向
-     * 在SSTF策略中使用
-     * @return 前进的方向
-     */
-    int SSTFDirection();
-
-    /**
-     * 在当前站上可以顺便服务的请求
-     * @return 服务的请求指针
-     */
-    bus_query_t *SSTFBTWQuery() const;
-
-    /**
-     * 获得在SCAN策略下应该处理的请求
-     * @return 指向需要处理的请求的指针
-     */
-    bus_query_t *SCANGetQuery();
-
-    /**
-     * 根据指定的请求获得前进的方向
-     * 在SCAN策略中使用
-     * @param query 指定完成的请求
-     * @return 前进的方向
-     */
-    int SCANDirection();
-
-    /**
-     * 在当前站上可以顺便服务的请求
-     * @return 服务的请求指针
-     */
-    bus_query_t *SCANBTWQuery() const;
+    bus_query_t *target_query;
 };
 
 #endif //AUTO_BUS_GUI_BUS_MODEL_H

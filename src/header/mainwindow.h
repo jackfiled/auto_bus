@@ -82,10 +82,6 @@ private:
      * 中间的显示框架
      */
     CentralWidget *central_widget;
-    /**
-     * 控制类
-     */
-    BusControllerModel *controller;
 
     QThread *worker_thread;
 

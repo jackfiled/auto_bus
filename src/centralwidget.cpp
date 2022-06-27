@@ -8,14 +8,12 @@
 #include "form/ui_CentralWidget.h"
 
 
-CentralWidget::CentralWidget(QWidget *parent, BusControllerModel *bus_controller) : QWidget(parent), ui(new Ui::CentralWidget)
+CentralWidget::CentralWidget(QWidget *parent) : QWidget(parent), ui(new Ui::CentralWidget)
 {
     ui->setupUi(this);
     scene_manager = new SceneManager;
 
     ui->main_canva->setScene(scene_manager->scene);
-
-    controller = bus_controller;
 
     SetControlConnection();
     SetWidgetConnection();
@@ -32,16 +30,7 @@ CentralWidget::~CentralWidget()
 
 void CentralWidget::SetControlConnection()
 {
-    // 处理轨道重新设置事件
-    QObject::connect(controller, &BusControllerModel::RailsCreated,
-                     this, &CentralWidget::SetRailsScene);
 
-    // 处理添加请求事件
-    QObject::connect(this, &CentralWidget::AppendQuerySignal,
-                     controller, &BusControllerModel::AddQuerySlot);
-
-    QObject::connect(controller, &BusControllerModel::DeleteQuerySignal,
-                     this, &CentralWidget::DeleteQueryItemSlot);
 }
 
 void CentralWidget::SetWidgetConnection()
