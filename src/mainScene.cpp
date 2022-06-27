@@ -25,7 +25,7 @@ SceneManager::~SceneManager()
 
 void SceneManager::SetStopScene(int node_number)
 {
-    // 先清除以下屏幕
+    // 先清除屏幕
     ClearScene();
 
     stop_node_number = node_number;
@@ -116,4 +116,44 @@ void PosPair::AddLength(int length)
         pos_y = stop_begin_y;
         pos_x = stop_begin_x + distance;
     }
+}
+
+int PosPair::GetBusPosX() const
+{
+    int result;
+
+    if(pos_x <= stop_begin_x)
+    {
+        result = stop_begin_x - stop_bus_distance;
+    }
+    else if(pos_x >= stop_begin_x + stop_rail_width)
+    {
+        result = pos_x + stop_bus_distance;
+    }
+    else
+    {
+        result = pos_x;
+    }
+
+    return result;
+}
+
+int PosPair::GetBusPosY() const
+{
+    int result;
+
+    if(pos_y <= stop_begin_y)
+    {
+        result = stop_begin_y - stop_bus_distance;
+    }
+    else if(pos_y >= stop_begin_y + stop_rail_width)
+    {
+        result = pos_y + stop_bus_distance;
+    }
+    else
+    {
+        result = pos_y;
+    }
+
+    return result;
 }
