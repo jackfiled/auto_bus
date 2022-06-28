@@ -10,6 +10,7 @@ SceneManager::SceneManager()
     stop_node_number = 0;
     pixmap_items = nullptr;
     stop_pos_pairs = nullptr;
+    name_items = nullptr;
     rect_item = new QGraphicsRectItem;
     bus = new BusWidget;
 
@@ -38,6 +39,7 @@ void SceneManager::SetStopScene(int node_number)
     stop_node_number = node_number;
     pixmap_items = new QGraphicsPixmapItem[stop_node_number];
     stop_pos_pairs = new PosPair[stop_node_number];
+    name_items = new QGraphicsSimpleTextItem[stop_node_number];
 
     int stop_space_length = stop_pos_pairs->GetStopSpaceLength(stop_node_number);
     double stop_scale = 0.15;
@@ -65,6 +67,14 @@ void SceneManager::SetStopScene(int node_number)
         pixmap_items[i].setPos(stop_pos_pairs[i].pos_x, stop_pos_pairs[i].pos_y);
     }
 
+    for(int i = 0; i < stop_node_number; i++)
+    {
+        name_items[i].setText(QString::number(i + 1));
+        name_items[i].setPos(stop_pos_pairs[i].pos_x + 30, stop_pos_pairs[i].pos_y);
+
+        scene->addItem(&name_items[i]);
+    }
+
     // 设置公交车图像
     bus->ResetBusPos(stop_pos_pairs, node_number);
     scene->addItem(bus->item);
@@ -78,6 +88,12 @@ void SceneManager::ClearStopScene()
         scene->removeItem(&pixmap_items[i]);
     }
 
+    for(int i = 0; i < stop_node_number; i++)
+    {
+        scene->removeItem(&name_items[i]);
+    }
+
+    delete []name_items;
     delete []pixmap_items;
     delete []stop_pos_pairs;
 }

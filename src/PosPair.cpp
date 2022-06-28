@@ -61,7 +61,8 @@ int PosPair::GetBusPosX() const
     }
     else if(pos_x >= stop_begin_x + stop_rail_width)
     {
-        result = pos_x + stop_bus_distance;
+        // 最下面一行得加上站点图片的高度
+        result = pos_x + stop_bus_distance + 100;
     }
     else
     {
@@ -81,7 +82,8 @@ int PosPair::GetBusPosY() const
     }
     else if(pos_y >= stop_begin_y + stop_rail_width)
     {
-        result = pos_y + stop_bus_distance;
+        // 最右边一行得加上站点图片的宽度
+        result = pos_y + stop_bus_distance + 30;
     }
     else
     {

@@ -7,6 +7,7 @@
 
 #include "QGraphicsScene"
 #include "QGraphicsPixmapItem"
+#include "QGraphicsSimpleTextItem"
 
 #include "PosPair.h"
 #include "BusWidget.h"
@@ -18,7 +19,6 @@ public:
 
     /**
      * 构造函数，同时生成站点
-     * @param stop_node_number 站点的数量
      */
     explicit SceneManager();
     ~SceneManager();
@@ -41,6 +41,8 @@ private:
      * 显示站点的像素图对象
      */
     QGraphicsPixmapItem *pixmap_items;
+
+    QGraphicsSimpleTextItem *name_items;
 
     /**
      * 每个站点的所在位置
