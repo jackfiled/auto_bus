@@ -4,9 +4,10 @@
 
 #include "BusSCANStrategy.h"
 
-int BusSCANStrategy::GetBusDirection(bus_query_t *query)
+int BusSCANStrategy::GetBusDirection()
 {
     int orientation = bus_model->direction;
+    bus_query_t *query = bus_model->target_query;
 
     if(query == NULL)
     {

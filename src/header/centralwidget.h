@@ -13,7 +13,7 @@
 
 #include "mainScene.h"
 #include "queryListItem.h"
-#include "busModel.h"
+#include "BusStrategyBase.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -31,6 +31,12 @@ public:
 
     ~CentralWidget() override;
 
+    /**
+     * 重新设置控制器
+     * @param c 控制器指针
+     */
+    void SetController(BusStrategyBase *c);
+
 signals:
     /**
      * 添加一个请求的信号
@@ -47,7 +53,7 @@ public slots:
 
     /**
      * 处理删除一个请求的槽函数
-     * @param query 请求的编号
+     * @param query 请求指针
      */
     void DeleteQueryItemSlot(bus_query_t *query);
 
@@ -55,14 +61,6 @@ public slots:
      * 处理点击添加请求按钮的槽函数
      */
     void AddQueryButtonClicked();
-
-    /**
-     * 处理轨道重新生成的槽函数
-     * 重绘轨道画面
-     * 重新设置站点选择下拉栏
-     * @param node_num
-     */
-    void SetRailsScene(int node_num);
 
 private:
     /**
@@ -74,6 +72,8 @@ private:
      * 画图的场景管理器
      */
     SceneManager *scene_manager;
+
+    BusStrategyBase *controller = nullptr;
 
     /**
      * 请求列表中的对象
@@ -105,6 +105,14 @@ private:
      * 设置站点选择下拉栏
      */
     void SetRailsComboBox(int node_num);
+
+    /**
+     * 处理轨道重新生成的槽函数
+     * 重绘轨道画面
+     * 重新设置站点选择下拉栏
+     * @param node_num
+     */
+    void SetRailsScene(int node_num);
 };
 
 

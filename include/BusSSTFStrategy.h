@@ -8,7 +8,7 @@
 
 class BusSSTFStrategy : public BusStrategyBase
 {
-    int GetBusDirection(bus_query_t *query);
+    int GetBusDirection();
 
     bus_query_t *GetTargetQuery();
 

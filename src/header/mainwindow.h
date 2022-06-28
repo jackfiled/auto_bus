@@ -11,7 +11,8 @@
 #include "QMessageBox"
 
 #include "centralwidget.h"
-#include "busModel.h"
+#include "BusStrategyBase.h"
+#include "StrategyFactory.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -31,11 +32,6 @@ public:
     ~MainWindow() override;
 
 signals:
-    /**
-     * 打开配置文件的信号
-     * @param file_name 配置文件的文件路径
-     */
-    void OpenConfigFileSignal(QString file_name);
 
     /**
      * 开始运行公交车的信号
@@ -85,11 +81,18 @@ private:
 
     QThread *worker_thread;
 
+    BusStrategyBase *controller;
+
     /**
      * 设置菜单栏的相关连接
      */
     void SetMenuBarConnection();
 
+    /**
+     * 设置控制器的相关连接
+     */
     void SetControlConnection();
+
+    void BeginThread();
 };
 #endif //AUTO_BUS_GUI_MAIN_WINDOW_H

@@ -15,7 +15,6 @@ CentralWidget::CentralWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Cent
 
     ui->main_canva->setScene(scene_manager->scene);
 
-    SetControlConnection();
     SetWidgetConnection();
     SetupQueryList();
 }
@@ -28,9 +27,22 @@ CentralWidget::~CentralWidget()
     delete ui;
 }
 
+void CentralWidget::SetController(BusStrategyBase *c)
+{
+    controller = c;
+    SetControlConnection();
+    SetRailsScene(controller->rails_model->node_num);
+}
+
 void CentralWidget::SetControlConnection()
 {
+    // 设置添加请求事件的连接
+    QObject::connect(this, &CentralWidget::AppendQuerySignal,
+                     controller, &BusStrategyBase::AppendQuerySlot);
 
+    // 设置删除请求事件的连接
+    QObject::connect(controller, &BusStrategyBase::DeleteQuerySignal,
+                     this, &CentralWidget::DeleteQueryItemSlot);
 }
 
 void CentralWidget::SetWidgetConnection()

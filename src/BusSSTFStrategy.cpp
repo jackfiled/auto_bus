@@ -4,8 +4,10 @@
 
 #include "BusSSTFStrategy.h"
 
-int BusSSTFStrategy::GetBusDirection(bus_query_t *query)
+int BusSSTFStrategy::GetBusDirection()
 {
+    bus_query_t *query = bus_model->target_query;
+
     if (query == NULL)
     {
         return BUS_STOP;

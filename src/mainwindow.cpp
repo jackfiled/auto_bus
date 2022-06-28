@@ -12,20 +12,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     ui = new Ui::MainWindow;
     worker_thread = new QThread;
-
-    // 开始多线程
-    worker_thread->start();
+    controller = nullptr;
 
     central_widget = new CentralWidget(nullptr);
 
     ui->setupUi(this);
     this->setCentralWidget(central_widget);
+
     SetMenuBarConnection();
-    SetControlConnection();
+
+    //开始多线程事件循环
+    worker_thread->start();
 }
 
 MainWindow::~MainWindow()
 {
+    controller->deleteLater();
     worker_thread->quit();
 
     delete ui;
@@ -68,12 +70,20 @@ void MainWindow::ReadConfigFileButtonClicked()
 
     if(file_name.isEmpty())
     {
-        QMessageBox::warning(this, "警告", "文件名错误");
+        QMessageBox::warning(this, "警告", "文件错误");
         return;
     }
     else
     {
-        emit OpenConfigFileSignal(file_name);
+        if(controller != nullptr)
+        {
+            controller->deleteLater();
+        }
+
+        controller = StrategyFactory::GetStrategy(file_name);
+        BeginThread();
+        SetControlConnection();
+        central_widget->SetController(controller);
     }
 }
 
@@ -90,4 +100,12 @@ void MainWindow::PauseBusClicked()
 void MainWindow::StopBusClicked()
 {
     emit StopBusSignal();
+}
+
+void MainWindow::BeginThread()
+{
+    if(controller != nullptr)
+    {
+        controller->moveToThread(worker_thread);
+    }
 }

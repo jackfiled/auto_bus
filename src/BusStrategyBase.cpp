@@ -9,6 +9,7 @@ BusStrategyBase::BusStrategyBase()
     rails_model = new RailsModel;
     query_model = new QueryModel;
     bus_model = new BusModel();
+    tick_timer = new QTimer;
 
     bus_tick = 0;
 }
@@ -18,6 +19,13 @@ BusStrategyBase::~BusStrategyBase()
     delete rails_model;
     delete query_model;
     delete bus_model;
+    delete tick_timer;
+}
+
+void BusStrategyBase::AppendQuerySlot(int query_type, int node_id) const
+{
+    rail_node_t *node = rails_model->FindNode(node_id);
+    query_model->CreateQuery(query_type, node);
 }
 
 QString BusStrategyBase::PrintState() const

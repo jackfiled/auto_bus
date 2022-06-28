@@ -9,9 +9,6 @@
 #include "queryModel.h"
 #include "define.h"
 
-#include "cstdio"
-#include "string"
-#include "sstream"
 #include "QObject"
 #include "QDebug"
 #include "QTimer"
@@ -33,6 +30,11 @@ public:
      * 当前前进的方向
      */
     int direction;
+
+    /**
+     * 当前指定处理的请求
+     */
+    bus_query_t *target_query;
 
     QTimer *bus_timer;
 
@@ -61,11 +63,6 @@ private:
      * 轨道的头节点
      */
     rail_node_t *rail_head;
-
-    /**
-     * 当前指定处理的请求
-     */
-    bus_query_t *target_query;
 };
 
 #endif //AUTO_BUS_GUI_BUS_MODEL_H

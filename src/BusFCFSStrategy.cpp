@@ -4,9 +4,9 @@
 
 #include "BusFCFSStrategy.h"
 
-int BusFCFSStrategy::GetBusDirection(bus_query_t *query)
+int BusFCFSStrategy::GetBusDirection()
 {
-    bus_query_t *p = query;
+    bus_query_t *p = bus_model->target_query;
 
     if(p == NULL)
     {
