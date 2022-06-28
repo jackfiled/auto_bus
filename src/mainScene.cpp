@@ -11,6 +11,7 @@ SceneManager::SceneManager()
     pixmap_items = nullptr;
     stop_pos_pairs = nullptr;
     rect_item = new QGraphicsRectItem;
+    bus = new BusWidget;
 
     // 画一个描边的矩形框
     rect_item->setRect(0, 0, 595, 395);
@@ -19,14 +20,20 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
-    ClearScene();
+    // 清除站点图像
+    ClearStopScene();
+
+    // 清除公交车图像
+    scene->removeItem(bus->item);
+    delete bus;
+
     delete scene;
 }
 
 void SceneManager::SetStopScene(int node_number)
 {
     // 先清除屏幕
-    ClearScene();
+    ClearStopScene();
 
     stop_node_number = node_number;
     pixmap_items = new QGraphicsPixmapItem[stop_node_number];
@@ -57,9 +64,13 @@ void SceneManager::SetStopScene(int node_number)
         }
         pixmap_items[i].setPos(stop_pos_pairs[i].pos_x, stop_pos_pairs[i].pos_y);
     }
+
+    // 设置公交车图像
+    bus->ResetBusPos(stop_pos_pairs);
+    scene->addItem(bus->item);
 }
 
-void SceneManager::ClearScene()
+void SceneManager::ClearStopScene()
 {
     // 从画布中移除所有的站点图片
     for(int i = 0; i < stop_node_number; i++)
@@ -69,91 +80,4 @@ void SceneManager::ClearScene()
 
     delete []pixmap_items;
     delete []stop_pos_pairs;
-}
-
-PosPair::PosPair()
-{
-    pos_x = stop_begin_x;
-    pos_y = stop_begin_y;
-}
-
-int PosPair::GetStopSpaceLength(int stop_number) const
-{
-    return 2 * (stop_rail_width + stop_rail_height) / stop_number;
-}
-
-void PosPair::AddLength(int length)
-{
-    distance += length;
-
-    if(distance > 2 * stop_rail_width + stop_rail_height)
-    {
-        // 站点在左轨道
-
-        pos_x = stop_begin_x;
-        pos_y = stop_begin_y + (stop_rail_width + stop_rail_height) * 2 - distance;
-    }
-    else if(distance > stop_rail_width + stop_rail_height and
-        distance <= 2 * stop_rail_width + stop_rail_height)
-    {
-        // 站点在下轨道
-
-        pos_y = stop_begin_y + stop_rail_height;
-        pos_x = stop_begin_x + 2 * stop_rail_width + stop_rail_height - distance;
-    }
-    else if(distance > stop_rail_width and
-        distance <= stop_rail_width + stop_rail_height)
-    {
-        // 站点在右轨道
-
-        pos_x = stop_begin_x + stop_rail_width;
-        pos_y = stop_begin_y + distance - stop_rail_width;
-    }
-    else
-    {
-        // 站点在上轨道
-
-        pos_y = stop_begin_y;
-        pos_x = stop_begin_x + distance;
-    }
-}
-
-int PosPair::GetBusPosX() const
-{
-    int result;
-
-    if(pos_x <= stop_begin_x)
-    {
-        result = stop_begin_x - stop_bus_distance;
-    }
-    else if(pos_x >= stop_begin_x + stop_rail_width)
-    {
-        result = pos_x + stop_bus_distance;
-    }
-    else
-    {
-        result = pos_x;
-    }
-
-    return result;
-}
-
-int PosPair::GetBusPosY() const
-{
-    int result;
-
-    if(pos_y <= stop_begin_y)
-    {
-        result = stop_begin_y - stop_bus_distance;
-    }
-    else if(pos_y >= stop_begin_y + stop_rail_width)
-    {
-        result = pos_y + stop_bus_distance;
-    }
-    else
-    {
-        result = pos_y;
-    }
-
-    return result;
 }
