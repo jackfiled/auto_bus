@@ -162,5 +162,7 @@ void MainWindow::EndTickTimerSlot()
 
 void MainWindow::BeginBusTimerSlot(int direction, int duration)
 {
-    bus_timer->start(duration);
+    // 这里得多计上一段时间
+    // 执行动画需要消耗时间
+    bus_timer->start(duration + 20);
 }

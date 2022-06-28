@@ -193,11 +193,11 @@ QString BusStrategyBase::PrintState(int remaining_time) const
 
     QString str = QString::asprintf("Time:%d\n", bus_tick);
     str += "BUS:\n";
-    str += QString::asprintf("position:%lf\n", bus_model->GetBusPosition(remaining_time));
+    str += QString::asprintf("position:%.3lf\n", bus_model->GetBusPosition(remaining_time));
     str = str + "target:" + target + "\n";
     str += "STATION:\n";
-    str = str + "clockwise" + clockwise + "\n";
-    str = str + "counterclockwise" + counterclockwise + "\n";
+    str = str + "clockwise:" + clockwise + "\n";
+    str = str + "counterclockwise:" + counterclockwise + "\n";
 
     return str;
 }
