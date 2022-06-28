@@ -66,7 +66,7 @@ void SceneManager::SetStopScene(int node_number)
     }
 
     // 设置公交车图像
-    bus->ResetBusPos(stop_pos_pairs);
+    bus->ResetBusPos(stop_pos_pairs, node_number);
     scene->addItem(bus->item);
 }
 
