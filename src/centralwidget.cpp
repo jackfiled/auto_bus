@@ -44,8 +44,13 @@ void CentralWidget::SetControlConnection()
     QObject::connect(controller, &BusStrategyBase::DeleteQuerySignal,
                      this, &CentralWidget::DeleteQueryItemSlot);
 
+    // 设置打印状态事件的连接
     QObject::connect(controller, &BusStrategyBase::PrintStateSignal,
                      this, &CentralWidget::PrintStateSlot);
+
+    QObject::connect(controller, &BusStrategyBase::BusRunningSignal,
+                     this, &CentralWidget::BeginBusAnimationSlot);
+
 }
 
 void CentralWidget::SetWidgetConnection()
@@ -94,21 +99,25 @@ void CentralWidget::AppendQueryItemSlot(int query_type, int node_id)
     ui->query_list->setItemWidget(widget_item, item);
 }
 
-void CentralWidget::DeleteQueryItemSlot(bus_query_t *query)
+void CentralWidget::DeleteQueryItemSlot(int query_type, int node_id)
 {
     // 由于请求列表头的存在，编号从1开始
     int query_id = 1;
 
-    for(auto itor = query_items.begin(); itor != query_items.end(); ++itor)
+    // 先排除表头的影响
+    auto first_item = query_items.begin();
+    first_item++;
+
+    for(auto itor = first_item; itor != query_items.end(); ++itor)
     {
-        if((*itor)->query_type == query->type and (*itor)->target_node_id == query->node->id)
+        if((*itor)->query_type == query_type and (*itor)->target_node_id == node_id)
         {
             break;
         }
         query_id++;
     }
 
-     QListWidgetItem *deleted_item = ui->query_list->takeItem(query_id);
+    QListWidgetItem *deleted_item = ui->query_list->takeItem(query_id);
 
     auto pos = query_items.begin();
 
@@ -118,8 +127,8 @@ void CentralWidget::DeleteQueryItemSlot(bus_query_t *query)
     }
 
     delete deleted_item;
-    query_items.erase(pos);
     delete *pos;
+    query_items.erase(pos);
 }
 
 void CentralWidget::PrintStateSlot(const QString& string)
@@ -130,6 +139,11 @@ void CentralWidget::PrintStateSlot(const QString& string)
     QTextCursor cursor = ui->text_output->textCursor();
     cursor.movePosition(QTextCursor::End);
     ui->text_output->setTextCursor(cursor);
+}
+
+void CentralWidget::BeginBusAnimationSlot(int direction, int duration)
+{
+    scene_manager->BeginBusAnimation(direction, duration);
 }
 
 void CentralWidget::AddQueryButtonClicked()

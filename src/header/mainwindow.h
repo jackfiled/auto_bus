@@ -79,6 +79,8 @@ public slots:
      */
     void OneTickSlot();
 
+    void BeginBusTimerSlot(int direction, int duration);
+
 private:
     /**
      * 设置一时刻的长度，单位毫秒

@@ -116,7 +116,7 @@ bus_query_t *BusSCANStrategy::GetTargetQuery()
     }
 }
 
-bus_query_t *BusSCANStrategy::HandleQuery()
+bus_query_t *BusSCANStrategy::HandleBTWQuery()
 {
     //获取公交车当前所在站点
     rail_node_t *now_position = bus_model->rail_pos;

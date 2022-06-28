@@ -56,7 +56,7 @@ public slots:
      * 处理删除一个请求的槽函数
      * @param query 请求指针
      */
-    void DeleteQueryItemSlot(bus_query_t *query);
+    void DeleteQueryItemSlot(int query_type, int node_id);
 
     /**
      * 处理点击添加请求按钮的槽函数
@@ -68,6 +68,8 @@ public slots:
      * @param string 状态字符串
      */
     void PrintStateSlot(const QString& string);
+
+    void BeginBusAnimationSlot(int direction, int duration);
 
 private:
     /**

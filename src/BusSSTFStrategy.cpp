@@ -28,7 +28,7 @@ int BusSSTFStrategy::GetBusDirection()
     }
 }
 
-bus_query_t *BusSSTFStrategy::HandleQuery()
+bus_query_t *BusSSTFStrategy::HandleBTWQuery()
 {
     // 这里只是处理顺便服务的代码
 

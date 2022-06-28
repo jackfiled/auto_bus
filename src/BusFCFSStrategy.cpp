@@ -55,21 +55,12 @@ int BusFCFSStrategy::GetBusDirection()
 
 bus_query_t *BusFCFSStrategy::GetTargetQuery()
 {
+    // FCFS只处理第一个请求
     return query_model->queries;
 }
 
-bus_query_t *BusFCFSStrategy::HandleQuery()
+bus_query_t *BusFCFSStrategy::HandleBTWQuery()
 {
-    bus_query_t *result = NULL;
-    bus_query_t *query = query_model->queries;
-
-    if(query != nullptr)
-    {
-        if(bus_model->rail_pos == query->node)
-        {
-            result = query;
-        }
-    }
-
-    return result;
+    // FCFS不进行顺便处理
+    return nullptr;
 }

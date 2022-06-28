@@ -12,7 +12,7 @@ class BusSSTFStrategy : public BusStrategyBase
 
     bus_query_t *GetTargetQuery();
 
-    bus_query_t *HandleQuery();
+    bus_query_t *HandleBTWQuery();
 };
 
 

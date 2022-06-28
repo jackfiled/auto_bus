@@ -25,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     //开始多线程事件循环
     worker_thread->start();
+
+    // 设置计时器只工作一次
+    bus_timer->setSingleShot(true);
 }
 
 MainWindow::~MainWindow()
@@ -80,6 +83,12 @@ void MainWindow::SetControlConnection()
     // 每一tick连接
     QObject::connect(this, &MainWindow::BusTickSignal,
                      controller, &BusStrategyBase::OneTickSlot);
+
+    QObject::connect(bus_timer, &QTimer::timeout,
+                     controller, &BusStrategyBase::OnStopSlot);
+
+    QObject::connect(controller, &BusStrategyBase::BusRunningSignal,
+                     this, &MainWindow::BeginBusTimerSlot);
 }
 
 void MainWindow::ReadConfigFileButtonClicked()
@@ -149,4 +158,9 @@ void MainWindow::OneTickSlot()
 void MainWindow::EndTickTimerSlot()
 {
     tick_timer->stop();
+}
+
+void MainWindow::BeginBusTimerSlot(int direction, int duration)
+{
+    bus_timer->start(duration);
 }

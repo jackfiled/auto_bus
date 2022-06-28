@@ -11,6 +11,8 @@ BusStrategyBase::BusStrategyBase()
     bus_model = new BusModel;
 
     bus_tick = 0;
+
+    SetConnection();
 }
 
 BusStrategyBase::~BusStrategyBase()
@@ -22,13 +24,20 @@ BusStrategyBase::~BusStrategyBase()
 
 void BusStrategyBase::SetConnection() const
 {
-
+    QObject::connect(this, &BusStrategyBase::GetBusDirectionSignal,
+                     this, &BusStrategyBase::GetBusDirectionSlot);
 }
 
-void BusStrategyBase::AppendQuerySlot(int query_type, int node_id) const
+void BusStrategyBase::AppendQuerySlot(int query_type, int node_id)
 {
     rail_node_t *node = rails_model->FindNode(node_id);
     query_model->CreateQuery(query_type, node);
+
+    // 如果公交车停车且在系统在运行
+    if(bus_model->direction == BUS_STOP && status == BUS_RUNNING)
+    {
+        emit GetBusDirectionSignal();
+    }
 }
 
 void BusStrategyBase::OneTickSlot(int remaining_time)
@@ -48,6 +57,8 @@ void BusStrategyBase::BusBeginSlot()
     // 在一开始先打印一下状态
     QString str = PrintState(0);
     emit PrintStateSignal(str);
+
+    emit GetBusDirectionSignal();
 }
 
 void BusStrategyBase::BusEndSlot()
@@ -56,6 +67,80 @@ void BusStrategyBase::BusEndSlot()
     bus_tick = 0;
 
     bus_model->ResetBus(rails_model->rails);
+}
+
+void BusStrategyBase::GetBusDirectionSlot()
+{
+    bus_model->target_query = GetTargetQuery();
+    bus_model->direction = GetBusDirection();
+
+    // 如果没有目标请求，跳出循环
+    if(bus_model->target_query == nullptr)
+    {
+        return;
+    }
+
+    int duration = 0;
+
+    switch (bus_model->direction)
+    {
+        case BUS_CLOCK_WISE:
+            duration = bus_model->rail_pos->next_node_distance / bus_model->velocity * 1000;
+            break;
+        case BUS_COUNTER_CLOCK_WISE:
+            duration = bus_model->rail_pos->last_node_distance / bus_model->velocity * 1000;
+            break;
+        case BUS_STOP:
+            duration = 1000;
+            break;
+    }
+
+    emit BusRunningSignal(bus_model->direction, duration);
+}
+
+void BusStrategyBase::HandleQuery()
+{
+    if(bus_model->target_query != nullptr)
+    {
+        if(bus_model->target_query->node == bus_model->rail_pos)
+        {
+            // 如果已经到站
+            while (bus_model->target_query != nullptr and
+                bus_model->target_query->node == bus_model->rail_pos)
+            {
+                emit DeleteQuerySignal(bus_model->target_query->type, bus_model->target_query->node->id);
+                query_model->DeleteQuery(bus_model->target_query);
+                bus_model->target_query = GetTargetQuery();
+            }
+        }
+        else
+        {
+            // 没有到站就进行顺便处理
+            bus_query_t *query = HandleBTWQuery();
+
+            while(query != nullptr)
+            {
+                emit DeleteQuerySignal(query->type, query->node->id);
+                query_model->DeleteQuery(query);
+                query = HandleBTWQuery();
+            }
+        }
+    }
+}
+
+void BusStrategyBase::OnStopSlot()
+{
+    if(bus_model->direction == BUS_CLOCK_WISE)
+    {
+        bus_model->rail_pos = bus_model->rail_pos->next_node;
+    }
+    else if(bus_model->direction == BUS_COUNTER_CLOCK_WISE)
+    {
+        bus_model->rail_pos = bus_model->rail_pos->last_node;
+    }
+    HandleQuery();
+
+    emit GetBusDirectionSignal();
 }
 
 QString BusStrategyBase::PrintState(int remaining_time) const
