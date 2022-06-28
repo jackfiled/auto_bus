@@ -19,14 +19,13 @@ public:
     RailsModel *rails_model;
     QueryModel *query_model;
     BusModel *bus_model;
-    QTimer *tick_timer;
-
 
     int bus_tick;
 
     BusStrategyBase();
 
     virtual ~BusStrategyBase();
+
 
     /**
      * 获得当前公交车应该前进的方向
@@ -47,14 +46,50 @@ public:
     virtual bus_query_t *HandleQuery() = 0;
 
     signals:
+    /**
+     * 删除请求信号
+     * @param query 需要删除请求的指针
+     */
     void DeleteQuerySignal(bus_query_t *query);
+
+    /**
+     * 打印状态信号
+     * @param string 状态字符串
+     */
+    void PrintStateSignal(QString string);
 
 public slots:
     void AppendQuerySlot(int query_type, int node_id) const;
 
+    /**
+     * 处理开始事件的槽函数
+     */
+    void BusBeginSlot();
+
+    /**
+     * 处理结束事件的槽函数
+     */
+    void BusEndSlot();
+
+    /**
+     * 处理tick事件的槽函数
+     */
+    void OneTickSlot(int remaining_time);
 
 private:
-    QString PrintState() const;
+    /**
+     * 储存当前的状态
+     */
+    int status = BUS_END;
+
+    /**
+     * 打印当前状态
+     * @return 表示当前状态的字符串
+     */
+    QString PrintState(int remaining_time) const;
+
+
+    void SetConnection() const;
 
 };
 

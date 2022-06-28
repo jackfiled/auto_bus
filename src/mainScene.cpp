@@ -81,3 +81,8 @@ void SceneManager::ClearStopScene()
     delete []pixmap_items;
     delete []stop_pos_pairs;
 }
+
+void SceneManager::BeginBusAnimation(int direction, int duration)
+{
+    bus->StartAnimation(direction, duration);
+}

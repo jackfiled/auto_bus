@@ -43,6 +43,9 @@ void CentralWidget::SetControlConnection()
     // 设置删除请求事件的连接
     QObject::connect(controller, &BusStrategyBase::DeleteQuerySignal,
                      this, &CentralWidget::DeleteQueryItemSlot);
+
+    QObject::connect(controller, &BusStrategyBase::PrintStateSignal,
+                     this, &CentralWidget::PrintStateSlot);
 }
 
 void CentralWidget::SetWidgetConnection()
@@ -117,6 +120,16 @@ void CentralWidget::DeleteQueryItemSlot(bus_query_t *query)
     delete deleted_item;
     query_items.erase(pos);
     delete *pos;
+}
+
+void CentralWidget::PrintStateSlot(const QString& string)
+{
+    ui->text_output->insertPlainText(string);
+
+    // 设置光标在最后一行
+    QTextCursor cursor = ui->text_output->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->text_output->setTextCursor(cursor);
 }
 
 void CentralWidget::AddQueryButtonClicked()

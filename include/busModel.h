@@ -36,8 +36,6 @@ public:
      */
     bus_query_t *target_query;
 
-    QTimer *bus_timer;
-
     explicit BusModel();
 
     ~BusModel();
@@ -48,7 +46,7 @@ public:
      */
     void ResetBus(rail_node_t *head);
 
-    double GetBusPosition();
+    double GetBusPosition(int remaining_time);
 
     /**
      * 给出在指定的方向下，指定的请求于公交车当前位置的距离

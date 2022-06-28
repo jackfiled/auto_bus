@@ -19,7 +19,7 @@ RailsModel::~RailsModel()
     }
 }
 
-rail_node_t *RailsModel::FindNode(int node_num) const
+rail_node_t *RailsModel::FindNode(int node_id) const
 {
     if (rails == nullptr)
     {
@@ -31,7 +31,7 @@ rail_node_t *RailsModel::FindNode(int node_num) const
 
     do
     {
-        if(node->id == node_num)
+        if(node->id == node_id)
         {
             result = node;
             break;

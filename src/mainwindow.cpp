@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     ui = new Ui::MainWindow;
     worker_thread = new QThread;
+    tick_timer = new QTimer;
+    bus_timer = new QTimer;
     controller = nullptr;
 
     central_widget = new CentralWidget(nullptr);
@@ -19,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     ui->setupUi(this);
     this->setCentralWidget(central_widget);
 
-    SetMenuBarConnection();
+    SetWidgetConnection();
 
     //开始多线程事件循环
     worker_thread->start();
@@ -33,9 +35,11 @@ MainWindow::~MainWindow()
     delete ui;
     delete central_widget;
     delete worker_thread;
+    delete tick_timer;
+    delete bus_timer;
 }
 
-void MainWindow::SetMenuBarConnection()
+void MainWindow::SetWidgetConnection()
 {
     // 连接退出按钮
     QObject::connect(ui->actionExit, SIGNAL(triggered()),
@@ -46,17 +50,36 @@ void MainWindow::SetMenuBarConnection()
     // 连接运行公交车按钮
     QObject::connect(ui->actionRun_Bus, &QAction::triggered,
                      this, &MainWindow::RunBusClicked);
-    // 连接暂停公交车按钮
-    QObject::connect(ui->actionPause_Bus, &QAction::triggered,
-                     this, &MainWindow::PauseBusClicked);
+
     // 连接停止公交车按钮
     QObject::connect(ui->actionStop_Bus, &QAction::triggered,
                      this, &MainWindow::StopBusClicked);
+
+    // 开始全局计时器连接
+    QObject::connect(this, &MainWindow::RunBusSignal,
+                     this, &MainWindow::BeginTickTimerSlot);
+
+    // 结束全局计时器连接
+    QObject::connect(this, &MainWindow::StopBusSignal,
+                     this, &MainWindow::EndTickTimerSlot);
+
+    // 处理计时器tick连接
+    QObject::connect(tick_timer, &QTimer::timeout,
+                     this, &MainWindow::OneTickSlot);
 }
 
 void MainWindow::SetControlConnection()
 {
+    // 开始运行连接
+    QObject::connect(this, &MainWindow::RunBusSignal,
+                     controller, &BusStrategyBase::BusBeginSlot);
 
+    QObject::connect(this, &MainWindow::StopBusSignal,
+                     controller, &BusStrategyBase::BusEndSlot);
+
+    // 每一tick连接
+    QObject::connect(this, &MainWindow::BusTickSignal,
+                     controller, &BusStrategyBase::OneTickSlot);
 }
 
 void MainWindow::ReadConfigFileButtonClicked()
@@ -81,20 +104,19 @@ void MainWindow::ReadConfigFileButtonClicked()
         }
 
         controller = StrategyFactory::GetStrategy(file_name);
+        // 开始多线程
         BeginThread();
+        // 设置controller相关连接
         SetControlConnection();
         central_widget->SetController(controller);
+        // 重设公交车的状态
+        controller->bus_model->ResetBus(controller->rails_model->rails);
     }
 }
 
 void MainWindow::RunBusClicked()
 {
     emit RunBusSignal();
-}
-
-void MainWindow::PauseBusClicked()
-{
-    emit PauseBusSignal();
 }
 
 void MainWindow::StopBusClicked()
@@ -108,4 +130,23 @@ void MainWindow::BeginThread()
     {
         controller->moveToThread(worker_thread);
     }
+}
+
+void MainWindow::BeginTickTimerSlot()
+{
+    tick_timer->setInterval(tick);
+
+    tick_timer->start();
+}
+
+void MainWindow::OneTickSlot()
+{
+    int time = bus_timer->remainingTime();
+
+    emit BusTickSignal(time);
+}
+
+void MainWindow::EndTickTimerSlot()
+{
+    tick_timer->stop();
 }

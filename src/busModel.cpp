@@ -10,13 +10,11 @@ BusModel::BusModel()
     direction = BUS_STOP;
     target_query = nullptr;
     rail_head = nullptr;
-
-    bus_timer = new QTimer;
 }
 
 BusModel::~BusModel()
 {
-    delete bus_timer;
+
 }
 
 void BusModel::ResetBus(rail_node_t *head)
@@ -28,7 +26,7 @@ void BusModel::ResetBus(rail_node_t *head)
     rail_pos = rail_head;
 }
 
-double BusModel::GetBusPosition()
+double BusModel::GetBusPosition(int remaining_time)
 {
     double result = 0;
     rail_node_t *now_pos = rail_pos;
@@ -41,7 +39,11 @@ double BusModel::GetBusPosition()
         node = node->next_node;
     } while (node != now_pos);
 
-    int remaining_time = bus_timer->remainingTime();
+    // 如果就在起始点，距离为0
+    if(now_pos == rail_head)
+    {
+        result = 0;
+    }
 
     if(remaining_time > 0)
     {

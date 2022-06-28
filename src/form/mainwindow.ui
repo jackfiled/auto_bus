@@ -46,7 +46,6 @@
      <string>Run</string>
     </property>
     <addaction name="actionRun_Bus"/>
-    <addaction name="actionPause_Bus"/>
     <addaction name="actionStop_Bus"/>
    </widget>
    <addaction name="menuFile"/>

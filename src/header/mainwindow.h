@@ -32,21 +32,21 @@ public:
     ~MainWindow() override;
 
 signals:
-
     /**
      * 开始运行公交车的信号
      */
     void RunBusSignal();
 
     /**
-     * 暂停运行公交车的信号
-     */
-    void PauseBusSignal();
-
-    /**
      * 停止运行公交车的信号
      */
     void StopBusSignal();
+
+    /**
+     * 时钟信号
+     * @param remain_time bus_timer计时器剩余的时间
+     */
+    void BusTickSignal(int remain_time);
 
 public slots:
     /**
@@ -60,20 +60,36 @@ public slots:
     void RunBusClicked();
 
     /**
-     * 处理点击暂停公交车按钮的槽函数
-     */
-    void PauseBusClicked();
-
-    /**
      * 处理点击停止公交车按钮的槽函数
      */
     void StopBusClicked();
 
+    /**
+     * 开始全局计时器的槽函数
+     */
+    void BeginTickTimerSlot();
+
+    /**
+     * 结束全局计时器的槽函数
+     */
+    void EndTickTimerSlot();
+
+    /**
+     * 每一tick的槽函数
+     */
+    void OneTickSlot();
+
 private:
+    /**
+     * 设置一时刻的长度，单位毫秒
+     */
+    const int tick = 1000;
+
     /**
      * UI控件
      */
     Ui::MainWindow *ui;
+
     /**
      * 中间的显示框架
      */
@@ -83,10 +99,15 @@ private:
 
     BusStrategyBase *controller;
 
+    QTimer *tick_timer;
+
+    QTimer *bus_timer;
+
+
     /**
      * 设置菜单栏的相关连接
      */
-    void SetMenuBarConnection();
+    void SetWidgetConnection();
 
     /**
      * 设置控制器的相关连接

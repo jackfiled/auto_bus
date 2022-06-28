@@ -57,7 +57,7 @@ public:
      * @param id 需要查找的站点编号
      * @return 需要查找站点指针
      */
-    rail_node_t *FindNode(int node_num) const;
+    rail_node_t *FindNode(int node_id) const;
 
     /**
      * 创建轨道链表

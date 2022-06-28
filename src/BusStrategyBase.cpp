@@ -8,8 +8,7 @@ BusStrategyBase::BusStrategyBase()
 {
     rails_model = new RailsModel;
     query_model = new QueryModel;
-    bus_model = new BusModel();
-    tick_timer = new QTimer;
+    bus_model = new BusModel;
 
     bus_tick = 0;
 }
@@ -19,7 +18,11 @@ BusStrategyBase::~BusStrategyBase()
     delete rails_model;
     delete query_model;
     delete bus_model;
-    delete tick_timer;
+}
+
+void BusStrategyBase::SetConnection() const
+{
+
 }
 
 void BusStrategyBase::AppendQuerySlot(int query_type, int node_id) const
@@ -28,7 +31,34 @@ void BusStrategyBase::AppendQuerySlot(int query_type, int node_id) const
     query_model->CreateQuery(query_type, node);
 }
 
-QString BusStrategyBase::PrintState() const
+void BusStrategyBase::OneTickSlot(int remaining_time)
+{
+    // 时间流动
+    bus_tick++;
+
+    // 打印状态
+    QString str = PrintState(remaining_time);
+    emit PrintStateSignal(str);
+}
+
+void BusStrategyBase::BusBeginSlot()
+{
+    status = BUS_RUNNING;
+
+    // 在一开始先打印一下状态
+    QString str = PrintState(0);
+    emit PrintStateSignal(str);
+}
+
+void BusStrategyBase::BusEndSlot()
+{
+    status = BUS_END;
+    bus_tick = 0;
+
+    bus_model->ResetBus(rails_model->rails);
+}
+
+QString BusStrategyBase::PrintState(int remaining_time) const
 {
     int count = 0;
     rail_node_t *node = rails_model->rails;
@@ -78,7 +108,7 @@ QString BusStrategyBase::PrintState() const
 
     QString str = QString::asprintf("Time:%d\n", bus_tick);
     str += "BUS:\n";
-    str += QString::asprintf("position:%lf\n", bus_model->GetBusPosition());
+    str += QString::asprintf("position:%lf\n", bus_model->GetBusPosition(remaining_time));
     str = str + "target:" + target + "\n";
     str += "STATION:\n";
     str = str + "clockwise" + clockwise + "\n";

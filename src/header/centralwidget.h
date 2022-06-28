@@ -10,6 +10,7 @@
 #include "string"
 #include "list"
 #include "QMessageBox"
+#include "QTextCursor"
 
 #include "mainScene.h"
 #include "queryListItem.h"
@@ -61,6 +62,12 @@ public slots:
      * 处理点击添加请求按钮的槽函数
      */
     void AddQueryButtonClicked();
+
+    /**
+     * 处理打印状态事件的槽函数
+     * @param string 状态字符串
+     */
+    void PrintStateSlot(const QString& string);
 
 private:
     /**

@@ -29,6 +29,13 @@ public:
      */
     void SetStopScene(int node_number);
 
+    /**
+     * 开始公交车动画
+     * @param direction 公交车前进的方向
+     * @param duration 前进持续的时间
+     */
+    void BeginBusAnimation(int direction, int duration);
+
 private:
     /**
      * 显示站点的像素图对象
