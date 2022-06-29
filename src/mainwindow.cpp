@@ -127,11 +127,19 @@ void MainWindow::ReadConfigFileButtonClicked()
 
 void MainWindow::RunBusClicked()
 {
-    emit RunBusSignal();
+    if (controller == nullptr)
+    {
+        QMessageBox::warning(this, "警告", "未读取配置文件");
+    }
+    else
+    {
+        emit RunBusSignal();
+    }
 }
 
 void MainWindow::StopBusClicked()
 {
+    central_widget->ResetOutput();
     emit StopBusSignal();
 }
 

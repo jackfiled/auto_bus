@@ -44,6 +44,11 @@ public:
      */
     void SetStrategyLabel(int strategy);
 
+    /**
+     * 清除输出信息
+     */
+    void ResetOutput();
+
 signals:
     /**
      * 添加一个请求的信号

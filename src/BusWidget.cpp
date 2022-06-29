@@ -28,6 +28,9 @@ BusWidget::~BusWidget()
 
 void BusWidget::ResetBusPos(PosPair *s, int num)
 {
+    // 先停止一下动画
+    animation->stop();
+
     pos_pairs = s;
     pos = 0;
     node_num = num;

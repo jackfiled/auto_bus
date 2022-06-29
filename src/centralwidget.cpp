@@ -56,6 +56,34 @@ void CentralWidget::SetStrategyLabel(int strategy)
     ui->strategy_label->setText(name);
 }
 
+void CentralWidget::ResetOutput()
+{
+    // 清除日志输出
+    ui->text_output->clear();
+
+    // 重设公交车位置
+    scene_manager->ResetBus();
+
+    // 删除请求列表的所有元素
+    auto first_item = query_items.begin();
+    int query_id = 1;
+    first_item++;
+
+    for(auto itor = first_item; itor != query_items.end(); itor++)
+    {
+        QListWidgetItem *deleted_item = ui->query_list->takeItem(query_id);
+
+        delete deleted_item;
+        delete *itor;
+        query_id++;
+    }
+
+    // 保留第一个的表头指针
+    QueryListItem *column_name = query_items.front();
+    query_items.clear();
+    query_items.push_back(column_name);
+}
+
 void CentralWidget::SetControlConnection()
 {
     // 设置添加请求事件的连接

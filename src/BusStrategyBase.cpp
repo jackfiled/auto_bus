@@ -96,7 +96,10 @@ void BusStrategyBase::GetBusDirectionSlot()
             break;
     }
 
-    emit BusRunningSignal(bus_model->direction, duration);
+    if(status == BUS_RUNNING)
+    {
+        emit BusRunningSignal(bus_model->direction, duration);
+    }
 }
 
 void BusStrategyBase::HandleQuery()

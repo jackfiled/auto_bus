@@ -29,6 +29,8 @@ public:
      */
     void SetStopScene(int node_number);
 
+    void ResetBus();
+
     /**
      * 开始公交车动画
      * @param direction 公交车前进的方向

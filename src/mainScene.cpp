@@ -77,6 +77,12 @@ void SceneManager::SetStopScene(int node_number)
     scene->addItem(bus->item);
 }
 
+void SceneManager::ResetBus()
+{
+
+    bus->ResetBusPos(stop_pos_pairs, stop_node_number);
+}
+
 void SceneManager::ClearStopScene()
 {
     // 从画布中移除所有的站点图片
