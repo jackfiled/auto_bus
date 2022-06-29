@@ -29,6 +29,7 @@ void BusModel::ResetBus(rail_node_t *head)
 double BusModel::GetBusPosition(int remaining_time)
 {
     double result = 0;
+    double length = 0;
     rail_node_t *now_pos = rail_pos;
     rail_node_t *node = rail_head;
 
@@ -39,23 +40,43 @@ double BusModel::GetBusPosition(int remaining_time)
         node = node->next_node;
     } while (node != now_pos);
 
-    // 如果就在起始点，距离为0
-    if(now_pos == rail_head)
-    {
-        result = 0;
-    }
-
+    // 获得可能存在的偏移量
     if(remaining_time > 0)
     {
         if(direction == BUS_CLOCK_WISE)
         {
-            double length = now_pos->next_node_distance - (double)remaining_time / 1000.0 * velocity;
-            result = result + length;
+            length = now_pos->next_node_distance - (double)remaining_time / 1000.0 * velocity;
         }
         else if(direction == BUS_COUNTER_CLOCK_WISE)
         {
-            double length = now_pos->last_node_distance - (double)remaining_time / 1000.0 * velocity;
-            result = result - length;
+            length = now_pos->last_node_distance - (double)remaining_time / 1000.0 * velocity;
+            length = -length;
+        }
+    }
+
+    if(now_pos == rail_head)
+    {
+        // 在起点
+        if(length >= 0)
+        {
+            result = length;
+        }
+        else
+        {
+            result = result + length;
+        }
+    }
+    else
+    {
+        // 在其他点
+        if(now_pos == rail_head->last_node and length == -rail_head->last_node_distance)
+        {
+            // 恰好即将回到出发点的情况
+            result = 0;
+        }
+        else
+        {
+            result = result + length;
         }
     }
 

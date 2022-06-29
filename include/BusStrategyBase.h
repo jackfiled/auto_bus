@@ -16,11 +16,29 @@ class BusStrategyBase : public QObject
 {
     Q_OBJECT
 public:
+    /**
+     * 轨道模型
+     */
     RailsModel *rails_model;
+
+    /**
+     * 请求模型
+     */
     QueryModel *query_model;
+
+    /**
+     * 公交车模型
+     */
     BusModel *bus_model;
 
+    /**
+     * 当前的计时时刻
+     */
     int bus_tick;
+
+    /**
+     * 当前的处理策略
+     */
     int strategy;
 
     BusStrategyBase();
@@ -94,8 +112,14 @@ public slots:
      */
     void OneTickSlot(int remaining_time);
 
+    /**
+     * 获得公交车前进方向的槽函数
+     */
     void GetBusDirectionSlot();
 
+    /**
+     * 处理到站事件的槽函数
+     */
     void OnStopSlot();
 
 private:
@@ -110,9 +134,14 @@ private:
      */
     QString PrintState(int remaining_time) const;
 
-
+    /**
+     * 设置各种连接
+     */
     void SetConnection() const;
 
+    /**
+     * 处理请求
+     */
     void HandleQuery();
 };
 

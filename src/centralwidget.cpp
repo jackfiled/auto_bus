@@ -139,6 +139,26 @@ void CentralWidget::DeleteQueryList()
 
 void CentralWidget::AppendQueryItemSlot(int query_type, int node_id)
 {
+    // 判断是否存在相同的请求
+    // 如果存在就不再添加
+    bool is_exist = false;
+    auto first_item = query_items.begin();
+    first_item++;
+
+    for(auto itor = first_item; itor != query_items.end(); ++itor)
+    {
+        if((*itor)->query_type == query_type and (*itor)->target_node_id == node_id)
+        {
+            is_exist = true;
+            break;
+        }
+    }
+
+    if(is_exist)
+    {
+        return;
+    }
+
     QueryListItem *item = new QueryListItem(query_type, node_id);
 
     query_items.push_back(item);

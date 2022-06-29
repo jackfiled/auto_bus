@@ -19,6 +19,9 @@
 class BusModel
 {
 public:
+    /**
+     * 公交车当前所在的站点
+     */
     rail_node_t *rail_pos;
 
     /**
@@ -46,6 +49,11 @@ public:
      */
     void ResetBus(rail_node_t *head);
 
+    /**
+     * 获得公交车当前所在位置
+     * @param remaining_time 行驶计时器剩下的时间
+     * @return 到起点的距离
+     */
     double GetBusPosition(int remaining_time);
 
     /**
