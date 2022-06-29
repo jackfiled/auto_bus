@@ -39,24 +39,11 @@
     </rect>
    </property>
   </widget>
-  <widget class="Line" name="line">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>400</y>
-     <width>900</width>
-     <height>10</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>770</x>
-     <y>160</y>
+     <x>780</x>
+     <y>100</y>
      <width>121</width>
      <height>231</height>
     </rect>
@@ -127,10 +114,10 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>600</x>
-     <y>170</y>
+     <x>610</x>
+     <y>70</y>
      <width>161</width>
-     <height>221</height>
+     <height>331</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -148,6 +135,42 @@
     </item>
     <item>
      <widget class="QListWidget" name="query_list"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>20</y>
+     <width>241</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QLabel" name="label_5">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>当前策略</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="strategy_label">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>无配置文件</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

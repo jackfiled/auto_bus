@@ -11,6 +11,7 @@ BusStrategyBase::BusStrategyBase()
     bus_model = new BusModel;
 
     bus_tick = 0;
+    strategy = -1;
 
     SetConnection();
 }
@@ -112,11 +113,20 @@ void BusStrategyBase::HandleQuery()
                 query_model->DeleteQuery(bus_model->target_query);
                 bus_model->target_query = GetTargetQuery();
             }
+
+            // 需要停一tick处理请求
+            emit BusRunningSignal(BUS_STOP, 1000);
         }
         else
         {
             // 没有到站就进行顺便处理
             bus_query_t *query = HandleBTWQuery();
+
+            if(query != nullptr)
+            {
+                // 需要停一tick处理请求
+                emit BusRunningSignal(BUS_STOP, 1000);
+            }
 
             while(query != nullptr)
             {

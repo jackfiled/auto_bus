@@ -139,6 +139,7 @@ BusStrategyBase *StrategyFactory::GetStrategy(const QString& file_name)
     if(controller != nullptr)
     {
         controller->rails_model->CreateRails(distance, total_station);
+        controller->strategy = chosen_strategy;
     }
     return controller;
 }

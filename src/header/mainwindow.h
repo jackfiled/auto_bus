@@ -79,7 +79,7 @@ public slots:
      */
     void OneTickSlot();
 
-    void BeginBusTimerSlot(int direction, int duration);
+    void BeginBusTimerSlot([[maybe_unused]] int direction, int duration);
 
 private:
     /**

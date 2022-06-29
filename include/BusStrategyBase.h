@@ -21,6 +21,7 @@ public:
     BusModel *bus_model;
 
     int bus_tick;
+    int strategy;
 
     BusStrategyBase();
 

@@ -21,13 +21,10 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
-    // 清除站点图像
-    ClearStopScene();
-
-    // 清除公交车图像
-    scene->removeItem(bus->item);
+    delete []name_items;
+    delete []pixmap_items;
+    delete []stop_pos_pairs;
     delete bus;
-
     delete scene;
 }
 

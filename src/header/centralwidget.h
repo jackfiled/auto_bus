@@ -38,6 +38,12 @@ public:
      */
     void SetController(BusStrategyBase *c);
 
+    /**
+     * 设置显示当前策略的标签
+     * @param strategy 当前选择的策略
+     */
+    void SetStrategyLabel(int strategy);
+
 signals:
     /**
      * 添加一个请求的信号

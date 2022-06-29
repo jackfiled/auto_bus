@@ -34,6 +34,28 @@ void CentralWidget::SetController(BusStrategyBase *c)
     SetRailsScene(controller->rails_model->node_num);
 }
 
+void CentralWidget::SetStrategyLabel(int strategy)
+{
+    QString name;
+
+    switch (strategy)
+    {
+        case BUS_FCFS:
+            name = QString("先来先服务");
+            break;
+        case BUS_SSTF:
+            name = QString("最短寻找时间");
+            break;
+        case BUS_SCAN:
+            name = QString("顺便服务");
+            break;
+        default:
+            break;
+    }
+
+    ui->strategy_label->setText(name);
+}
+
 void CentralWidget::SetControlConnection()
 {
     // 设置添加请求事件的连接

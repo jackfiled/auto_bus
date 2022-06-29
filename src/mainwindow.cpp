@@ -120,6 +120,8 @@ void MainWindow::ReadConfigFileButtonClicked()
         central_widget->SetController(controller);
         // 重设公交车的状态
         controller->bus_model->ResetBus(controller->rails_model->rails);
+        // 设置策略的标签
+        central_widget->SetStrategyLabel(controller->strategy);
     }
 }
 
@@ -160,7 +162,7 @@ void MainWindow::EndTickTimerSlot()
     tick_timer->stop();
 }
 
-void MainWindow::BeginBusTimerSlot(int direction, int duration)
+void MainWindow::BeginBusTimerSlot([[maybe_unused]] int direction, int duration)
 {
     // 这里得多计上一段时间
     // 执行动画需要消耗时间
