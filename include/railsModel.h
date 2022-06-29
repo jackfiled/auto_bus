@@ -11,18 +11,22 @@ struct rail_node{
      * 站点的编号
      */
     int id;
+
     /**
      * 距离上一个站点的距离
      */
     int last_node_distance;
+
     /**
      * 距离下一个站点的距离
      */
     int next_node_distance;
+
     /**
      * 指向上一个站点的指针
      */
     struct rail_node* last_node;
+
     /**
      * 指向下一个站点的指针
      */
@@ -45,6 +49,9 @@ public:
      */
     int node_num;
 
+    /**
+     * 轨道的总长度
+     */
     int total_distance;
 
     explicit RailsModel();

@@ -65,7 +65,8 @@ public slots:
 
     /**
      * 处理删除一个请求的槽函数
-     * @param query 请求指针
+     * @param query_type 请求的类型
+     * @param node_id 请求的站点id
      */
     void DeleteQueryItemSlot(int query_type, int node_id);
 
@@ -80,6 +81,12 @@ public slots:
      */
     void PrintStateSlot(const QString& string);
 
+    /**
+     * 开始公交车动画的槽函数
+     * 实际上就是将公交车移动到上一个或者下一个站点
+     * @param direction 公交车前进的方向
+     * @param duration 动画需要持续的时间
+     */
     void BeginBusAnimationSlot(int direction, int duration);
 
 private:
@@ -93,6 +100,9 @@ private:
      */
     SceneManager *scene_manager;
 
+    /**
+     * 控制器
+     */
     BusStrategyBase *controller = nullptr;
 
     /**
@@ -123,6 +133,7 @@ private:
 
     /**
      * 设置站点选择下拉栏
+     * @param 站点的个数
      */
     void SetRailsComboBox(int node_num);
 

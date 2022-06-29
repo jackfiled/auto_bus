@@ -13,7 +13,6 @@
 #define BUS_SSTF 1 // 最短寻找时间优先
 #define BUS_SCAN 2 // 顺便服务
 #define BUS_RUNNING 0
-#define BUS_PAUSING 1
 #define BUS_END 2
 
 #endif //AUTO_BUS_GUI_DEFINE_H

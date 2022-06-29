@@ -11,6 +11,9 @@
 
 #include "define.h"
 
+/**
+ * 请求列表中显示请求的控件
+ */
 class QueryListItem : public QWidget
 {
     Q_OBJECT
@@ -19,8 +22,14 @@ public:
 
     void SetColumnName();
 
+    /**
+     * 请求的类别
+     */
     int query_type;
 
+    /**
+     * 目标的站点id
+     */
     int target_node_id;
 
 private:

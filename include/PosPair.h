@@ -21,6 +21,7 @@ public:
     int pos_y;
 
     PosPair();
+
     /**
      * 获取两个站点之间的距离
      * @param stop_number 站点的数量
@@ -47,10 +48,29 @@ public:
     int GetBusPosY() const;
 
 private:
+    /**
+     * 设定的轨道开始坐标x
+     */
     const int stop_begin_x = 100;
+
+    /**
+     * 设定的轨道开始坐标y
+     */
     const int stop_begin_y = 80;
+
+    /**
+     * 轨道的宽度
+     */
     const int stop_rail_width = 300;
+
+    /**
+     * 轨道的高度
+     */
     const int stop_rail_height = 200;
+
+    /**
+     * 公交车到站点的距离
+     */
     const int stop_bus_distance = 30;
 
     int distance = 0;

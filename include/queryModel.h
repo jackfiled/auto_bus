@@ -11,14 +11,17 @@ struct bus_query {
      * 请求产生的时间
      */
     int time;
+
     /**
      * 请求的类型
      */
     int type;
+
     /**
      * 请求产生/指向的站点
      */
     rail_node_t *node;
+
     /**
      * 指向下一个请求的指针
      */
@@ -32,10 +35,6 @@ class QueryModel
 public:
     bus_query_t *queries = nullptr;
 
-    /**
-     * 析构函数
-     * 负责释放内存
-     */
     ~QueryModel();
 
     /**

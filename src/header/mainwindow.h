@@ -79,6 +79,11 @@ public slots:
      */
     void OneTickSlot();
 
+    /**
+     * 开始公交车行驶计时器的槽函数
+     * @param direction 公交车前进的防线 此处不需要
+     * @param duration 持续的时间
+     */
     void BeginBusTimerSlot([[maybe_unused]] int direction, int duration);
 
 private:
@@ -97,14 +102,26 @@ private:
      */
     CentralWidget *central_widget;
 
+    /**
+     * 控制器工作的线程
+     */
     QThread *worker_thread;
 
+    /**
+     * 控制器指针
+     */
     BusStrategyBase *controller;
 
+    /**
+     * 时刻计时器
+     * 每隔一个tick发出一个时钟信号
+     */
     QTimer *tick_timer;
 
+    /**
+     * 公交车计时器
+     */
     QTimer *bus_timer;
-
 
     /**
      * 设置菜单栏的相关连接
@@ -116,6 +133,9 @@ private:
      */
     void SetControlConnection();
 
+    /**
+     * 开始多线程
+     */
     void BeginThread();
 };
 #endif //AUTO_BUS_GUI_MAIN_WINDOW_H

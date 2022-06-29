@@ -15,6 +15,11 @@
 class StrategyFactory
 {
 public:
+    /**
+     * 生成控制器的工厂函数
+     * @param file_name 配置文件的名称
+     * @return 控制器对象
+     */
     static BusStrategyBase *GetStrategy(const QString& file_name);
 };
 

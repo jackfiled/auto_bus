@@ -32,8 +32,10 @@ public:
 class BusWidget
 {
 public:
+    /**
+     * 真正的公交车显示对象
+     */
     BusItem *item;
-
 
     explicit BusWidget();
 
@@ -54,10 +56,24 @@ public:
     void StartAnimation(int direction, int duration);
 
 private:
+    /**
+     * 存储各个站点位置对的数组
+     */
     PosPair *pos_pairs = nullptr;
+
+    /**
+     * 动画对象
+     */
     QPropertyAnimation *animation;
 
+    /**
+     * 公交车所在的站点
+     */
     int pos = 0;
+
+    /**
+     * 站点总数
+     */
     int node_num = 0;
 };
 

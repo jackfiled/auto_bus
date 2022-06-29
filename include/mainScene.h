@@ -12,15 +12,22 @@
 #include "PosPair.h"
 #include "BusWidget.h"
 
+/**
+ * 控制画图的管理类
+ */
 class SceneManager
 {
 public:
+    /**
+     * 场景对象
+     */
     QGraphicsScene *scene;
 
     /**
      * 构造函数，同时生成站点
      */
     explicit SceneManager();
+
     ~SceneManager();
 
     /**
@@ -29,6 +36,9 @@ public:
      */
     void SetStopScene(int node_number);
 
+    /**
+     * 重设公交车的位置
+     */
     void ResetBus();
 
     /**
@@ -44,6 +54,9 @@ private:
      */
     QGraphicsPixmapItem *pixmap_items;
 
+    /**
+     * 站点名称的对象数组
+     */
     QGraphicsSimpleTextItem *name_items;
 
     /**
