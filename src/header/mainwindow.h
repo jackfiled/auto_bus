@@ -13,7 +13,7 @@
 #include "centralwidget.h"
 #include "BusStrategyBase.h"
 #include "StrategyFactory.h"
-
+#include "Settings.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -87,10 +87,6 @@ public slots:
     void BeginBusTimerSlot([[maybe_unused]] int direction, int duration);
 
 private:
-    /**
-     * 设置一时刻的长度，单位毫秒
-     */
-    const int tick = 1000;
 
     /**
      * UI控件

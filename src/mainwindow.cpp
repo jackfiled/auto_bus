@@ -153,7 +153,7 @@ void MainWindow::BeginThread()
 
 void MainWindow::BeginTickTimerSlot()
 {
-    tick_timer->setInterval(tick);
+    tick_timer->setInterval(Settings::tick);
 
     tick_timer->start();
 }

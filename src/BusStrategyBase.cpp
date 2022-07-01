@@ -86,13 +86,13 @@ void BusStrategyBase::GetBusDirectionSlot()
     switch (bus_model->direction)
     {
         case BUS_CLOCK_WISE:
-            duration = bus_model->rail_pos->next_node_distance / bus_model->velocity * 1000;
+            duration = bus_model->rail_pos->next_node_distance / bus_model->velocity * Settings::tick;
             break;
         case BUS_COUNTER_CLOCK_WISE:
-            duration = bus_model->rail_pos->last_node_distance / bus_model->velocity * 1000;
+            duration = bus_model->rail_pos->last_node_distance / bus_model->velocity * Settings::tick;
             break;
         case BUS_STOP:
-            duration = 1000;
+            duration = Settings::tick;
             break;
     }
 

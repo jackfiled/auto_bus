@@ -11,6 +11,7 @@
 #include "railsModel.h"
 #include "queryModel.h"
 #include "busModel.h"
+#include "Settings.h"
 
 class BusStrategyBase : public QObject
 {
