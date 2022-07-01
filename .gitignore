@@ -1,2 +1,9 @@
+# 项目的构建文件夹
+build/
+cmake-build-*/
+
+# VSCode的配置文件夹
+.vscode/
+
+# CLion的配置文件夹
 .idea/
-cmake-build-debug-visual-studio/

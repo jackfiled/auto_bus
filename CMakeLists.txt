@@ -27,7 +27,7 @@ include_directories(
 
 aux_source_directory(${PROJECT_SOURCE_DIR}/src SRCS)
 
-add_executable(auto_bus_gui main.cpp ${SRCS} ${QRC_FILES})
+add_executable(auto_bus_gui WIN32 main.cpp ${SRCS} ${QRC_FILES})
 
 target_link_libraries(auto_bus_gui
         Qt::Core
