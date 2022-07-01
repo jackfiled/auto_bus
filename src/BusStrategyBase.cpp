@@ -12,8 +12,6 @@ BusStrategyBase::BusStrategyBase()
 
     bus_tick = 0;
     strategy = -1;
-
-    SetConnection();
 }
 
 BusStrategyBase::~BusStrategyBase()
@@ -21,12 +19,6 @@ BusStrategyBase::~BusStrategyBase()
     delete rails_model;
     delete query_model;
     delete bus_model;
-}
-
-void BusStrategyBase::SetConnection() const
-{
-    QObject::connect(this, &BusStrategyBase::GetBusDirectionSignal,
-                     this, &BusStrategyBase::GetBusDirectionSlot);
 }
 
 void BusStrategyBase::AppendQuerySlot(int query_type, int node_id)
@@ -37,7 +29,7 @@ void BusStrategyBase::AppendQuerySlot(int query_type, int node_id)
     // 如果公交车停车且在系统在运行
     if(bus_model->direction == BUS_STOP && status == BUS_RUNNING)
     {
-        emit GetBusDirectionSignal();
+        DetermineBusStatus();
     }
 }
 
@@ -59,7 +51,7 @@ void BusStrategyBase::BusBeginSlot()
     QString str = PrintState(0);
     emit PrintStateSignal(str);
 
-    emit GetBusDirectionSignal();
+    DetermineBusStatus();
 }
 
 void BusStrategyBase::BusEndSlot()
@@ -70,7 +62,7 @@ void BusStrategyBase::BusEndSlot()
     bus_model->ResetBus(rails_model->rails);
 }
 
-void BusStrategyBase::GetBusDirectionSlot()
+void BusStrategyBase::DetermineBusStatus()
 {
     bus_model->target_query = GetTargetQuery();
     bus_model->direction = GetBusDirection();
@@ -108,6 +100,8 @@ void BusStrategyBase::HandleQuery()
     {
         if(bus_model->target_query->node == bus_model->rail_pos)
         {
+            bus_model->direction = BUS_STOP;
+
             // 如果已经到站
             while (bus_model->target_query != nullptr and
                 bus_model->target_query->node == bus_model->rail_pos)
@@ -118,24 +112,31 @@ void BusStrategyBase::HandleQuery()
             }
 
             // 需要停一tick处理请求
-            emit BusRunningSignal(BUS_STOP, 1000);
+            emit BusRunningSignal(BUS_STOP, Settings::tick);
         }
         else
         {
             // 没有到站就进行顺便处理
             bus_query_t *query = HandleBTWQuery();
-
-            if(query != nullptr)
-            {
-                // 需要停一tick处理请求
-                emit BusRunningSignal(BUS_STOP, 1000);
-            }
+            bool is_handled = false;
 
             while(query != nullptr)
             {
                 emit DeleteQuerySignal(query->type, query->node->id);
                 query_model->DeleteQuery(query);
                 query = HandleBTWQuery();
+                is_handled = true;
+            }
+
+            if(is_handled)
+            {
+                // 需要停一tick处理请求
+                bus_model->direction = BUS_STOP;
+                emit BusRunningSignal(BUS_STOP, Settings::tick);
+            }
+            else
+            {
+                DetermineBusStatus();
             }
         }
     }
@@ -151,9 +152,8 @@ void BusStrategyBase::OnStopSlot()
     {
         bus_model->rail_pos = bus_model->rail_pos->last_node;
     }
-    HandleQuery();
 
-    emit GetBusDirectionSignal();
+    HandleQuery();
 }
 
 QString BusStrategyBase::PrintState(int remaining_time) const
@@ -164,7 +164,7 @@ QString BusStrategyBase::PrintState(int remaining_time) const
 
     if(node == nullptr)
     {
-        return QString("No rails");
+        return {"No rails"};
     }
 
     do

@@ -8,7 +8,7 @@ BusStrategyBase *StrategyFactory::GetStrategy(const QString& file_name)
 {
     QByteArray bytes = file_name.toLatin1();
 
-    FILE *config_file = NULL;
+    FILE *config_file = nullptr;
     char buffer[30];
     int total_station = 0;
     int distance = 0;
@@ -17,7 +17,7 @@ BusStrategyBase *StrategyFactory::GetStrategy(const QString& file_name)
     fopen_s(&config_file, bytes.data(), "r");
 
     // 循环读取文件的每一行
-    while (fgets(buffer, sizeof buffer, config_file) != NULL)
+    while (fgets(buffer, sizeof buffer, config_file) != nullptr)
     {
         char first_char = buffer[0];
         char *p;

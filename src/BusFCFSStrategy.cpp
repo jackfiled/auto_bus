@@ -8,11 +8,10 @@ int BusFCFSStrategy::GetBusDirection()
 {
     bus_query_t *p = bus_model->target_query;
 
-    if(p == NULL)
+    if(p == nullptr)
     {
         return BUS_STOP;
     }   //如果没有请求，公交车停止
-
     else
     {
         int clockwise = 0;

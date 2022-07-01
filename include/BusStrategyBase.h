@@ -46,7 +46,6 @@ public:
 
     virtual ~BusStrategyBase();
 
-
     /**
      * 获得当前公交车应该前进的方向
      * @return 公交车前进的方向
@@ -79,11 +78,6 @@ public:
     void PrintStateSignal(QString string);
 
     /**
-     * 获得公交车前进方向的信号
-     */
-    void GetBusDirectionSignal();
-
-    /**
      * 运行公交车的信号
      * @param direction 公交车前进的方向
      * @param duration 前进需要的时间
@@ -114,11 +108,6 @@ public slots:
     void OneTickSlot(int remaining_time);
 
     /**
-     * 获得公交车前进方向的槽函数
-     */
-    void GetBusDirectionSlot();
-
-    /**
      * 处理到站事件的槽函数
      */
     void OnStopSlot();
@@ -136,9 +125,9 @@ private:
     QString PrintState(int remaining_time) const;
 
     /**
-     * 设置各种连接
+     * 决定公交车状态的函数
      */
-    void SetConnection() const;
+    void DetermineBusStatus();
 
     /**
      * 处理请求

@@ -9,7 +9,7 @@ int BusSCANStrategy::GetBusDirection()
     int orientation = bus_model->direction;
     bus_query_t *query = bus_model->target_query;
 
-    if(query == NULL)
+    if(query == nullptr)
     {
         return BUS_STOP;
     }
@@ -53,22 +53,22 @@ bus_query_t *BusSCANStrategy::GetTargetQuery()
     int direction = bus_model->direction;
 
     // 当前没有请求
-    if(queries == NULL)
+    if(queries == nullptr)
     {
-        return NULL;
+        return nullptr;
     }
 
     if(direction == BUS_STOP)
     {
         // 在停止的状态下第一次开始选择方向
         int distance = 9999;
-        bus_query_t *query = NULL;
+        bus_query_t *query = nullptr;
         bus_query_t *p = queries;
 
         // 遍历顺时针方向
         // 在两个方向路程相同时选择顺时针方向
         // 所以先遍历顺时针方向
-        while (p != NULL)
+        while (p != nullptr)
         {
             int temp = bus_model->GetQueryDistance(p, BUS_CLOCK_WISE);
             if(temp < distance)
@@ -81,7 +81,7 @@ bus_query_t *BusSCANStrategy::GetTargetQuery()
 
         // 遍历逆时针方向
         p = queries;
-        while (p != NULL)
+        while (p != nullptr)
         {
             int temp = bus_model->GetQueryDistance(p, BUS_COUNTER_CLOCK_WISE);
             if(temp < distance)
@@ -98,10 +98,10 @@ bus_query_t *BusSCANStrategy::GetTargetQuery()
     {
         // 在已经有方向的情况下处理方向
         int distance = 9999;
-        bus_query_t *query = NULL;
+        bus_query_t *query = nullptr;
         bus_query_t *p = queries;
 
-        while (p != NULL)
+        while (p != nullptr)
         {
             int temp = bus_model->GetQueryDistance(p, direction);
             if(temp < distance)
@@ -123,7 +123,7 @@ bus_query_t *BusSCANStrategy::HandleBTWQuery()
 
     bus_query_t *p = query_model->queries;
 
-    while(p != NULL)
+    while(p != nullptr)
     {
         if(p->node == now_position)
         {
@@ -135,5 +135,5 @@ bus_query_t *BusSCANStrategy::HandleBTWQuery()
         p = p->next_node;
     }//遍历请求链表，判断是否有可以顺便处理的请求
 
-    return NULL;
+    return nullptr;
 }

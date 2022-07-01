@@ -8,7 +8,7 @@ int BusSSTFStrategy::GetBusDirection()
 {
     bus_query_t *query = bus_model->target_query;
 
-    if (query == NULL)
+    if (query == nullptr)
     {
         return BUS_STOP;
     }
@@ -33,10 +33,10 @@ bus_query_t *BusSSTFStrategy::HandleBTWQuery()
     // 这里只是处理顺便服务的代码
 
     bus_query_t *query = query_model->queries;
-    bus_query_t *allow_query = NULL;
+    bus_query_t *allow_query = nullptr;
     rail_node_t *now_node = bus_model->rail_pos;
 
-    while (query != NULL)
+    while (query != nullptr)
     {
         if(query->node == now_node)
         {
@@ -62,19 +62,19 @@ bus_query_t *BusSSTFStrategy::GetTargetQuery()
     bus_query_t *queries = query_model->queries;
 
     // 当前没有请求
-    if(queries == NULL)
+    if(queries == nullptr)
     {
-        return NULL;
+        return nullptr;
     }
 
     int distance = 9999;
-    bus_query_t *query = NULL;
+    bus_query_t *query = nullptr;
     bus_query_t *p = queries;
 
     // 遍历顺时针方向
     // 在两个方向路程相同时选择顺时针方向
     // 所以先遍历顺时针方向
-    while (p != NULL)
+    while (p != nullptr)
     {
         int temp = bus_model->GetQueryDistance(p, BUS_CLOCK_WISE);
         if(temp < distance)
@@ -87,7 +87,7 @@ bus_query_t *BusSSTFStrategy::GetTargetQuery()
 
     // 遍历逆时针方向
     p = queries;
-    while (p != NULL)
+    while (p != nullptr)
     {
         int temp = bus_model->GetQueryDistance(p, BUS_COUNTER_CLOCK_WISE);
         if(temp < distance)

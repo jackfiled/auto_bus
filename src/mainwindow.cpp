@@ -139,6 +139,13 @@ void MainWindow::RunBusClicked()
 
 void MainWindow::StopBusClicked()
 {
+    // 处理在未加载配置文件的情况下
+    // 点击停止按钮自动闪退的问题
+    if(controller == nullptr)
+    {
+        return;
+    }
+
     central_widget->ResetOutput();
     emit StopBusSignal();
 }
