@@ -27,7 +27,11 @@ include_directories(
 
 aux_source_directory(${PROJECT_SOURCE_DIR}/src SRCS)
 
-add_executable(auto_bus_gui WIN32 main.cpp ${SRCS} ${QRC_FILES})
+if (CMAKE_BUILD_TYPE MATCHES "Debug")
+    add_executable(auto_bus_gui main.cpp ${SRCS} ${QRC_FILES})
+else()
+    add_executable(auto_bus_gui WIN32 main.cpp ${SRCS} ${QRC_FILES})
+endif ()
 
 target_link_libraries(auto_bus_gui
         Qt::Core
