@@ -1,5 +1,6 @@
 # 项目的构建文件夹
 build/
+cmake-build-*/
 
 # VSCode的配置文件夹
 .vscode/
