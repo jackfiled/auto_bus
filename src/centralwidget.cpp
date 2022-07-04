@@ -31,7 +31,8 @@ void CentralWidget::SetController(BusStrategyBase *c)
 {
     controller = c;
     SetControlConnection();
-    SetRailsScene(controller->rails_model->node_num);
+    SetRailsScene(controller->rails_model->node_num,
+                  controller->rails_model->total_distance / controller->rails_model->node_num);
 }
 
 void CentralWidget::SetStrategyLabel(int strategy)
@@ -117,13 +118,13 @@ void CentralWidget::SetWidgetConnection()
 void CentralWidget::SetupQueryList()
 {
     // 设置请求列表的表头
-    QueryListItem *column_name = new QueryListItem(1,1);
+    auto *column_name = new QueryListItem(1,1);
     column_name->SetColumnName();
 
     query_items.push_back(column_name);
 
     // 在列表中显示
-    QListWidgetItem *widget_item = new QListWidgetItem;
+    auto *widget_item = new QListWidgetItem;
     ui->query_list->addItem(widget_item);
     ui->query_list->setItemWidget(widget_item, column_name);
 }
@@ -159,12 +160,12 @@ void CentralWidget::AppendQueryItemSlot(int query_type, int node_id)
         return;
     }
 
-    QueryListItem *item = new QueryListItem(query_type, node_id);
+    auto *item = new QueryListItem(query_type, node_id);
 
     query_items.push_back(item);
 
     // 在列表中显示
-    QListWidgetItem *widget_item = new QListWidgetItem;
+    auto *widget_item = new QListWidgetItem;
     ui->query_list->addItem(widget_item);
     ui->query_list->setItemWidget(widget_item, item);
 }
@@ -231,9 +232,9 @@ void CentralWidget::AddQueryButtonClicked()
     emit AppendQuerySignal(query_type, node_id);
 }
 
-void CentralWidget::SetRailsScene(int node_num)
+void CentralWidget::SetRailsScene(int node_num, int node_distance)
 {
-    scene_manager->SetStopScene(node_num);
+    scene_manager->SetStopScene(node_num, node_distance);
     SetRailsComboBox(node_num);
 }
 

@@ -34,7 +34,7 @@ public:
      * 生成站点画面
      * @param node_number
      */
-    void SetStopScene(int node_number);
+    void SetStopScene(int node_number, int node_distance);
 
     /**
      * 重设公交车的位置
@@ -60,6 +60,16 @@ private:
     QGraphicsSimpleTextItem *name_items;
 
     /**
+     * 轨道对象
+     */
+    QGraphicsPathItem *rail_path;
+
+    /**
+     * 位置点对象数组
+     */
+    QGraphicsEllipseItem *pos_spots;
+
+    /**
      * 每个站点的所在位置
      */
     PosPair *stop_pos_pairs;
@@ -73,6 +83,11 @@ private:
      * 总共的站点数量
      */
     int stop_node_number;
+
+    /**
+     * 站点之间的距离
+     */
+    int stop_node_distance;
 
     /**
      * 一个矩形的边框

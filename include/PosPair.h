@@ -11,6 +11,26 @@
 class PosPair{
 
 public:
+    /**
+     * 设定的轨道开始坐标x
+     */
+    static const int stop_begin_x = 100;
+
+    /**
+     * 设定的轨道开始坐标y
+     */
+    static const int stop_begin_y = 80;
+
+    /**
+     * 轨道的宽度
+     */
+    static const int stop_rail_width = 300;
+
+    /**
+     * 轨道的高度
+     */
+    static const int stop_rail_height = 200;
+
     /*
      * 站点位置的x坐标
      */
@@ -48,25 +68,6 @@ public:
     int GetBusPosY() const;
 
 private:
-    /**
-     * 设定的轨道开始坐标x
-     */
-    const int stop_begin_x = 100;
-
-    /**
-     * 设定的轨道开始坐标y
-     */
-    const int stop_begin_y = 80;
-
-    /**
-     * 轨道的宽度
-     */
-    const int stop_rail_width = 300;
-
-    /**
-     * 轨道的高度
-     */
-    const int stop_rail_height = 200;
 
     /**
      * 公交车到站点的距离

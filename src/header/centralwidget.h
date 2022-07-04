@@ -143,7 +143,7 @@ private:
      * 重新设置站点选择下拉栏
      * @param node_num
      */
-    void SetRailsScene(int node_num);
+    void SetRailsScene(int node_num, int node_distance);
 };
 
 
