@@ -9,11 +9,11 @@
 
 class BusSCANStrategy : public BusStrategyBase
 {
-    int GetBusDirection();
+    int GetBusDirection() override;
 
-    bus_query_t *GetTargetQuery();
+    bus_query_t *GetTargetQuery() override;
 
-    bus_query_t *HandleBTWQuery();
+    bus_query_t *HandleBTWQuery() override;
 
 };
 

@@ -10,7 +10,7 @@ PosPair::PosPair()
     pos_y = stop_begin_y;
 }
 
-int PosPair::GetStopSpaceLength(int stop_number) const
+int PosPair::GetStopSpaceLength(int stop_number)
 {
     return 2 * (stop_rail_width + stop_rail_height) / stop_number;
 }

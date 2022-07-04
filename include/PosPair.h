@@ -47,7 +47,7 @@ public:
      * @param stop_number 站点的数量
      * @return 站点之间的距离
      */
-    int GetStopSpaceLength(int stop_number) const;
+    static int GetStopSpaceLength(int stop_number) ;
 
     /**
      * 加上一定的距离

@@ -13,9 +13,7 @@ BusModel::BusModel()
 }
 
 BusModel::~BusModel()
-{
-
-}
+= default;
 
 void BusModel::ResetBus(rail_node_t *head)
 {

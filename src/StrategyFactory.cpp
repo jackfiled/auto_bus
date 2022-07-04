@@ -131,15 +131,13 @@ BusStrategyBase *StrategyFactory::GetStrategy(const QString& file_name)
             break;
         case BUS_SCAN:
             controller = new BusSCANStrategy;
+            break;
         default:
             controller = nullptr;
             break;
     }
 
-    if(controller != nullptr)
-    {
-        controller->rails_model->CreateRails(distance, total_station);
-        controller->strategy = chosen_strategy;
-    }
+    controller->rails_model->CreateRails(distance, total_station);
+    controller->strategy = chosen_strategy;
     return controller;
 }

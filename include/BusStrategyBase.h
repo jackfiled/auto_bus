@@ -44,7 +44,7 @@ public:
 
     BusStrategyBase();
 
-    virtual ~BusStrategyBase();
+    ~BusStrategyBase() override;
 
     /**
      * 获得当前公交车应该前进的方向
