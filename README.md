@@ -13,18 +13,18 @@
 ### 构建
 
 ```bash
-git clone git clone http://10.3.255.244:8801/2021211180/2021211180.git
+git clone https://github.com/jackfiled/auto_bus.git
 git checkout -b gui origin/gui
 mkdir build
 cd build
 cmake .. -G "Visual Studio 17 2022"
 ```
 
-再使用`Visual studio 2022`打开`build`文件夹下的解决方案文件，即可编译。
+再使用`Visual Studio 2022`打开`build`文件夹下的解决方案文件，即可编译。
 
-> 或者直接使用VS打开签出分支之后的项目文件夹，即可编译使用。
+> 或者直接使用VS打开签出分支之后的项目文件夹，也可编译使用。
 >
-> 现代VS已经支持用`cmake`管理`C/C++`项目
+> Visual Studio 2022已经支持用`cmake`管理并编译`C/C++`项目。
 
 ## 使用
 
