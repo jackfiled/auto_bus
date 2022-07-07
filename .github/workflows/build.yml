@@ -3,8 +3,6 @@ name: windows-build
 on:
   # 在设置git tag时触发执行
   push:
-    branches:
-      - 'gui'
     tags:
       - 'v*'
 

@@ -1,5 +1,7 @@
 # Auto Bus GUI
 
+[![windows-build](https://github.com/jackfiled/auto_bus/actions/workflows/build.yml/badge.svg)](https://github.com/jackfiled/auto_bus/actions/workflows/build.yml)
+
 北京邮电大学计算机学院2021级《计算导论与程序设计》实践大作业“公交车调度”的GUI分支。
 
 ## 构建
