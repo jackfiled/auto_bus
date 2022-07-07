@@ -41,7 +41,7 @@ jobs:
 
       - name: Deploy Qt
         # 寻找需要的dll
-        run: windeployqt ${{github.workspace}}/build/auto_bus_gui.exe
+        run: windeployqt ${{github.workspace}}/build/Release/auto_bus_gui.exe
 
       - name: Upload Release
         # 上传发布
@@ -50,10 +50,10 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            ${{github.workspace}}/build/auto_bus_gui.exe
-            ${{github.workspace}}/build/*.dll
-            ${{github.workspace}}/build/iconengines/*.dll
-            ${{github.workspace}}/build/imageformats/*.dll
-            ${{github.workspace}}/build/platforms/*.dll
-            ${{github.workspace}}/build/styles/*.dll
-            ${{github.workspace}}/build/translations/*.qm
+            ${{github.workspace}}/build/Release/auto_bus_gui.exe
+            ${{github.workspace}}/build/Release/*.dll
+            ${{github.workspace}}/build/Release/iconengines/*.dll
+            ${{github.workspace}}/build/Release/imageformats/*.dll
+            ${{github.workspace}}/build/Release/platforms/*.dll
+            ${{github.workspace}}/build/Release/styles/*.dll
+            ${{github.workspace}}/build/Release/translations/*.qm
