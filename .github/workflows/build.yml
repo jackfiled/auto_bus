@@ -1,0 +1,59 @@
+name: windows-build
+
+on:
+  # 在设置git tag时触发执行
+  push:
+    branches:
+      - 'gui'
+    tags:
+      - 'v*'
+
+env:
+  # 设置编译的类型
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    name: "Build the application"
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Qt
+        # 安装Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: '6.1.3'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_msvc2019_64'
+
+      - name: Config Cmake
+        # 设置cmake
+        env:
+          CMAKE_PREFIX_PATH: ${{env.Qt6_Dir}}
+        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+      - name: Compile
+        # 编译程序
+        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+      - name: Deploy Qt
+        # 寻找需要的dll
+        run: windeployqt ${{github.workspace}}/build/auto_bus_gui.exe
+
+      - name: Upload Release
+        # 上传发布
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: |
+            ${{github.workspace}}/build/auto_bus_gui.exe
+            ${{github.workspace}}/build/*.dll
+            ${{github.workspace}}/build/iconengines/*.dll
+            ${{github.workspace}}/build/imageformats/*.dll
+            ${{github.workspace}}/build/platforms/*.dll
+            ${{github.workspace}}/build/styles/*.dll
+            ${{github.workspace}}/build/translations/*.qm
