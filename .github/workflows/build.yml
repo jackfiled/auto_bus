@@ -38,8 +38,12 @@ jobs:
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
       - name: Deploy Qt
-        # 寻找需要的dll
-        run: windeployqt ${{github.workspace}}/build/Release/auto_bus_gui.exe
+        # 寻找需要的dll并压缩为单个文件
+        run: |
+          mkdir release
+          cp build/Release/auto_bus_gui.exe release
+          windeployqt release/auto_bus_gui.exe
+          7z a release.zip .\release\*
 
       - name: Upload Release
         # 上传发布
@@ -48,15 +52,4 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            build/Release/auto_bus_gui.exe
-            build/Release/*.dll
-            build/Release/iconengines/*.dll
-            build/Release/imageformats/*.dll
-            build/Release/platforms/*.dll
-            build/Release/styles/*.dll
-            build/Release/translations/*.qm
-            
-            
-            
-            
-            
+            release.zip
