@@ -46,14 +46,14 @@ jobs:
       - name: Upload Release
         # 上传发布
         uses: "marvinpinto/action-automatic-releases@latest"
-          with:
-            repo_token: "${{ secrets.GITHUB_TOKEN }}"
-            prerelease: false
-            files: |
-              ${{github.workspace}}/build/auto_bus_gui.exe
-              ${{github.workspace}}/build/*.dll
-              ${{github.workspace}}/build/iconengines/*.dll
-              ${{github.workspace}}/build/imageformats/*.dll
-              ${{github.workspace}}/build/platforms/*.dll
-              ${{github.workspace}}/build/styles/*.dll
-              ${{github.workspace}}/build/translations/*.qm
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: |
+            ${{github.workspace}}/build/auto_bus_gui.exe
+            ${{github.workspace}}/build/*.dll
+            ${{github.workspace}}/build/iconengines/*.dll
+            ${{github.workspace}}/build/imageformats/*.dll
+            ${{github.workspace}}/build/platforms/*.dll
+            ${{github.workspace}}/build/styles/*.dll
+            ${{github.workspace}}/build/translations/*.qm
