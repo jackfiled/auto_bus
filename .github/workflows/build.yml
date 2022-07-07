@@ -48,10 +48,15 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            ${{github.workspace}}\build\Release\auto_bus_gui.exe
-            ${{github.workspace}}\build\Release\*.dll
-            ${{github.workspace}}\build\Release\iconengines\*.dll
-            ${{github.workspace}}\build\Release\imageformats\*.dll
-            ${{github.workspace}}\build\Release\platforms\*.dll
-            ${{github.workspace}}\build\Release\styles\*.dll
-            ${{github.workspace}}\build\Release\translations\*.qm
+            build/Release/auto_bus_gui.exe
+            build/Release/*.dll
+            build/Release/iconengines/*.dll
+            build/Release/imageformats/*.dll
+            build/Release/platforms/*.dll
+            build/Release/styles/*.dll
+            build/Release/translations/*.qm
+            
+            
+            
+            
+            
