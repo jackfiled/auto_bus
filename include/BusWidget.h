@@ -28,7 +28,9 @@ public:
     explicit BusItem(const QPixmap& pixmap);
 };
 
-
+/**
+ * 公交车显示动画控制类
+ */
 class BusWidget
 {
 public:

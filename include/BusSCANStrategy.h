@@ -6,7 +6,9 @@
 #define AUTO_BUS_GUI_BUS_SCAN_STRATEGY_H
 #include "BusStrategyBase.h"
 
-
+/**
+ * 实现顺便服务策略的控制器类
+ */
 class BusSCANStrategy : public BusStrategyBase
 {
     int GetBusDirection() override;

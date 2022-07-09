@@ -22,6 +22,9 @@ namespace Ui
 }
 QT_END_NAMESPACE
 
+/**
+ * 主窗口的策略控制类
+ */
 class MainWindow : public QMainWindow
 {
 Q_OBJECT

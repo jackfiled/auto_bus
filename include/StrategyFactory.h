@@ -12,6 +12,9 @@
 #include "BusSSTFStrategy.h"
 #include "BusSCANStrategy.h"
 
+/**
+ * 策略控制对象工厂类
+ */
 class StrategyFactory
 {
 public:

@@ -6,6 +6,9 @@
 #define AUTO_BUS_GUI_BUS_FCFS_STRATEGY_H
 #include "BusStrategyBase.h"
 
+/**
+ * 实现先来先服务策略的控制器类
+ */
 class BusFCFSStrategy : public BusStrategyBase
 {
     int GetBusDirection() override;

@@ -13,6 +13,9 @@
 #include "busModel.h"
 #include "Settings.h"
 
+/**
+ * 策略控制基类
+ */
 class BusStrategyBase : public QObject
 {
     Q_OBJECT

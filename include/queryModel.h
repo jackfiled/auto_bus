@@ -6,6 +6,9 @@
 #define AUTO_BUS_GUI_QUERY_MODEL_H
 #include "railsModel.h"
 
+/**
+ * 表示一个请求的结构体
+ */
 struct bus_query {
     /**
      * 请求产生的时间
@@ -30,6 +33,9 @@ struct bus_query {
 
 typedef struct bus_query bus_query_t;
 
+/**
+ * 公交车请求控制类
+ */
 class QueryModel
 {
 public:

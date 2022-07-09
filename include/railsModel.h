@@ -6,6 +6,9 @@
 #define AUTO_BUS_GUI_RAILS_MODEL_H
 #include "cstdlib"
 
+/**
+ * 站点结构体
+ */
 struct rail_node{
     /**
      * 站点的编号
@@ -35,6 +38,9 @@ struct rail_node{
 
 typedef struct rail_node rail_node_t;
 
+/**
+ * 轨道站点控制类
+ */
 class RailsModel
 {
 

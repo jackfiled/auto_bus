@@ -6,6 +6,9 @@
 #define AUTO_BUS_GUI_BUS_SSTF_STRATEGY_H
 #include "BusStrategyBase.h"
 
+/**
+ * 实现最短寻找时间策略的控制器类
+ */
 class BusSSTFStrategy : public BusStrategyBase
 {
     int GetBusDirection() override;

@@ -23,6 +23,9 @@ namespace Ui
 }
 QT_END_NAMESPACE
 
+/**
+ * 主框架的策略控制类
+ */
 class CentralWidget : public QWidget
 {
 Q_OBJECT
