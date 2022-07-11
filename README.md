@@ -87,3 +87,7 @@ cmake --build .
 
 当然，也可以给我发电子邮件。
 
+## 鸣谢
+
+[GoogleTest](https://github.com/google/googletest)
+
