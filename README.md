@@ -4,7 +4,14 @@
 
 北京邮电大学计算机学院2021级《计算导论与程序设计》实践大作业“公交车调度”的GUI分支。
 
+### 特点
+
+- 采用`CMake`进行项目管理
+- 注释详尽、代码可读性高
+
 ## 构建
+
+> 可以直接下载Release界面中的二进制文件压缩包
 
 ### 构建环境
 
@@ -17,12 +24,17 @@
 ```bash
 git clone https://github.com/jackfiled/auto_bus.git
 git checkout -b gui origin/gui
+```
+
+使用文本编辑器打开`CMakeLists.txt`文件，修改文件中`CMAKE_PREFIX_PATH`变量所指定的路劲为当前安装Qt的位置。
+
+```bash
 mkdir build
 cd build
 cmake .. -G "Visual Studio 17 2022"
 ```
 
-再使用`Visual Studio 2022`打开`build`文件夹下的解决方案文件，即可编译。
+使用`Visual Studio`打开`CMake`生成的解决方案文件，即可编译运行。
 
 > 或者直接使用VS打开签出分支之后的项目文件夹，也可编译使用。
 >
