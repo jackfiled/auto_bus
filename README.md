@@ -91,6 +91,14 @@ cmake --build .
 
 当然，也可以给我发电子邮件。
 
+## 贡献者
+
+[jackfiled](https://github.com/jackfiled)
+
+[nvhaizi1](https://github.com/nvhaizi1)
+
+[Yerolling](https://github.com/Yerolling)
+
 ## 鸣谢
 
 [GoogleTest](https://github.com/google/googletest)
