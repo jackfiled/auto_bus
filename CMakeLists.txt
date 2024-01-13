@@ -9,8 +9,6 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 set(QRC_SOURCE_FILES Resources.qrc)
 
-set(CMAKE_PREFIX_PATH  "C:/Users/ricardo.DESKTOP-N6OVBK5/Programs/Qt/6.1.3/msvc2019_64")
-
 find_package(Qt6 COMPONENTS
         Core
         Gui

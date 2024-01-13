@@ -6,20 +6,17 @@
 
 BusStrategyBase *StrategyFactory::GetStrategy(const QString& file_name)
 {
-    QByteArray bytes = file_name.toLatin1();
-
-    FILE *config_file = nullptr;
     char buffer[30];
     int total_station = 0;
     int distance = 0;
     int chosen_strategy = 0;
 
-    fopen_s(&config_file, bytes.data(), "r");
+    FILE *file = fopen(file_name.toLatin1().data(), "r");
 
     // 循环读取文件的每一行
-    while (fgets(buffer, sizeof buffer, config_file) != nullptr)
+    while (fgets(buffer, 30, file) != nullptr)
     {
-        char first_char = buffer[0];
+        const char first_char = buffer[0];
         char *p;
 
         switch (first_char)
@@ -101,9 +98,11 @@ BusStrategyBase *StrategyFactory::GetStrategy(const QString& file_name)
 
                 break;
             default:
-                continue;
+                break;
         }
     }
+
+    fclose(file);
 
     // 处理参数去缺省值的情况
     if (distance == 0)
