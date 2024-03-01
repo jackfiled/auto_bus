@@ -3,10 +3,6 @@ project(bus_test)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_subdirectory(./GTest)
-
-include_directories(GTest/googletest/include)
-include_directories(GTest/googlemock/include)
 include_directories(../include)
 
 aux_source_directory("../src/" SRCS)
